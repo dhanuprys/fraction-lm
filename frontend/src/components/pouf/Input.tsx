@@ -117,17 +117,18 @@ interface InputProps extends Omit<
   label?: string;
   /** Internal: the NumberInput capsule carries the chrome. */
   bare?: boolean;
+  className?: string;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
-  { value, onChange, describedBy, type = "text", mono, invalid, label, bare, ...nativeProps },
+  { value, onChange, describedBy, type = "text", mono, invalid, label, bare, className, ...nativeProps },
   ref,
 ) {
   return (
     <input
       ref={ref}
       {...nativeProps}
-      className={inputClasses({ bare: !!bare, invalid: !!invalid, mono })}
+      className={[inputClasses({ bare: !!bare, invalid: !!invalid, mono }), className].filter(Boolean).join(" ")}
       value={value}
       onChange={(e) => onChange(e.target.value)}
       type={type}

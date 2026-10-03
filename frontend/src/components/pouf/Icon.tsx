@@ -179,7 +179,7 @@ const SIZES = { sm: 16, md: 20, lg: 32 } as const;
 
 interface Props {
   name: IconName;
-  size?: keyof typeof SIZES;
+  size?: keyof typeof SIZES | number;
   /** Give a label ONLY when the icon is the sole carrier of meaning. Beside a
    *  visible text label it is decoration, and naming it makes a screen reader
    *  say everything twice. */
@@ -188,9 +188,10 @@ interface Props {
 
 export function Icon({ name, size = "md", label }: Props) {
   const Glyph = ICONS[name] as ComponentType<IconProps>;
+  const resolvedSize = typeof size === "number" ? size : SIZES[size as keyof typeof SIZES];
   return (
     <Glyph
-      size={SIZES[size]}
+      size={resolvedSize}
       // Inherits the surrounding text colour, so an icon can never drift out of
       // contrast with the label it sits next to.
       color="currentColor"

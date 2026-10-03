@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "../navbar";
 import { Footer } from "../footer";
@@ -8,8 +7,6 @@ import { Stack, Row, Grid } from "../layout";
 import { Heading, Text, Eyebrow, Highlight } from "../text";
 import { Button } from "../Button";
 import { Blob, Badge } from "../media";
-import { Segmented } from "../Segmented";
-import { Icon } from "../Icon";
 import { useAuthStore } from "@/store/useAuthStore";
 import logoRectangle from "@/assets/images/bg/logo-rectangle.png";
 

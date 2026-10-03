@@ -5,6 +5,7 @@ import { toneClass, type Tone } from "./tone";
 interface HeadingProps {
   children: ReactNode;
   level?: 1 | 2 | 3;
+  className?: string;
 }
 
 const heading = cva("font-black [text-wrap:balance]", {
@@ -20,9 +21,9 @@ const heading = cva("font-black [text-wrap:balance]", {
   defaultVariants: { level: 2 },
 });
 
-export function Heading({ children, level = 2 }: HeadingProps) {
+export function Heading({ children, level = 2, className }: HeadingProps) {
   const Tag = `h${level}` as const;
-  return <Tag className={heading({ level })}>{children}</Tag>;
+  return <Tag className={cx(heading({ level }), className)}>{children}</Tag>;
 }
 
 /** The reference's yellow highlight-swatch behind a word. */
@@ -52,18 +53,20 @@ export function Eyebrow({ children }: { children: ReactNode }) {
 
 interface TextProps {
   children: ReactNode;
-  size?: "sm" | "md";
+  size?: "xs" | "sm" | "md";
+  weight?: "normal" | "medium" | "bold" | "black" | string;
   muted?: boolean;
   /** Tabular numerals — use for any figure in a column that must align. */
   num?: boolean;
   mono?: boolean;
   truncate?: boolean;
   className?: string;
+  style?: React.CSSProperties;
 }
 
-const text = cva("pouf-text font-bold [overflow-wrap:anywhere]", {
+const text = cva("pouf-text [overflow-wrap:anywhere]", {
   variants: {
-    size: { md: "text-[15px]", sm: "text-[13px]" },
+    size: { md: "text-[15px]", sm: "text-[13px]", xs: "text-[11px]" },
     muted: { true: "text-muted" },
     num: { true: '[font-variant-numeric:tabular-nums] [font-feature-settings:"tnum"]' },
     mono: {
@@ -73,11 +76,17 @@ const text = cva("pouf-text font-bold [overflow-wrap:anywhere]", {
      * wide while the span's own visual rect remains its full 380px intrinsic
      * width, creating page overflow in documentation and real layouts. */
     truncate: { true: "block truncate min-w-0 max-w-full" },
+    weight: {
+      normal: "font-normal",
+      medium: "font-medium",
+      bold: "font-bold",
+      black: "font-black",
+    },
   },
-  defaultVariants: { size: "md" },
+  defaultVariants: { size: "md", weight: "bold" },
 });
 
-export function Text({ children, size, muted, num, mono, truncate, className }: TextProps) {
+export function Text({ children, size, weight, muted, num, mono, truncate, className, style }: TextProps) {
   return (
     // dir="auto" by default, and deliberately not opt-in.
     //
@@ -91,7 +100,7 @@ export function Text({ children, size, muted, num, mono, truncate, className }: 
     // character, and digits/punctuation are neutral — so "+2.41%" and "SKU-1420"
     // stay LTR. Opting in per call site would mean remembering it at every one,
     // which is how the bug comes back.
-    <span dir="auto" className={cx(text({ size, muted, num, mono, truncate }), className)}>
+    <span dir="auto" className={cx(text({ size, weight: weight as any, muted, num, mono, truncate }), className)} style={style}>
       {children}
     </span>
   );

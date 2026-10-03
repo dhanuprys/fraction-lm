@@ -5,12 +5,13 @@ import type { ReactNode } from "react";
  * Without them the first screen that needs a gap reaches for an inline style,
  * and spacing silently escapes the design system. */
 
-type Gap = 1 | 2 | 3 | 4 | 5 | 6;
+type Gap = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
 /* The --gap indirection is kept from the original: children may not read it,
  * but emitting the same custom property keeps the computed-style contract
  * byte-identical, and it remains the single knob a wrapper can retune. */
 const gapVariant = {
+  0: "[--gap:0px] gap-0",
   1: "[--gap:var(--s1)] gap-[var(--gap,var(--s4))]",
   2: "[--gap:var(--s2)] gap-[var(--gap,var(--s4))]",
   3: "[--gap:var(--s3)] gap-[var(--gap,var(--s4))]",
@@ -70,7 +71,7 @@ export function Stack({ children, gap, align, justify, className }: StackProps) 
 const row = cva("pouf-row flex flex-row min-w-0", {
   variants: {
     gap: gapVariant,
-    align: { center: "items-center", top: "items-start" },
+    align: { center: "items-center", top: "items-start", start: "items-start", end: "items-end", stretch: "items-stretch" },
     justify: {
       start: "",
       center: "justify-center",
@@ -85,7 +86,7 @@ const row = cva("pouf-row flex flex-row min-w-0", {
 interface RowProps {
   children: ReactNode;
   gap?: Gap;
-  align?: "center" | "top";
+  align?: "center" | "top" | "start" | "end" | "stretch";
   /** `center` exists because without it a screen has no way to centre anything
    *  and reaches for an inline style — which is how the QR code ended up
    *  left-aligned in its dialog. */
@@ -111,6 +112,7 @@ export function Spacer() {
 const grid = cva("pouf-grid grid", {
   variants: {
     cols: {
+      1: "grid-cols-1",
       2: "grid-cols-2 max-[900px]:grid-cols-1",
       3: "grid-cols-3 max-[900px]:grid-cols-1",
       4: "grid-cols-4 max-[900px]:grid-cols-1",
@@ -124,7 +126,7 @@ const grid = cva("pouf-grid grid", {
 
 interface GridProps {
   children: ReactNode;
-  cols?: 2 | 3 | 4 | "sidebar";
+  cols?: 1 | 2 | 3 | 4 | "sidebar";
   gap?: Gap;
   className?: string;
 }

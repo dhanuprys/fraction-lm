@@ -75,7 +75,11 @@ export interface Question {
   learningObjective?: string;
   questionUi?: unknown;
   questionLlmContext?: string;
-  evaluationParameters?: unknown;
+  evaluationParameters?: {
+    keywords?: string[];
+    misconceptions?: string[];
+    strictness_level?: string;
+  } | null;
   answers?: unknown;
   createdAt: string;
   updatedAt: string;
