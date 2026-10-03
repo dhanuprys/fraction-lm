@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import {
   adminApi,
@@ -13,8 +13,11 @@ import { Stack, Row, Grid } from "@/components/pouf/layout";
 import { Button } from "@/components/pouf/Button";
 import { Blob, Badge } from "@/components/pouf/media";
 import { Field, Input } from "@/components/pouf/Input";
-import { Select } from "@/components/pouf/controls";
+import { Select, Confirm } from "@/components/pouf/controls";
 import { Checkbox } from "@/components/pouf/checkbox";
+import { Breadcrumbs } from "@/components/admin/Breadcrumbs";
+import { toast } from "@/components/pouf/toaster";
+import { Icon } from "@/components/pouf/Icon";
 
 // ─── User List View ─────────────────────────────────────────────────────────
 
@@ -36,26 +39,48 @@ function UserListView({
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [roleFilter, setRoleFilter] = useState<"all" | "student" | "admin">("all");
+  const [gradeFilter, setGradeFilter] = useState<string>("all");
 
-  useEffect(() => {
+  const loadUsers = () => {
+    setLoading(true);
     adminApi
       .getUsers()
       .then((res) => {
         setUsers(res.data?.users || []);
       })
+      .catch((err) => {
+        console.error(err);
+        toast.error("Gagal memuat daftar pengguna");
+      })
       .finally(() => {
         setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    loadUsers();
   }, []);
 
-  const filteredUsers = users.filter((u) => {
-    const matchesSearch =
-      u.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      u.username.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesRole =
-      roleFilter === "all" ? true : roleFilter === "admin" ? u.isAdmin : !u.isAdmin;
-    return matchesSearch && matchesRole;
-  });
+  const filteredUsers = useMemo(() => {
+    return users.filter((u) => {
+      const matchesSearch =
+        u.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        u.username.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesRole =
+        roleFilter === "all" ? true : roleFilter === "admin" ? u.isAdmin : !u.isAdmin;
+      const matchesGrade =
+        gradeFilter === "all"
+          ? true
+          : u.grade?.toString() === gradeFilter;
+
+      return matchesSearch && matchesRole && matchesGrade;
+    });
+  }, [users, searchQuery, roleFilter, gradeFilter]);
+
+  // Statistics calculation
+  const totalUsers = users.length;
+  const totalStudents = useMemo(() => users.filter((u) => !u.isAdmin).length, [users]);
+  const totalAdmins = useMemo(() => users.filter((u) => u.isAdmin).length, [users]);
 
   function handleToggleSelect(id: number, checked: boolean | "indeterminate") {
     const next = new Set(selectedIds);
@@ -75,13 +100,21 @@ function UserListView({
   const isSelectionMode = selectedIds.size > 0;
 
   return (
-    <Stack gap={6}>
+    <Stack gap={5}>
+      <Breadcrumbs
+        items={[
+          { label: "Admin", href: "/admin" },
+          { label: "Pengguna" },
+          { label: "Kelola Akun & Level Siswa" },
+        ]}
+      />
+
       {/* Dynamic Header based on Selection State */}
       {isSelectionMode ? (
-        <Card>
-          <Row justify="between" align="center">
+        <Card className="p-5 border-2 border-[var(--purple)] bg-[color-mix(in_srgb,var(--purple)_8%,transparent)]">
+          <Row justify="between" align="center" className="flex-wrap gap-4">
             <Stack gap={1}>
-              <Eyebrow>Tindakan Massal</Eyebrow>
+              <Eyebrow>Tindakan Massal (Bulk Action)</Eyebrow>
               <Heading level={1}>{selectedIds.size} Siswa Dipilih</Heading>
             </Stack>
             <Row gap={3}>
@@ -89,37 +122,126 @@ function UserListView({
                 Batalkan Pilihan
               </Button>
               <Button onClick={() => onBulkEdit(Array.from(selectedIds))} tone="purple">
-                Atur Level Massal
+                <Icon name="trophy" size="sm" /> Atur Level Checkpoint Massal
               </Button>
             </Row>
           </Row>
         </Card>
       ) : (
-        <Row justify="between" align="top">
+        <Row justify="between" align="top" className="flex-wrap gap-4">
           <Stack gap={1}>
             <Eyebrow>Portal Admin</Eyebrow>
-            <Heading level={1}>Kelola Pengguna</Heading>
-            <Text muted>Buat, edit, dan atur level akses untuk pengguna.</Text>
+            <Heading level={1}>Kelola Pengguna & Siswa</Heading>
+            <Text muted>Atur akun pengguna, peran admin, checkpoint level, dan rapor progres belajar siswa.</Text>
           </Stack>
           <Button onClick={onCreate} tone="mint">
-            Buat Pengguna Baru
+            <Icon name="add" size="sm" /> Buat Akun Pengguna
           </Button>
         </Row>
       )}
 
+      {/* Quick Summary Metrics Bar */}
+      <Grid cols={3} gap={4}>
+        <Card className="p-4 bg-[var(--surface-sunken)] border border-[var(--separator)]">
+          <Row gap={3} align="center">
+            <Blob icon="users" tone="blue" size="sm" />
+            <Stack gap={0}>
+              <Text size="xs" muted className="font-semibold uppercase tracking-wider">
+                Total Pengguna
+              </Text>
+              <Heading level={2} className="text-xl font-bold">
+                {totalUsers}
+              </Heading>
+            </Stack>
+          </Row>
+        </Card>
+        <Card className="p-4 bg-[var(--surface-sunken)] border border-[var(--separator)]">
+          <Row gap={3} align="center">
+            <Blob icon="user" tone="mint" size="sm" />
+            <Stack gap={0}>
+              <Text size="xs" muted className="font-semibold uppercase tracking-wider">
+                Total Siswa
+              </Text>
+              <Heading level={2} className="text-xl font-bold">
+                {totalStudents}
+              </Heading>
+            </Stack>
+          </Row>
+        </Card>
+        <Card className="p-4 bg-[var(--surface-sunken)] border border-[var(--separator)]">
+          <Row gap={3} align="center">
+            <Blob icon="user" tone="purple" size="sm" />
+            <Stack gap={0}>
+              <Text size="xs" muted className="font-semibold uppercase tracking-wider">
+                Administrator
+              </Text>
+              <Heading level={2} className="text-xl font-bold">
+                {totalAdmins}
+              </Heading>
+            </Stack>
+          </Row>
+        </Card>
+      </Grid>
+
+      {/* Search & Filter Toolbar */}
+      <Card className="p-4 bg-[var(--surface-sunken)] border border-[var(--separator)]">
+        <Grid cols={3} gap={4}>
+          <Field label="Cari Nama / Username">
+            {() => (
+              <Input
+                placeholder="Ketik nama atau username..."
+                value={searchQuery}
+                onChange={setSearchQuery}
+              />
+            )}
+          </Field>
+          <Field label="Filter Peran">
+            {(id, desc) => (
+              <Select
+                id={id}
+                describedBy={desc}
+                value={roleFilter}
+                onChange={(val) => setRoleFilter(val as any)}
+                options={[
+                  { value: "all", label: "Semua Peran" },
+                  { value: "student", label: "Siswa" },
+                  { value: "admin", label: "Administrator" },
+                ]}
+              />
+            )}
+          </Field>
+          <Field label="Filter Kelas">
+            {(id, desc) => (
+              <Select
+                id={id}
+                describedBy={desc}
+                value={gradeFilter}
+                onChange={setGradeFilter}
+                options={[
+                  { value: "all", label: "Semua Kelas" },
+                  { value: "4", label: "Kelas 4" },
+                  { value: "5", label: "Kelas 5" },
+                  { value: "6", label: "Kelas 6" },
+                ]}
+              />
+            )}
+          </Field>
+        </Grid>
+      </Card>
+
       <Stack gap={3}>
-        {/* Toolbar & Select All */}
+        {/* Selection Header Bar */}
         <Row
           justify="between"
           align="center"
-          className="px-4 pb-2 border-b border-[var(--separator)] gap-4 flex-wrap"
+          className="px-2 pb-1 border-b border-[var(--separator)] gap-4 flex-wrap"
         >
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             {filteredUsers.length > 0 && (
               <Checkbox
                 id="selectAll"
                 label="Pilih Semua"
-                checked={selectedIds.size === filteredUsers.length}
+                checked={selectedIds.size === filteredUsers.length && filteredUsers.length > 0}
                 onChange={handleSelectAll}
               />
             )}
@@ -127,22 +249,9 @@ function UserListView({
               Menampilkan {filteredUsers.length} dari {users.length} pengguna
             </Text>
           </div>
-
-          <Row gap={3} align="center">
-            <Input placeholder="Cari nama..." value={searchQuery} onChange={setSearchQuery} />
-            <Select
-              value={roleFilter}
-              onChange={(val) => setRoleFilter(val as any)}
-              options={[
-                { value: "all", label: "Semua Peran" },
-                { value: "student", label: "Siswa" },
-                { value: "admin", label: "Admin" },
-              ]}
-            />
-          </Row>
         </Row>
 
-        {/* User List */}
+        {/* User List Cards */}
         {loading ? (
           <Card className="text-center py-12">
             <Text muted>Memuat data pengguna...</Text>
@@ -153,14 +262,14 @@ function UserListView({
               <Blob icon="users" tone="idle" size="lg" />
               <Text muted>Tidak ada pengguna. Buat pengguna pertama Anda.</Text>
               <Button onClick={onCreate} tone="mint">
-                Buat Pengguna
+                Buat Pengguna Baru
               </Button>
             </Stack>
           </Card>
         ) : filteredUsers.length === 0 ? (
           <Card className="text-center py-12">
             <Stack gap={3} align="center">
-              <Text muted>Tidak ada pengguna yang cocok dengan pencarian.</Text>
+              <Text muted>Tidak ada pengguna yang cocok dengan kriteria pencarian.</Text>
             </Stack>
           </Card>
         ) : (
@@ -168,9 +277,13 @@ function UserListView({
             {filteredUsers.map((user) => {
               const isSelected = selectedIds.has(user.id);
               return (
-                <div key={user.id}>
-                  <RowCard selected={isSelected}>
-                    <Row gap={4} className="w-full" align="center" wrap={false}>
+                <RowCard
+                  key={user.id}
+                  selected={isSelected}
+                  onClick={() => (user.isAdmin ? onEditProfile(user) : onViewProgress(user))}
+                >
+                  <Row justify="between" align="center" className="w-full gap-4 flex-wrap">
+                    <Row gap={4} align="center" className="flex-1 min-w-[240px]">
                       <div
                         className="flex items-center justify-center p-2 -ml-2"
                         onClick={(e) => {
@@ -186,72 +299,71 @@ function UserListView({
                         />
                       </div>
 
-                      <div className="flex items-center gap-4 flex-1">
+                      <Row gap={3} align="center" className="flex-1 min-w-0">
                         <Blob
                           icon="user"
-                          tone={
-                            user.isAdmin
-                              ? isSelected
-                                ? "idle"
-                                : "purple"
-                              : isSelected
-                                ? "idle"
-                                : "blue"
-                          }
+                          tone={user.isAdmin ? "purple" : "blue"}
                           size="sm"
                         />
-                        <Stack gap={1}>
-                          <Heading level={3}>{user.name}</Heading>
-                          <Text size="sm" muted={!isSelected}>
-                            @{user.username} {user.grade ? `· Kelas ${user.grade}` : ""}
+                        <Stack gap={1} className="flex-1 min-w-0">
+                          <Row gap={2} align="center" className="flex-wrap">
+                            <Heading level={3} className="truncate font-bold">
+                              {user.name}
+                            </Heading>
+                            <Badge tone={user.isAdmin ? "purple" : "idle"}>
+                              {user.isAdmin ? "Admin" : "Siswa"}
+                            </Badge>
+                            {user.grade && (
+                              <span className="text-xs font-semibold px-2 py-0.5 rounded bg-[var(--surface-sunken)] border border-[var(--separator)] text-[var(--fg-muted)]">
+                                Kelas {user.grade}
+                              </span>
+                            )}
+                          </Row>
+                          <Text size="sm" muted className="truncate">
+                            @{user.username}
                           </Text>
                         </Stack>
-                      </div>
-
-                      <Row gap={3} align="center">
-                        <Badge tone={user.isAdmin ? (isSelected ? "idle" : "purple") : "idle"}>
-                          {user.isAdmin ? "Admin" : "Siswa"}
-                        </Badge>
-
-                        <Button
-                          variant={isSelected ? "solid" : "quiet"}
-                          tone={isSelected ? "idle" : "yellow"}
-                          size="sm"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onEditLevel(user);
-                          }}
-                        >
-                          Atur Level
-                        </Button>
-
-                        <Button
-                          variant={isSelected ? "solid" : "quiet"}
-                          tone={isSelected ? "idle" : "mint"}
-                          size="sm"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onViewProgress(user);
-                          }}
-                        >
-                          Lihat Rapor
-                        </Button>
-
-                        <Button
-                          variant={isSelected ? "solid" : "quiet"}
-                          tone={isSelected ? "idle" : "blue"}
-                          size="sm"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onEditProfile(user);
-                          }}
-                        >
-                          Edit Profil
-                        </Button>
                       </Row>
                     </Row>
-                  </RowCard>
-                </div>
+
+                    {/* Action Buttons Row - Always Visible & Operable */}
+                    <Row gap={2} align="center" className="flex-wrap justify-end">
+                      <Button
+                        variant="solid"
+                        tone="mint"
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onViewProgress(user);
+                        }}
+                      >
+                        <Icon name="activity" size="sm" /> Lihat Rapor
+                      </Button>
+                      <Button
+                        variant="quiet"
+                        tone="yellow"
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onEditLevel(user);
+                        }}
+                      >
+                        <Icon name="trophy" size="sm" /> Atur Level
+                      </Button>
+                      <Button
+                        variant="quiet"
+                        tone="idle"
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onEditProfile(user);
+                        }}
+                      >
+                        Edit Profil
+                      </Button>
+                    </Row>
+                  </Row>
+                </RowCard>
               );
             })}
           </Stack>
@@ -288,6 +400,10 @@ function BulkLevelSetter({
       .then((res) => {
         setTree(res.data?.tree || []);
       })
+      .catch((err) => {
+        console.error(err);
+        toast.error("Gagal memuat struktur kurikulum");
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -320,28 +436,26 @@ function BulkLevelSetter({
     setFeedback(null);
     try {
       await adminApi.setBulkStudentLevel(userIds, selectedMaterialId as number);
-      onSave(); // return to list immediately on success
+      toast.success(`Level massal berhasil diterapkan untuk ${userIds.length} siswa!`);
+      onSave();
     } catch (err) {
       console.error(err);
+      toast.error("Gagal mengatur level massal.");
       setFeedback("Gagal mengatur level massal.");
       setSaving(false);
     }
   }
 
   async function handleClearBulkOverride() {
-    if (
-      !window.confirm(
-        `Hapus override level untuk ${userIds.length} siswa? Mereka akan kembali ke progress organik masing-masing.`,
-      )
-    )
-      return;
     setSaving(true);
     setFeedback(null);
     try {
       await adminApi.setBulkStudentLevel(userIds, null);
-      onSave(); // return to list immediately
+      toast.success(`Override level massal berhasil dihapus untuk ${userIds.length} siswa.`);
+      onSave();
     } catch (err) {
       console.error(err);
+      toast.error("Gagal menghapus override massal.");
       setFeedback("Gagal menghapus override massal.");
       setSaving(false);
     }
@@ -349,7 +463,7 @@ function BulkLevelSetter({
 
   if (loading) {
     return (
-      <Card>
+      <Card className="p-6 text-center">
         <Text muted>Memuat antarmuka level massal...</Text>
       </Card>
     );
@@ -357,10 +471,18 @@ function BulkLevelSetter({
 
   return (
     <Stack gap={5} className="max-w-4xl mx-auto w-full pt-4">
+      <Breadcrumbs
+        items={[
+          { label: "Admin", href: "/admin" },
+          { label: "Kelola Pengguna", onClick: onCancel },
+          { label: "Atur Level Massal" },
+        ]}
+      />
+
       <Row justify="between" align="top">
         <Stack gap={1}>
           <Eyebrow>Tindakan Massal</Eyebrow>
-          <Heading level={1}>Atur Level Massal</Heading>
+          <Heading level={1}>Atur Level Checkpoint Massal</Heading>
           <Text muted>
             Anda akan mengatur checkpoint akses materi untuk{" "}
             <strong>{userIds.length} siswa terpilih</strong> sekaligus.
@@ -368,10 +490,10 @@ function BulkLevelSetter({
         </Stack>
       </Row>
 
-      <Card>
+      <Card className="p-6">
         <Stack gap={5}>
           <Row gap={3} align="center">
-            <Blob icon="live" tone="purple" size="md" />
+            <Blob icon="trophy" tone="purple" size="md" />
             <Stack gap={1}>
               <Heading level={2}>Tentukan Titik Akses (Checkpoint)</Heading>
               <Text size="sm" muted>
@@ -445,15 +567,18 @@ function BulkLevelSetter({
               Kembali
             </Button>
             <Row gap={3}>
-              <Button
-                type="button"
-                variant="quiet"
-                tone="warn"
-                onClick={handleClearBulkOverride}
-                disabled={saving}
+              <Confirm
+                title="Hapus Override Level Massal?"
+                body={`Apakah Anda yakin ingin menghapus override level untuk ${userIds.length} siswa terpilih? Mereka akan kembali ke progress belajar organik.`}
+                confirmLabel="Hapus Override Massal"
+                cancelLabel="Batalkan"
+                onConfirm={handleClearBulkOverride}
+                loading={saving}
               >
-                Hapus Semua Override
-              </Button>
+                <Button type="button" variant="quiet" tone="warn" disabled={saving}>
+                  Hapus Semua Override
+                </Button>
+              </Confirm>
               <Button
                 type="button"
                 tone="purple"
@@ -498,6 +623,10 @@ function LevelSetterView({ user, onCancel }: { user: User; onCancel: () => void 
           setSelectedMaterialId(override.materialId);
         }
       })
+      .catch((err) => {
+        console.error(err);
+        toast.error("Gagal memuat data level siswa");
+      })
       .finally(() => setLoading(false));
   }, [user.id]);
 
@@ -533,8 +662,11 @@ function LevelSetterView({ user, onCancel }: { user: User; onCancel: () => void 
       const levelRes = await adminApi.getStudentLevel(user.id);
       setCurrentLevel(levelRes.data?.currentLevel || null);
       setAdminOverride(levelRes.data?.adminOverride || null);
+      toast.success(`Level ${user.name} berhasil diperbarui!`);
       setFeedback("Level siswa berhasil diperbarui!");
-    } catch {
+    } catch (err) {
+      console.error(err);
+      toast.error("Gagal memperbarui level siswa.");
       setFeedback("Gagal memperbarui level siswa.");
     } finally {
       setSaving(false);
@@ -542,8 +674,6 @@ function LevelSetterView({ user, onCancel }: { user: User; onCancel: () => void 
   }
 
   async function handleClearOverride() {
-    if (!window.confirm("Hapus override level? Siswa akan kembali ke progress organik mereka."))
-      return;
     setSaving(true);
     setFeedback(null);
     try {
@@ -554,8 +684,11 @@ function LevelSetterView({ user, onCancel }: { user: User; onCancel: () => void 
       setSelectedTopicId("");
       setSelectedSubTopicId("");
       setSelectedMaterialId("");
+      toast.success("Override level berhasil dihapus.");
       setFeedback("Override level berhasil dihapus.");
-    } catch {
+    } catch (err) {
+      console.error(err);
+      toast.error("Gagal menghapus override level.");
       setFeedback("Gagal menghapus override level.");
     } finally {
       setSaving(false);
@@ -564,13 +697,21 @@ function LevelSetterView({ user, onCancel }: { user: User; onCancel: () => void 
 
   if (loading)
     return (
-      <Card>
+      <Card className="p-6 text-center">
         <Text muted>Memuat data level...</Text>
       </Card>
     );
 
   return (
     <Stack gap={6} className="max-w-5xl mx-auto w-full pt-4">
+      <Breadcrumbs
+        items={[
+          { label: "Admin", href: "/admin" },
+          { label: "Kelola Pengguna", onClick: onCancel },
+          { label: `Level: ${user.name}` },
+        ]}
+      />
+
       <Row justify="between" align="center">
         <Stack gap={1}>
           <Eyebrow>Profil Siswa</Eyebrow>
@@ -581,7 +722,7 @@ function LevelSetterView({ user, onCancel }: { user: User; onCancel: () => void 
         </Button>
       </Row>
 
-      <Card>
+      <Card className="p-6">
         <Stack gap={5}>
           <Row gap={3} align="center">
             <Blob icon="trophy" tone="yellow" size="md" />
@@ -593,10 +734,10 @@ function LevelSetterView({ user, onCancel }: { user: User; onCancel: () => void 
             </Stack>
           </Row>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="p-4 rounded-xl bg-[var(--surface-raised)] [box-shadow:var(--pouf-row)]">
+          <Grid cols={2} gap={4}>
+            <div className="p-4 rounded-xl bg-[var(--surface-raised)] border border-[var(--separator)]">
               <Stack gap={1}>
-                <Text size="sm" muted>
+                <Text size="sm" muted className="font-semibold">
                   Progress Aktif (Organik + Override)
                 </Text>
                 {currentLevel ? (
@@ -614,11 +755,11 @@ function LevelSetterView({ user, onCancel }: { user: User; onCancel: () => void 
             </div>
 
             <div
-              className={`p-4 rounded-xl ${adminOverride ? "bg-[color-mix(in_srgb,var(--purple)_8%,transparent)] border border-[color-mix(in_srgb,var(--purple)_20%,transparent)]" : "bg-[var(--surface-raised)] [box-shadow:var(--pouf-row)]"}`}
+              className={`p-4 rounded-xl ${adminOverride ? "bg-[color-mix(in_srgb,var(--purple)_8%,transparent)] border border-[color-mix(in_srgb,var(--purple)_20%,transparent)]" : "bg-[var(--surface-raised)] border border-[var(--separator)]"}`}
             >
               <Stack gap={1}>
                 <Row justify="between" align="center">
-                  <Text size="sm" muted>
+                  <Text size="sm" muted className="font-semibold">
                     Override Admin
                   </Text>
                   {adminOverride && <Badge tone="purple">Aktif</Badge>}
@@ -641,9 +782,9 @@ function LevelSetterView({ user, onCancel }: { user: User; onCancel: () => void 
                 )}
               </Stack>
             </div>
-          </div>
+          </Grid>
 
-          <div className="p-6 rounded-2xl [box-shadow:var(--pouf-row)] bg-[var(--surface-raised)]">
+          <div className="p-6 rounded-2xl bg-[var(--surface-sunken)] border border-[var(--separator)]">
             <Stack gap={4}>
               <Heading level={3}>Atur Checkpoint Baru</Heading>
 
@@ -707,15 +848,18 @@ function LevelSetterView({ user, onCancel }: { user: User; onCancel: () => void 
           <div className="flex items-center justify-between pt-4 border-t border-[var(--separator)]">
             <div>
               {adminOverride && (
-                <Button
-                  type="button"
-                  variant="quiet"
-                  tone="warn"
-                  onClick={handleClearOverride}
-                  disabled={saving}
+                <Confirm
+                  title="Hapus Override Level?"
+                  body={`Apakah Anda yakin ingin menghapus override level untuk ${user.name}? Siswa akan kembali ke progres belajar organik mereka.`}
+                  confirmLabel="Hapus Override"
+                  cancelLabel="Pertahankan"
+                  onConfirm={handleClearOverride}
+                  loading={saving}
                 >
-                  Hapus Override
-                </Button>
+                  <Button type="button" variant="quiet" tone="warn" disabled={saving}>
+                    Hapus Override
+                  </Button>
+                </Confirm>
               )}
             </div>
             <Row gap={3}>
@@ -774,18 +918,24 @@ function UserFormView({
 
       if (user) {
         await adminApi.updateUser(user.id, data);
+        toast.success(`Profil ${name} berhasil diperbarui`);
       } else {
         if (!password) {
-          alert("Kata sandi wajib untuk pengguna baru");
+          const msg = "Kata sandi wajib untuk pengguna baru";
+          setError(msg);
+          toast.error(msg);
           setSaving(false);
           return;
         }
         await adminApi.createUser(data);
+        toast.success(`Akun ${name} berhasil dibuat`);
       }
-      onSave(); // return to list on success
+      onSave();
     } catch (err: any) {
       const apiError = err.response?.data?.error;
-      setError(apiError?.message || err.message || "Gagal menyimpan pengguna");
+      const msg = apiError?.message || err.message || "Gagal menyimpan pengguna";
+      setError(msg);
+      toast.error(msg);
     } finally {
       setSaving(false);
     }
@@ -793,20 +943,28 @@ function UserFormView({
 
   async function handleDelete() {
     if (!user) return;
-    if (window.confirm("Apakah Anda yakin ingin menghapus pengguna ini secara permanen?")) {
-      setSaving(true);
-      try {
-        await adminApi.deleteUser(user.id);
-        onSave();
-      } catch {
-        alert("Gagal menghapus pengguna");
-        setSaving(false);
-      }
+    setSaving(true);
+    try {
+      await adminApi.deleteUser(user.id);
+      toast.success(`Akun "${user.name}" berhasil dihapus`);
+      onSave();
+    } catch (err: any) {
+      console.error(err);
+      toast.error("Gagal menghapus pengguna");
+      setSaving(false);
     }
   }
 
   return (
     <Stack gap={6} className="max-w-5xl mx-auto w-full pt-4">
+      <Breadcrumbs
+        items={[
+          { label: "Admin", href: "/admin" },
+          { label: "Kelola Pengguna", onClick: onCancel },
+          { label: user ? user.name : "Pengguna Baru" },
+        ]}
+      />
+
       <Row justify="between" align="center">
         <Stack gap={1}>
           <Eyebrow>{user ? "Edit Pengguna" : "Pengguna Baru"}</Eyebrow>
@@ -818,7 +976,7 @@ function UserFormView({
       </Row>
 
       <form onSubmit={handleSubmit}>
-        <Card>
+        <Card className="p-6">
           <Stack gap={5}>
             <Row gap={3} align="center">
               <Blob icon="user" tone={isAdmin ? "purple" : "blue"} size="md" />
@@ -839,8 +997,8 @@ function UserFormView({
                     aria-describedby={desc}
                     value={username}
                     onChange={setUsername}
+                    placeholder="Contoh: siswa_budi"
                     required
-                    className="h-12"
                   />
                 )}
               </Field>
@@ -851,8 +1009,8 @@ function UserFormView({
                     aria-describedby={desc}
                     value={name}
                     onChange={setName}
+                    placeholder="Contoh: Budi Santoso"
                     required
-                    className="h-12"
                   />
                 )}
               </Field>
@@ -871,8 +1029,8 @@ function UserFormView({
                     aria-describedby={desc}
                     value={password}
                     onChange={setPassword}
+                    placeholder="******"
                     required={!user}
-                    className="h-12"
                   />
                 )}
               </Field>
@@ -886,13 +1044,13 @@ function UserFormView({
                     aria-describedby={desc}
                     value={grade}
                     onChange={setGrade}
-                    className="h-12"
+                    placeholder="Contoh: 4"
                   />
                 )}
               </Field>
             </Grid>
 
-            <div className="p-4 rounded-xl bg-[var(--surface-raised)] border border-[var(--separator)]">
+            <div className="p-4 rounded-xl bg-[var(--surface-sunken)] border border-[var(--separator)]">
               <Row gap={3} align="center" justify="between">
                 <Stack gap={1}>
                   <Text className="font-bold">Hak Akses Administrator</Text>
@@ -913,9 +1071,18 @@ function UserFormView({
             <div className="flex items-center justify-between pt-4 mt-2 border-t border-[var(--separator)]">
               <div>
                 {user && (
-                  <Button type="button" variant="quiet" tone="warn" onClick={handleDelete}>
-                    Hapus Akun
-                  </Button>
+                  <Confirm
+                    title="Hapus Pengguna?"
+                    body={`Apakah Anda yakin ingin menghapus akun "${user.name}" secara permanen? Semua data progress belajar juga akan terhapus.`}
+                    confirmLabel="Hapus Akun"
+                    cancelLabel="Batalkan"
+                    onConfirm={handleDelete}
+                    loading={saving}
+                  >
+                    <Button type="button" variant="quiet" tone="warn" disabled={saving}>
+                      Hapus Akun
+                    </Button>
+                  </Confirm>
                 )}
               </div>
               <Row gap={3}>
@@ -923,7 +1090,7 @@ function UserFormView({
                   Batal
                 </Button>
                 <Button type="submit" tone="mint" disabled={saving}>
-                  Simpan Profil
+                  {saving ? "Menyimpan..." : "Simpan Profil"}
                 </Button>
               </Row>
             </div>
@@ -948,18 +1115,26 @@ function StudentProgressView({ user, onCancel }: { user: User; onCancel: () => v
         setTree(treeRes.data?.tree || []);
         setMProgress(progRes.data?.materialProgresses || []);
         setQProgress(progRes.data?.questionProgresses || []);
-        setLoading(false);
       })
-      .catch(console.error);
+      .catch((err) => {
+        console.error(err);
+        toast.error("Gagal memuat rapor progres siswa");
+      })
+      .finally(() => setLoading(false));
   }, [user.id]);
 
   if (loading) {
     return (
-      <Card>
+      <Card className="p-6 text-center">
         <Text muted>Memuat data rapor...</Text>
       </Card>
     );
   }
+
+  // Summary Metrics
+  const completedMaterialsCount = mProgress.filter((mp) => mp.status === "COMPLETED").length;
+  const passedQuestionsCount = qProgress.filter((qp) => qp.isPassed).length;
+  const teacherInterventionsCount = qProgress.filter((qp) => qp.needsTeacherIntervention).length;
 
   // Group questions by material
   const materialsMap = new Map();
@@ -1004,7 +1179,7 @@ function StudentProgressView({ user, onCancel }: { user: User; onCancel: () => v
                     key={mp.id || `mat-${mp.materialId}`}
                     className="p-4 rounded-xl border border-[var(--separator)] bg-[var(--surface-raised)]"
                   >
-                    <Row justify="between" align="center" className="mb-3">
+                    <Row justify="between" align="center" className="mb-3 flex-wrap gap-2">
                       <Row gap={3} align="center">
                         <Blob
                           icon={mp.status === "COMPLETED" ? "ok" : "live"}
@@ -1036,32 +1211,32 @@ function StudentProgressView({ user, onCancel }: { user: User; onCancel: () => v
                               key={qp.id}
                               justify="between"
                               align="center"
-                              className="text-sm px-2 py-2 hover:bg-bg rounded transition-colors"
+                              className="text-sm px-2 py-2 hover:bg-[var(--surface-sunken)] rounded transition-colors flex-wrap gap-2"
                             >
                               <Row gap={4} align="center">
-                                <Text className="w-24 text-[var(--muted)]">
-                                  Pertanyaan {idx + 1}
+                                <Text className="w-28 font-medium">
+                                  Soal #{idx + 1}
                                 </Text>
                                 <Badge
                                   tone={
                                     qp.isPassed
                                       ? "mint"
                                       : qp.needsTeacherIntervention
-                                        ? "red"
+                                        ? "orange"
                                         : "idle"
                                   }
                                 >
                                   {qp.isPassed
                                     ? "Lulus"
                                     : qp.needsTeacherIntervention
-                                      ? "Butuh Bantuan"
+                                      ? "Butuh Bantuan Guru"
                                       : "Belum Lulus"}
                                 </Badge>
                               </Row>
-                              <Row gap={5} className="text-[var(--muted)]">
-                                <span className="w-24">Percobaan: {qp.attemptCount}</span>
-                                <span className="w-24">Hint: {qp.hintsUsed}</span>
-                                <span className="w-20 font-bold text-ink text-right">
+                              <Row gap={5} className="text-[var(--fg-muted)]">
+                                <span>Percobaan: {qp.attemptCount}</span>
+                                <span>Hint: {qp.hintsUsed}</span>
+                                <span className="font-bold text-[var(--fg)]">
                                   Skor: {qp.masteryScore}
                                 </span>
                               </Row>
@@ -1082,7 +1257,7 @@ function StudentProgressView({ user, onCancel }: { user: User; onCancel: () => v
 
       return (
         <Card key={topic.id} className="p-0 overflow-hidden">
-          <div className="bg-[var(--surface-raised)] p-4 border-b border-[var(--separator)]">
+          <div className="bg-[var(--surface-sunken)] p-4 border-b border-[var(--separator)]">
             <Heading level={2}>{topic.name}</Heading>
           </div>
           <div className="p-4">
@@ -1095,21 +1270,72 @@ function StudentProgressView({ user, onCancel }: { user: User; onCancel: () => v
 
   return (
     <Stack gap={6} className="max-w-5xl mx-auto w-full pt-4">
+      <Breadcrumbs
+        items={[
+          { label: "Admin", href: "/admin" },
+          { label: "Kelola Pengguna", onClick: onCancel },
+          { label: `Rapor: ${user.name}` },
+        ]}
+      />
+
       <Row justify="between" align="center">
         <Stack gap={1}>
           <Eyebrow>Rapor Siswa</Eyebrow>
-          <Heading level={1}>Progress: {user.name}</Heading>
+          <Heading level={1}>Progres Belajar: {user.name}</Heading>
         </Stack>
         <Button variant="quiet" tone="idle" onClick={onCancel}>
           Kembali ke Daftar
         </Button>
       </Row>
 
+      {/* Rapor Overview Metric Cards */}
+      <Grid cols={3} gap={4}>
+        <Card className="p-4 bg-[var(--surface-sunken)] border border-[var(--separator)]">
+          <Row gap={3} align="center">
+            <Blob icon="ok" tone="mint" size="sm" />
+            <Stack gap={0}>
+              <Text size="xs" muted className="font-semibold uppercase tracking-wider">
+                Materi Selesai
+              </Text>
+              <Heading level={2} className="text-xl font-bold">
+                {completedMaterialsCount} Materi
+              </Heading>
+            </Stack>
+          </Row>
+        </Card>
+        <Card className="p-4 bg-[var(--surface-sunken)] border border-[var(--separator)]">
+          <Row gap={3} align="center">
+            <Blob icon="trophy" tone="yellow" size="sm" />
+            <Stack gap={0}>
+              <Text size="xs" muted className="font-semibold uppercase tracking-wider">
+                Soal Lulus
+              </Text>
+              <Heading level={2} className="text-xl font-bold">
+                {passedQuestionsCount} Soal
+              </Heading>
+            </Stack>
+          </Row>
+        </Card>
+        <Card className="p-4 bg-[var(--surface-sunken)] border border-[var(--separator)]">
+          <Row gap={3} align="center">
+            <Blob icon="warn" tone={teacherInterventionsCount > 0 ? "orange" : "idle"} size="sm" />
+            <Stack gap={0}>
+              <Text size="xs" muted className="font-semibold uppercase tracking-wider">
+                Bantuan Guru
+              </Text>
+              <Heading level={2} className="text-xl font-bold">
+                {teacherInterventionsCount} Soal
+              </Heading>
+            </Stack>
+          </Row>
+        </Card>
+      </Grid>
+
       {renderedTopics.length === 0 ? (
         <Card className="text-center py-12">
           <Stack gap={3} align="center">
             <Blob icon="activity" tone="idle" size="lg" />
-            <Text muted>Siswa ini belum memulai materi apapun.</Text>
+            <Text muted>Siswa ini belum memulai materi pembelajaran apapun.</Text>
           </Stack>
         </Card>
       ) : (
@@ -1166,7 +1392,7 @@ export default function AdminUsers() {
 
   return (
     <UserListView
-      onCreate={() => setView("create")}
+      onCreate={() => setView("list")}
       onEditProfile={(u) => {
         setActiveUser(u);
         setView("edit-profile");

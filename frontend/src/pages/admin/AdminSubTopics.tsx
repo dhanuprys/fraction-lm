@@ -1,14 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import { adminApi } from "@/lib/api/admin";
-import type { SubTopic, Topic } from "@/types/api";
+import type { SubTopic, Topic, Material } from "@/types/api";
 import { Heading, Text, Eyebrow } from "@/components/pouf/text";
 import { Card, RowCard } from "@/components/pouf/surface";
-import { Stack, Row } from "@/components/pouf/layout";
+import { Stack, Row, Grid } from "@/components/pouf/layout";
 import { Button } from "@/components/pouf/Button";
-import { Blob, Badge } from "@/components/pouf/media";
+import { Blob } from "@/components/pouf/media";
 import { Field, Input } from "@/components/pouf/Input";
 import { Select, Confirm } from "@/components/pouf/controls";
+import { Breadcrumbs } from "@/components/admin/Breadcrumbs";
+import { OrderControls } from "@/components/admin/OrderControls";
+import { CurriculumTreeViewer } from "@/components/admin/CurriculumTreeViewer";
+import { Segmented } from "@/components/pouf/Segmented";
+import { toast } from "@/components/pouf/toaster";
+import { Icon } from "@/components/pouf/Icon";
 import imageCompression from "browser-image-compression";
 import { getAssetUrl } from "@/lib/utils";
 
@@ -19,69 +26,275 @@ function SubTopicListView({
   onCreate: () => void;
   onEdit: (st: SubTopic) => void;
 }) {
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialTopicId = searchParams.get("topicId") || "all";
+
   const [subTopics, setSubTopics] = useState<SubTopic[]>([]);
-  const [topics, setTopics] = useState<Record<number, string>>({});
+  const [topics, setTopics] = useState<Topic[]>([]);
+  const [materials, setMaterials] = useState<Material[]>([]);
+  const [selectedTopicId, setSelectedTopicId] = useState<string>(initialTopicId);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [viewMode, setViewMode] = useState<"list" | "tree">("list");
+
+  // Synchronize state if URL query changes
+  useEffect(() => {
+    const tid = searchParams.get("topicId");
+    if (tid) setSelectedTopicId(tid);
+  }, [searchParams]);
+
+  const loadData = useCallback(async () => {
+    setLoading(true);
+    try {
+      const [stRes, tRes, mRes] = await Promise.all([
+        adminApi.getSubTopics(undefined, 1000),
+        adminApi.getTopics(1000),
+        adminApi.getMaterials(),
+      ]);
+      setSubTopics(stRes.data?.subTopics || []);
+      setTopics(tRes.data?.topics || []);
+      setMaterials(mRes.data || []);
+    } catch (err) {
+      console.error("Gagal memuat subtopik:", err);
+      toast.error("Gagal memuat daftar subtopik");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
-    // Fetch both to map topic IDs to topic names
-    Promise.all([adminApi.getSubTopics(), adminApi.getTopics()]).then(([stRes, tRes]) => {
-      setSubTopics(stRes.data?.subTopics || []);
-      const topicsMap: Record<number, string> = {};
-      (tRes.data?.topics || []).forEach((t) => {
-        topicsMap[t.id] = t.name;
-      });
-      setTopics(topicsMap);
+    loadData();
+  }, [loadData]);
+
+  const topicMap = useMemo(() => {
+    const map: Record<number, Topic> = {};
+    topics.forEach((t) => {
+      map[t.id] = t;
     });
-  }, []);
+    return map;
+  }, [topics]);
+
+  // Count materials per subtopic
+  const materialCounts = useMemo(() => {
+    const counts: Record<number, number> = {};
+    materials.forEach((m) => {
+      counts[m.subTopicId] = (counts[m.subTopicId] || 0) + 1;
+    });
+    return counts;
+  }, [materials]);
+
+  const filteredSubTopics = useMemo(() => {
+    return subTopics
+      .filter((st) => {
+        if (
+          searchQuery &&
+          !st.name.toLowerCase().includes(searchQuery.toLowerCase())
+        ) {
+          return false;
+        }
+
+        if (selectedTopicId !== "all") {
+          if (st.topicId !== parseInt(selectedTopicId, 10)) return false;
+        }
+
+        return true;
+      })
+      .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  }, [subTopics, searchQuery, selectedTopicId]);
+
+  const handleSwapOrder = async (st1: SubTopic, st2: SubTopic) => {
+    try {
+      await Promise.all([
+        adminApi.updateSubTopic(st1.id, { order: st2.order }),
+        adminApi.updateSubTopic(st2.id, { order: st1.order }),
+      ]);
+      toast.success("Urutan subtopik berhasil diperbarui");
+      loadData();
+    } catch (err) {
+      console.error("Gagal mengubah urutan subtopik:", err);
+      toast.error("Gagal mengubah urutan subtopik");
+    }
+  };
+
+  const currentTopic = selectedTopicId !== "all" ? topicMap[parseInt(selectedTopicId, 10)] : null;
 
   return (
     <Stack gap={5}>
-      <Row justify="between" align="top">
+      <Breadcrumbs
+        items={[
+          { label: "Admin", href: "/admin" },
+          { label: "Topik", href: "/admin/topics" },
+          ...(currentTopic ? [{ label: currentTopic.name, href: `/admin/subtopics?topicId=${currentTopic.id}` }] : []),
+          { label: "Kelola Subtopik" },
+        ]}
+      />
+
+      <Row justify="between" align="top" className="flex-wrap gap-4">
         <Stack gap={1}>
           <Eyebrow>Portal Admin</Eyebrow>
-          <Heading level={1}>Kelola Subtopik</Heading>
-          <Text muted>Buat dan atur subtopik dalam topik.</Text>
+          <Heading level={1}>
+            {currentTopic ? `Subtopik: ${currentTopic.name}` : "Kelola Subtopik"}
+          </Heading>
+          <Text muted>
+            Klik pada subtopik untuk melihat materi di dalamnya. Klik 'Edit Subtopik' untuk mengubah nama/topik induk.
+          </Text>
         </Stack>
-        <Button onClick={onCreate} tone="mint">
-          Buat Subtopik
-        </Button>
+        <Row gap={3} align="center">
+          <Segmented
+            label="Mode Tampilan"
+            value={viewMode}
+            onChange={(val) => setViewMode(val as "list" | "tree")}
+            options={[
+              { value: "list", label: "Daftar Kartu" },
+              { value: "tree", label: "Pohon Kurikulum" },
+            ]}
+          />
+          <Button onClick={onCreate} tone="mint">
+            <Icon name="wand" size="sm" /> Buat Subtopik Baru
+          </Button>
+        </Row>
       </Row>
-      <Stack gap={3}>
-        {subTopics.length === 0 ? (
-          <Text muted>Tidak ada subtopik. Buat satu untuk memulai.</Text>
-        ) : (
-          subTopics.map((st) => (
-            <RowCard key={st.id} onClick={() => onEdit(st)}>
-              <Row justify="between" wrap={false}>
-                <Row gap={3} wrap={false}>
-                  <Blob icon="calendar" tone="blue" size="sm" />
-                  <Stack gap={1}>
-                    <Text size="sm" muted>
-                      Topik: {topics[st.topicId] || `ID ${st.topicId}`} · Urutan {st.order}
-                    </Text>
-                    <Heading level={3}>{st.name}</Heading>
-                  </Stack>
-                </Row>
-                <Badge tone="idle">Edit</Badge>
-              </Row>
-            </RowCard>
-          ))
-        )}
-      </Stack>
+
+      {viewMode === "tree" ? (
+        <CurriculumTreeViewer />
+      ) : (
+        <>
+          {/* Filter Bar */}
+          <Card className="p-4 bg-[var(--surface-sunken)] border border-[var(--separator)]">
+            <Grid cols={2} gap={4}>
+              <Field label="Cari Subtopik">
+                {() => (
+                  <Input
+                    value={searchQuery}
+                    onChange={setSearchQuery}
+                    placeholder="Ketik nama subtopik..."
+                  />
+                )}
+              </Field>
+              <Field label="Filter Berdasarkan Topik">
+                {(id, desc) => (
+                  <Select
+                    id={id}
+                    describedBy={desc}
+                    value={selectedTopicId}
+                    onChange={(val) => {
+                      setSelectedTopicId(val);
+                      if (val === "all") {
+                        setSearchParams({});
+                      } else {
+                        setSearchParams({ topicId: val });
+                      }
+                    }}
+                    options={[
+                      { value: "all", label: "Semua Topik Induk" },
+                      ...topics.map((t) => ({ value: t.id.toString(), label: t.name })),
+                    ]}
+                  />
+                )}
+              </Field>
+            </Grid>
+          </Card>
+
+          <Stack gap={3}>
+            {loading ? (
+              <Text muted>Memuat daftar subtopik...</Text>
+            ) : filteredSubTopics.length === 0 ? (
+              <Card className="p-6 text-center">
+                <Text muted>
+                  {searchQuery || selectedTopicId !== "all"
+                    ? "Tidak ada subtopik yang sesuai dengan pencarian."
+                    : "Belum ada subtopik. Klik 'Buat Subtopik Baru' untuk memulai."}
+                </Text>
+              </Card>
+            ) : (
+              filteredSubTopics.map((st, index) => {
+                const mCount = materialCounts[st.id] || 0;
+                return (
+                  <RowCard
+                    key={st.id}
+                    onClick={() => navigate(`/admin/materials?subTopicId=${st.id}`)}
+                  >
+                    <Row justify="between" align="center" wrap={false} className="w-full">
+                      <Row gap={4} align="center" wrap={false} className="flex-1 min-w-0">
+                        <Blob icon="calendar" tone="blue" size="sm" />
+                        <Stack gap={1} className="flex-1 min-w-0">
+                          <Row gap={2} align="center" className="flex-wrap">
+                            <span className="text-xs font-semibold px-2 py-0.5 rounded bg-[var(--surface-sunken)] border border-[var(--separator)] text-[var(--fg-muted)]">
+                              Topik: {topicMap[st.topicId]?.name || `ID ${st.topicId}`}
+                            </span>
+                            <span className="text-xs font-bold px-2 py-0.5 rounded bg-[color-mix(in_srgb,var(--mint)_15%,transparent)] text-[var(--mint)] border border-[color-mix(in_srgb,var(--mint)_30%,transparent)]">
+                              {mCount} Materi
+                            </span>
+                          </Row>
+                          <Heading level={3} className="truncate">
+                            {st.name}
+                          </Heading>
+                          {st.description && (
+                            <Text size="sm" muted className="truncate">
+                              {st.description}
+                            </Text>
+                          )}
+                        </Stack>
+                      </Row>
+
+                      <Row gap={2} align="center" wrap={false}>
+                        <OrderControls
+                          order={st.order}
+                          isFirst={index === 0}
+                          isLast={index === filteredSubTopics.length - 1}
+                          onMoveUp={() => handleSwapOrder(st, filteredSubTopics[index - 1])}
+                          onMoveDown={() => handleSwapOrder(st, filteredSubTopics[index + 1])}
+                        />
+                        <Button
+                          type="button"
+                          size="sm"
+                          tone="mint"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/admin/materials?subTopicId=${st.id}&action=create`);
+                          }}
+                        >
+                          <Icon name="add" size="sm" /> Materi
+                        </Button>
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant="quiet"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onEdit(st);
+                          }}
+                        >
+                          Edit Subtopik
+                        </Button>
+                      </Row>
+                    </Row>
+                  </RowCard>
+                );
+              })
+            )}
+          </Stack>
+        </>
+      )}
     </Stack>
   );
 }
 
 function SubTopicFormView({
   subTopic,
+  initialTopicId,
   onCancel,
   onSave,
 }: {
   subTopic?: SubTopic | null;
+  initialTopicId?: string;
   onCancel: () => void;
   onSave: () => void;
 }) {
-  const [topicId, setTopicId] = useState(subTopic?.topicId?.toString() || "");
+  const [topicId, setTopicId] = useState(
+    subTopic?.topicId?.toString() || initialTopicId || "",
+  );
   const [name, setName] = useState(subTopic?.name || "");
   const [slug, setSlug] = useState(subTopic?.slug || "");
   const [description, setDescription] = useState(subTopic?.description || "");
@@ -98,10 +311,10 @@ function SubTopicFormView({
       const topics = res.data?.topics || [];
       setAvailableTopics(topics);
       if (!topicId && topics.length > 0) {
-        setTopicId(topics[0].id.toString());
+        setTopicId(initialTopicId && topics.some(t => t.id.toString() === initialTopicId) ? initialTopicId : topics[0].id.toString());
       }
     });
-  }, [subTopic?.id, topicId]);
+  }, [subTopic?.id, topicId, initialTopicId]);
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -118,10 +331,11 @@ function SubTopicFormView({
       const res = await adminApi.uploadFile(compressedFile);
       if (res.data?.url) {
         setThumbnail(res.data.url);
+        toast.success("Gambar berhasil diunggah");
       }
     } catch (err) {
       console.error("Error uploading image:", err);
-      alert("Gagal mengunggah gambar");
+      toast.error("Gagal mengunggah gambar");
     } finally {
       setUploading(false);
     }
@@ -143,8 +357,10 @@ function SubTopicFormView({
 
       if (subTopic) {
         await adminApi.updateSubTopic(subTopic.id, data);
+        toast.success(`Subtopik "${name}" berhasil diperbarui`);
       } else {
         await adminApi.createSubTopic(data);
+        toast.success(`Subtopik "${name}" berhasil dibuat`);
       }
       onSave();
     } catch (err: any) {
@@ -154,14 +370,18 @@ function SubTopicFormView({
         try {
           const parsed = JSON.parse(apiError.message);
           if (Array.isArray(parsed) && parsed.length > 0) {
-            setError(parsed.map((p: any) => p.message).join(", "));
+            const msg = parsed.map((p: any) => p.message).join(", ");
+            setError(msg);
+            toast.error(msg);
             return;
           }
         } catch {
           // fallback
         }
       }
-      setError(apiError?.message || err.message || "Gagal menyimpan subtopik");
+      const msg = apiError?.message || err.message || "Gagal menyimpan subtopik";
+      setError(msg);
+      toast.error(msg);
     } finally {
       setSaving(false);
     }
@@ -172,27 +392,37 @@ function SubTopicFormView({
     setSaving(true);
     try {
       await adminApi.deleteSubTopic(subTopic.id);
+      toast.success(`Subtopik "${subTopic.name}" berhasil dihapus`);
       onSave();
     } catch (err: any) {
       console.error(err);
-      alert(err.response?.data?.message || err.message || "Gagal menghapus subtopik");
+      toast.error(err.response?.data?.message || err.message || "Gagal menghapus subtopik");
       setSaving(false);
     }
   }
 
   return (
     <Stack gap={5}>
+      <Breadcrumbs
+        items={[
+          { label: "Admin", href: "/admin" },
+          { label: "Kelola Subtopik", onClick: onCancel },
+          { label: subTopic ? subTopic.name : "Subtopik Baru" },
+        ]}
+      />
+
       <Row justify="between" align="top">
         <Stack gap={1}>
           <Eyebrow>{subTopic ? "Edit Subtopik" : "Subtopik Baru"}</Eyebrow>
-          <Heading level={1}>{subTopic ? subTopic.name : "Buat Subtopik"}</Heading>
+          <Heading level={1}>{subTopic ? subTopic.name : "Buat Subtopik Baru"}</Heading>
         </Stack>
       </Row>
+
       <form onSubmit={handleSubmit}>
-        <Card>
+        <Card className="p-6">
           <Stack gap={4}>
             {error && (
-              <div className="text-[var(--warn)] bg-[color-mix(in_srgb,var(--warn)_15%,transparent)] p-3 rounded font-bold text-sm">
+              <div className="text-[var(--warn)] bg-[color-mix(in_srgb,var(--warn)_15%,transparent)] p-3 rounded-lg font-bold text-sm">
                 {error}
               </div>
             )}
@@ -226,6 +456,7 @@ function SubTopicFormView({
                           .replace(/(^-|-$)+/g, ""),
                       );
                   }}
+                  placeholder="Contoh: Pecahan Senilai & Sederhana"
                   required
                 />
               )}
@@ -242,17 +473,18 @@ function SubTopicFormView({
                 />
               )}
             </Field>
-            <Field label="Deskripsi">
+            <Field label="Deskripsi Subtopik">
               {(id, describedBy) => (
                 <Input
                   id={id}
                   aria-describedby={describedBy}
                   value={description}
                   onChange={setDescription}
+                  placeholder="Penjelasan ringkas materi dalam subtopik ini..."
                 />
               )}
             </Field>
-            <Field label="Urutan">
+            <Field label="Urutan Posisi">
               {(id, describedBy) => (
                 <Input
                   id={id}
@@ -265,7 +497,7 @@ function SubTopicFormView({
                 />
               )}
             </Field>
-            <Field label="Gambar Thumbnail">
+            <Field label="Gambar Thumbnail Subtopik">
               {(id, describedBy) => (
                 <Stack gap={2}>
                   <input
@@ -278,21 +510,21 @@ function SubTopicFormView({
                   />
                   {uploading && (
                     <Text size="sm" muted>
-                      Mengunggah dan mengompres...
+                      Mengunggah dan mengompres gambar...
                     </Text>
                   )}
                   {thumbnail && (
                     <img
                       src={getAssetUrl(thumbnail)}
                       alt="Thumbnail preview"
-                      style={{ maxWidth: "200px", borderRadius: "8px" }}
+                      className="max-w-[200px] rounded-lg border border-[var(--separator)] shadow-sm"
                     />
                   )}
                 </Stack>
               )}
             </Field>
 
-            <Row justify="between" gap={4}>
+            <Row justify="between" gap={4} className="pt-4 border-t border-[var(--separator)]">
               <Button type="button" variant="quiet" tone="idle" onClick={onCancel}>
                 Batal
               </Button>
@@ -300,19 +532,19 @@ function SubTopicFormView({
                 {subTopic && (
                   <Confirm
                     title="Hapus Subtopik?"
-                    body={`Apakah Anda yakin ingin menghapus "${subTopic.name}"?`}
+                    body={`Apakah Anda yakin ingin menghapus subtopik "${subTopic.name}"?`}
                     confirmLabel="Hapus Subtopik"
                     cancelLabel="Pertahankan Subtopik"
                     onConfirm={handleDelete}
                     loading={saving}
                   >
                     <Button type="button" variant="quiet" tone="warn">
-                      Hapus
+                      Hapus Subtopik
                     </Button>
                   </Confirm>
                 )}
                 <Button type="submit" tone="mint" disabled={saving}>
-                  Simpan Subtopik
+                  {saving ? "Menyimpan..." : "Simpan Subtopik"}
                 </Button>
               </Row>
             </Row>
@@ -325,19 +557,40 @@ function SubTopicFormView({
 
 export default function AdminSubTopics() {
   useDocumentTitle("Kelola Subtopik");
-  const [view, setView] = useState<"list" | "create" | "edit">("list");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialAction = searchParams.get("action");
+  const topicId = searchParams.get("topicId");
+
+  const [view, setView] = useState<"list" | "create" | "edit">(
+    initialAction === "create" ? "create" : "list",
+  );
   const [activeSubTopic, setActiveSubTopic] = useState<SubTopic | null>(null);
 
+  const handleFinish = () => {
+    setView("list");
+    // Clear action query param
+    if (searchParams.get("action")) {
+      searchParams.delete("action");
+      setSearchParams(searchParams);
+    }
+  };
+
   if (view === "create") {
-    return <SubTopicFormView onCancel={() => setView("list")} onSave={() => setView("list")} />;
+    return (
+      <SubTopicFormView
+        initialTopicId={topicId || undefined}
+        onCancel={handleFinish}
+        onSave={handleFinish}
+      />
+    );
   }
 
   if (view === "edit" && activeSubTopic) {
     return (
       <SubTopicFormView
         subTopic={activeSubTopic}
-        onCancel={() => setView("list")}
-        onSave={() => setView("list")}
+        onCancel={handleFinish}
+        onSave={handleFinish}
       />
     );
   }

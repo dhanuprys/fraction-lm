@@ -12,7 +12,6 @@ import { toast } from "@/components/pouf/toaster";
 const AVAILABLE_AI_MODELS = [
   "deepseek-chat",
   "deepseek-v4-flash",
-  "deepseek-v4.1-flash",
   "deepseek-v4-pro",
 ];
 
