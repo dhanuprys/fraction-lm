@@ -62,8 +62,10 @@ function MaterialListView({
   // Sync if URL search params change
   useEffect(() => {
     const stid = searchParams.get("subTopicId");
+    // eslint-disable-next-line react/set-state-in-effect
     if (stid) setSelectedSubTopicId(stid);
     const tid = searchParams.get("topicId");
+    // eslint-disable-next-line react/set-state-in-effect
     if (tid) setSelectedTopicId(tid);
   }, [searchParams]);
 
@@ -87,6 +89,7 @@ function MaterialListView({
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line react/set-state-in-effect
     loadData();
   }, [loadData]);
 
@@ -118,10 +121,7 @@ function MaterialListView({
     return materials
       .filter((m) => {
         // Search filter
-        if (
-          searchQuery &&
-          !m.title.toLowerCase().includes(searchQuery.toLowerCase())
-        ) {
+        if (searchQuery && !m.title.toLowerCase().includes(searchQuery.toLowerCase())) {
           return false;
         }
 
@@ -157,9 +157,7 @@ function MaterialListView({
   };
 
   const currentSubTopic =
-    selectedSubTopicId !== "all"
-      ? subTopicMap[parseInt(selectedSubTopicId, 10)]
-      : null;
+    selectedSubTopicId !== "all" ? subTopicMap[parseInt(selectedSubTopicId, 10)] : null;
   const currentTopic = currentSubTopic
     ? topicMap[currentSubTopic.topicId]
     : selectedTopicId !== "all"
@@ -203,7 +201,8 @@ function MaterialListView({
                 : "Kelola Materi Pembelajaran"}
           </Heading>
           <Text muted>
-            Klik pada kartu materi untuk membuka editor konten teks kaya, evaluasi AI, dan pertanyaan latihan.
+            Klik pada kartu materi untuk membuka editor konten teks kaya, evaluasi AI, dan
+            pertanyaan latihan.
           </Text>
         </Stack>
         <Row gap={3} align="center">
@@ -399,7 +398,11 @@ function MaterialFormView({
         const st = stRes.data?.subTopics || [];
         setAvailableSubTopics(st);
         if (!subTopicId && st.length > 0) {
-          setSubTopicId(initialSubTopicId && st.some(s => s.id.toString() === initialSubTopicId) ? initialSubTopicId : st[0].id.toString());
+          setSubTopicId(
+            initialSubTopicId && st.some((s) => s.id.toString() === initialSubTopicId)
+              ? initialSubTopicId
+              : st[0].id.toString(),
+          );
         }
 
         const tMap: Record<number, string> = {};
@@ -499,11 +502,7 @@ function MaterialFormView({
                 />
               )}
             </Field>
-            <Button
-              type="button"
-              variant="quiet"
-              onClick={() => setIsPreviewOpen(true)}
-            >
+            <Button type="button" variant="quiet" onClick={() => setIsPreviewOpen(true)}>
               <Icon name="photo" size="sm" /> Pratinjau Siswa
             </Button>
           </Row>
@@ -841,11 +840,7 @@ export default function AdminMaterials() {
 
   if (view === "edit" && activeMaterial) {
     return (
-      <MaterialFormView
-        material={activeMaterial}
-        onCancel={handleFinish}
-        onSave={handleFinish}
-      />
+      <MaterialFormView material={activeMaterial} onCancel={handleFinish} onSave={handleFinish} />
     );
   }
 
@@ -872,6 +867,7 @@ function MaterialChatLogs({ materialId }: { materialId: number }) {
   const LIMIT = 10;
 
   useEffect(() => {
+    // eslint-disable-next-line react/set-state-in-effect
     setLoading(true);
     const offset = (page - 1) * LIMIT;
     adminChatLogsApi
@@ -903,7 +899,10 @@ function MaterialChatLogs({ materialId }: { materialId: number }) {
                   <Stack gap={1}>
                     <Heading level={3}>{session.student.name}</Heading>
                     <Text size="sm" muted>
-                      Percobaan Ke-{session.attemptNo} · {session.startedAt ? new Date(session.startedAt).toLocaleDateString("id-ID") : "Baru saja"}
+                      Percobaan Ke-{session.attemptNo} ·{" "}
+                      {session.startedAt
+                        ? new Date(session.startedAt).toLocaleDateString("id-ID")
+                        : "Baru saja"}
                     </Text>
                   </Stack>
                 </div>

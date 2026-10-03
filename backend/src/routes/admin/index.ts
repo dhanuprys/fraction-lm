@@ -2,6 +2,7 @@ import { Hono } from 'hono';
 import { adminAuth } from '../../middlewares/adminAuth';
 import { db } from '../../prisma/db';
 import { errorResponse, successResponse } from '../../utils/response';
+import { backupRoutes } from './backup';
 import { chatLogsRoutes } from './chatLogs';
 import { dashboardRoutes } from './dashboard';
 import { materialRoutes } from './materials';
@@ -28,6 +29,7 @@ const adminApp = new Hono()
 	.route('/monitor', monitorRoutes)
 	.route('/chat-logs', chatLogsRoutes)
 	.route('/settings', settingsRoutes)
+	.route('/backup', backupRoutes)
 	// Lightweight content tree for cascade pickers (level setter, etc.)
 	.get('/content-tree', async (c) => {
 		try {

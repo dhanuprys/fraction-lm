@@ -8,7 +8,12 @@ interface TagInputProps {
   disabled?: boolean;
 }
 
-export function TagInput({ value = [], onChange, placeholder = "Ketik lalu tekan Enter atau koma...", disabled }: TagInputProps) {
+export function TagInput({
+  value = [],
+  onChange,
+  placeholder = "Ketik lalu tekan Enter atau koma...",
+  disabled,
+}: TagInputProps) {
   const [inputValue, setInputValue] = useState("");
 
   const addTag = (text: string) => {

@@ -26,6 +26,7 @@ export function CurriculumTreeViewer() {
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line react/set-state-in-effect
     loadTree();
   }, [loadTree]);
 
@@ -66,7 +67,11 @@ export function CurriculumTreeViewer() {
           <Card key={topic.id} className="p-4 border border-[var(--separator)] bg-[var(--surface)]">
             <Stack gap={3}>
               {/* Topic Header Row */}
-              <Row justify="between" align="center" className="pb-3 border-b border-[var(--separator)]">
+              <Row
+                justify="between"
+                align="center"
+                className="pb-3 border-b border-[var(--separator)]"
+              >
                 <Row gap={3} align="center">
                   <Blob icon="wand" tone="yellow" size="sm" />
                   <Stack gap={1}>
@@ -105,7 +110,10 @@ export function CurriculumTreeViewer() {
               ) : (
                 <div className="pl-4 space-y-3 border-l-2 border-[var(--separator)] ml-3">
                   {topic.subTopics.map((subTopic) => (
-                    <div key={subTopic.id} className="p-3 rounded-xl bg-[var(--surface-sunken)] border border-[var(--separator)]">
+                    <div
+                      key={subTopic.id}
+                      className="p-3 rounded-xl bg-[var(--surface-sunken)] border border-[var(--separator)]"
+                    >
                       <Stack gap={2}>
                         <Row justify="between" align="center">
                           <Row gap={2} align="center">
@@ -123,7 +131,9 @@ export function CurriculumTreeViewer() {
                             <Button
                               size="sm"
                               tone="mint"
-                              onClick={() => navigate(`/admin/materials?subTopicId=${subTopic.id}&action=create`)}
+                              onClick={() =>
+                                navigate(`/admin/materials?subTopicId=${subTopic.id}&action=create`)
+                              }
                             >
                               <Icon name="add" size="sm" /> Materi
                             </Button>
@@ -143,14 +153,19 @@ export function CurriculumTreeViewer() {
                             {subTopic.materials.map((m) => (
                               <div
                                 key={m.id}
-                                onClick={() => navigate(`/admin/materials?subTopicId=${subTopic.id}`)}
+                                onClick={() =>
+                                  navigate(`/admin/materials?subTopicId=${subTopic.id}`)
+                                }
                                 className="flex items-center justify-between p-2 rounded-lg bg-[var(--bg)] border border-[var(--separator)] hover:border-[var(--mint)] transition-colors cursor-pointer group"
                               >
                                 <Row gap={2} align="center">
                                   <span className="text-[var(--mint)]">
                                     <Icon name="activity" size="sm" />
                                   </span>
-                                  <Text size="sm" className="group-hover:text-[var(--mint)] transition-colors font-medium">
+                                  <Text
+                                    size="sm"
+                                    className="group-hover:text-[var(--mint)] transition-colors font-medium"
+                                  >
                                     {m.title}
                                   </Text>
                                 </Row>

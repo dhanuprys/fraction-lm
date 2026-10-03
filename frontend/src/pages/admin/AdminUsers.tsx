@@ -58,6 +58,7 @@ function UserListView({
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react/set-state-in-effect
     loadUsers();
   }, []);
 
@@ -68,10 +69,7 @@ function UserListView({
         u.username.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesRole =
         roleFilter === "all" ? true : roleFilter === "admin" ? u.isAdmin : !u.isAdmin;
-      const matchesGrade =
-        gradeFilter === "all"
-          ? true
-          : u.grade?.toString() === gradeFilter;
+      const matchesGrade = gradeFilter === "all" ? true : u.grade?.toString() === gradeFilter;
 
       return matchesSearch && matchesRole && matchesGrade;
     });
@@ -132,7 +130,9 @@ function UserListView({
           <Stack gap={1}>
             <Eyebrow>Portal Admin</Eyebrow>
             <Heading level={1}>Kelola Pengguna & Siswa</Heading>
-            <Text muted>Atur akun pengguna, peran admin, checkpoint level, dan rapor progres belajar siswa.</Text>
+            <Text muted>
+              Atur akun pengguna, peran admin, checkpoint level, dan rapor progres belajar siswa.
+            </Text>
           </Stack>
           <Button onClick={onCreate} tone="mint">
             <Icon name="add" size="sm" /> Buat Akun Pengguna
@@ -300,11 +300,7 @@ function UserListView({
                       </div>
 
                       <Row gap={3} align="center" className="flex-1 min-w-0">
-                        <Blob
-                          icon="user"
-                          tone={user.isAdmin ? "purple" : "blue"}
-                          size="sm"
-                        />
+                        <Blob icon="user" tone={user.isAdmin ? "purple" : "blue"} size="sm" />
                         <Stack gap={1} className="flex-1 min-w-0">
                           <Row gap={2} align="center" className="flex-wrap">
                             <Heading level={3} className="truncate font-bold">
@@ -1214,9 +1210,7 @@ function StudentProgressView({ user, onCancel }: { user: User; onCancel: () => v
                               className="text-sm px-2 py-2 hover:bg-[var(--surface-sunken)] rounded transition-colors flex-wrap gap-2"
                             >
                               <Row gap={4} align="center">
-                                <Text className="w-28 font-medium">
-                                  Soal #{idx + 1}
-                                </Text>
+                                <Text className="w-28 font-medium">Soal #{idx + 1}</Text>
                                 <Badge
                                   tone={
                                     qp.isPassed
@@ -1392,7 +1386,7 @@ export default function AdminUsers() {
 
   return (
     <UserListView
-      onCreate={() => setView("list")}
+      onCreate={() => setView("create")}
       onEditProfile={(u) => {
         setActiveUser(u);
         setView("edit-profile");

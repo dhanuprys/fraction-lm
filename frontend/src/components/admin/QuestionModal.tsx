@@ -57,6 +57,7 @@ export function QuestionModal({
 
   useEffect(() => {
     if (question) {
+      // eslint-disable-next-line react/set-state-in-effect
       setLearningObjective(question.learningObjective || "");
       setQuestionUi(question.questionUi || {});
       setLlmContext(question.questionLlmContext || "");
@@ -65,6 +66,7 @@ export function QuestionModal({
       setEvalStrictness(question.evaluationParameters?.strictness_level || "medium");
       setAnswers(Array.isArray(question.answers) ? question.answers : []);
     } else {
+      // eslint-disable-next-line react/set-state-in-effect
       setLearningObjective("");
       setQuestionUi({});
       setLlmContext("");
@@ -330,12 +332,7 @@ export function QuestionModal({
 
           {/* Action Buttons */}
           <Row justify="between" align="center" className="pt-3 border-t border-[var(--separator)]">
-            <Button
-              type="button"
-              variant="quiet"
-              tone="idle"
-              onClick={() => onOpenChange(false)}
-            >
+            <Button type="button" variant="quiet" tone="idle" onClick={() => onOpenChange(false)}>
               Batal
             </Button>
             <Row gap={2}>

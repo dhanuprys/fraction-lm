@@ -41,6 +41,7 @@ function SubTopicListView({
   // Synchronize state if URL query changes
   useEffect(() => {
     const tid = searchParams.get("topicId");
+    // eslint-disable-next-line react/set-state-in-effect
     if (tid) setSelectedTopicId(tid);
   }, [searchParams]);
 
@@ -64,6 +65,7 @@ function SubTopicListView({
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line react/set-state-in-effect
     loadData();
   }, [loadData]);
 
@@ -87,10 +89,7 @@ function SubTopicListView({
   const filteredSubTopics = useMemo(() => {
     return subTopics
       .filter((st) => {
-        if (
-          searchQuery &&
-          !st.name.toLowerCase().includes(searchQuery.toLowerCase())
-        ) {
+        if (searchQuery && !st.name.toLowerCase().includes(searchQuery.toLowerCase())) {
           return false;
         }
 
@@ -125,7 +124,9 @@ function SubTopicListView({
         items={[
           { label: "Admin", href: "/admin" },
           { label: "Topik", href: "/admin/topics" },
-          ...(currentTopic ? [{ label: currentTopic.name, href: `/admin/subtopics?topicId=${currentTopic.id}` }] : []),
+          ...(currentTopic
+            ? [{ label: currentTopic.name, href: `/admin/subtopics?topicId=${currentTopic.id}` }]
+            : []),
           { label: "Kelola Subtopik" },
         ]}
       />
@@ -137,7 +138,8 @@ function SubTopicListView({
             {currentTopic ? `Subtopik: ${currentTopic.name}` : "Kelola Subtopik"}
           </Heading>
           <Text muted>
-            Klik pada subtopik untuk melihat materi di dalamnya. Klik 'Edit Subtopik' untuk mengubah nama/topik induk.
+            Klik pada subtopik untuk melihat materi di dalamnya. Klik 'Edit Subtopik' untuk mengubah
+            nama/topik induk.
           </Text>
         </Stack>
         <Row gap={3} align="center">
@@ -292,9 +294,7 @@ function SubTopicFormView({
   onCancel: () => void;
   onSave: () => void;
 }) {
-  const [topicId, setTopicId] = useState(
-    subTopic?.topicId?.toString() || initialTopicId || "",
-  );
+  const [topicId, setTopicId] = useState(subTopic?.topicId?.toString() || initialTopicId || "");
   const [name, setName] = useState(subTopic?.name || "");
   const [slug, setSlug] = useState(subTopic?.slug || "");
   const [description, setDescription] = useState(subTopic?.description || "");
@@ -311,7 +311,11 @@ function SubTopicFormView({
       const topics = res.data?.topics || [];
       setAvailableTopics(topics);
       if (!topicId && topics.length > 0) {
-        setTopicId(initialTopicId && topics.some(t => t.id.toString() === initialTopicId) ? initialTopicId : topics[0].id.toString());
+        setTopicId(
+          initialTopicId && topics.some((t) => t.id.toString() === initialTopicId)
+            ? initialTopicId
+            : topics[0].id.toString(),
+        );
       }
     });
   }, [subTopic?.id, topicId, initialTopicId]);
@@ -587,11 +591,7 @@ export default function AdminSubTopics() {
 
   if (view === "edit" && activeSubTopic) {
     return (
-      <SubTopicFormView
-        subTopic={activeSubTopic}
-        onCancel={handleFinish}
-        onSave={handleFinish}
-      />
+      <SubTopicFormView subTopic={activeSubTopic} onCancel={handleFinish} onSave={handleFinish} />
     );
   }
 

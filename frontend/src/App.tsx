@@ -18,6 +18,7 @@ import AdminUsers from "./pages/admin/AdminUsers";
 import AdminMonitor from "./pages/admin/AdminMonitor";
 import { AdminChatLogs } from "./pages/admin/AdminChatLogs";
 import AdminSettings from "./pages/admin/AdminSettings";
+import AdminBackup from "./pages/admin/AdminBackup";
 import { useAuthStore } from "./store/useAuthStore";
 import Dashboard from "./pages/student/Dashboard";
 import { LandingBlock } from "./components/pouf/blocks/landing";
@@ -99,6 +100,7 @@ function App() {
             <Route path="monitor" element={<AdminMonitor />} />
             <Route path="chat-logs" element={<AdminChatLogs />} />
             <Route path="settings" element={<AdminSettings />} />
+            <Route path="backup" element={<AdminBackup />} />
           </Route>
 
           {/* Fallback */}

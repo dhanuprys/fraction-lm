@@ -59,7 +59,15 @@ export function Blob({ icon, tone = "purple", size = "lg", label, className }: B
  * borrow that depth devalues the signal for every real button on screen.
  * flex-none + self-start: never squashed by a long neighbour, and never
  * stretched into a banner by a flex column. A badge hugs its own text. */
-export function Badge({ children, tone = "purple", className }: { children: ReactNode; tone?: Tone | string; className?: string }) {
+export function Badge({
+  children,
+  tone = "purple",
+  className,
+}: {
+  children: ReactNode;
+  tone?: Tone | string;
+  className?: string;
+}) {
   return (
     <span
       className={cx(
@@ -67,7 +75,7 @@ export function Badge({ children, tone = "purple", className }: { children: Reac
         "text-[var(--on-accent)] bg-[var(--tone,var(--purple))] rounded-pill px-3 py-[5px] [box-shadow:none]",
         "flex-none whitespace-nowrap self-start",
         toneClass(tone as Tone),
-        className
+        className,
       )}
     >
       {children}

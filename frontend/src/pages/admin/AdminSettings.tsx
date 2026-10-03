@@ -9,11 +9,7 @@ import { Button } from "@/components/pouf/Button";
 import { Field } from "@/components/pouf/Input";
 import { toast } from "@/components/pouf/toaster";
 
-const AVAILABLE_AI_MODELS = [
-  "deepseek-chat",
-  "deepseek-v4-flash",
-  "deepseek-v4-pro",
-];
+const AVAILABLE_AI_MODELS = ["deepseek-chat", "deepseek-v4-flash", "deepseek-v4-pro"];
 
 export default function AdminSettings() {
   useDocumentTitle("Pengaturan");

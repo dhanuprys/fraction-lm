@@ -93,6 +93,7 @@ export default function AdminMonitor() {
   }, [token, isPaused, enableSoundAlert]);
 
   useEffect(() => {
+    // eslint-disable-next-line react/set-state-in-effect
     const es = handleConnectStream();
     return () => {
       es?.close();
@@ -137,12 +138,7 @@ export default function AdminMonitor() {
 
   return (
     <Stack gap={5}>
-      <Breadcrumbs
-        items={[
-          { label: "Admin", href: "/admin" },
-          { label: "Live Monitor Kelas" },
-        ]}
-      />
+      <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Live Monitor Kelas" }]} />
 
       {/* Header & Connection Indicator */}
       <Row justify="between" align="top" className="flex-wrap gap-4">
@@ -161,9 +157,7 @@ export default function AdminMonitor() {
               Terkoneksi (Live SSE)
             </Badge>
           )}
-          {connectionState === "CONNECTING" && (
-            <Badge tone="idle">Menghubungkan Stream...</Badge>
-          )}
+          {connectionState === "CONNECTING" && <Badge tone="idle">Menghubungkan Stream...</Badge>}
           {connectionState === "DISCONNECTED" && (
             <Row gap={2} align="center">
               <Badge tone="orange">Terputus</Badge>
@@ -216,9 +210,7 @@ export default function AdminMonitor() {
               tone={isPaused ? "orange" : "idle"}
               onClick={() => {
                 setIsPaused(!isPaused);
-                toast.info(
-                  !isPaused ? "Stream monitor dijeda" : "Stream monitor dilanjutkan",
-                );
+                toast.info(!isPaused ? "Stream monitor dijeda" : "Stream monitor dilanjutkan");
               }}
             >
               <Icon name={isPaused ? "play" : "pause"} size="sm" />
@@ -270,9 +262,7 @@ export default function AdminMonitor() {
                       <Row gap={2} align="center">
                         <Blob icon="user" tone="orange" size="sm" />
                         <Stack gap={0}>
-                          <Text className="font-bold text-base">
-                            {alarm.studentName}
-                          </Text>
+                          <Text className="font-bold text-base">{alarm.studentName}</Text>
                           <Text size="xs" muted>
                             ID Siswa: #{alarm.studentId}
                           </Text>
@@ -285,11 +275,16 @@ export default function AdminMonitor() {
 
                     <div className="p-3 rounded-lg bg-[var(--bg)] border border-[color-mix(in_srgb,var(--warn)_30%,transparent)]">
                       <Text size="sm" className="font-semibold text-amber-700 dark:text-amber-300">
-                        Alasan Intervensi: {alarm.reason || "Miskonsepsi berulang pada soal matematika"}
+                        Alasan Intervensi:{" "}
+                        {alarm.reason || "Miskonsepsi berulang pada soal matematika"}
                       </Text>
                     </div>
 
-                    <Row justify="between" align="center" className="pt-2 border-t border-[var(--separator)]">
+                    <Row
+                      justify="between"
+                      align="center"
+                      className="pt-2 border-t border-[var(--separator)]"
+                    >
                       <Button
                         type="button"
                         size="sm"
@@ -341,7 +336,10 @@ export default function AdminMonitor() {
               </Card>
             ) : (
               filteredActivities.map((act, idx) => (
-                <Card key={act.id || idx} className="p-4 border border-[var(--separator)] bg-[var(--surface)]">
+                <Card
+                  key={act.id || idx}
+                  className="p-4 border border-[var(--separator)] bg-[var(--surface)]"
+                >
                   <Stack gap={2}>
                     <Row justify="between" align="center">
                       <Row gap={2} align="center">
@@ -350,9 +348,7 @@ export default function AdminMonitor() {
                           tone={act.sender === "AI" ? "purple" : "blue"}
                           size="sm"
                         />
-                        <Text className="font-bold text-sm">
-                          {act.studentName}
-                        </Text>
+                        <Text className="font-bold text-sm">{act.studentName}</Text>
                       </Row>
                       <Row gap={2} align="center">
                         <Badge tone={act.sender === "AI" ? "purple" : "blue"}>
@@ -365,7 +361,10 @@ export default function AdminMonitor() {
                     </Row>
 
                     {act.message && (
-                      <Text size="sm" className="bg-[var(--surface-sunken)] p-2.5 rounded-lg border border-[var(--separator)] italic">
+                      <Text
+                        size="sm"
+                        className="bg-[var(--surface-sunken)] p-2.5 rounded-lg border border-[var(--separator)] italic"
+                      >
                         "{act.message}"
                       </Text>
                     )}

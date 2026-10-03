@@ -121,14 +121,27 @@ interface InputProps extends Omit<
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
-  { value, onChange, describedBy, type = "text", mono, invalid, label, bare, className, ...nativeProps },
+  {
+    value,
+    onChange,
+    describedBy,
+    type = "text",
+    mono,
+    invalid,
+    label,
+    bare,
+    className,
+    ...nativeProps
+  },
   ref,
 ) {
   return (
     <input
       ref={ref}
       {...nativeProps}
-      className={[inputClasses({ bare: !!bare, invalid: !!invalid, mono }), className].filter(Boolean).join(" ")}
+      className={[inputClasses({ bare: !!bare, invalid: !!invalid, mono }), className]
+        .filter(Boolean)
+        .join(" ")}
       value={value}
       onChange={(e) => onChange(e.target.value)}
       type={type}

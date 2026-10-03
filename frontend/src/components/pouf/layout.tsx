@@ -71,7 +71,13 @@ export function Stack({ children, gap, align, justify, className }: StackProps) 
 const row = cva("pouf-row flex flex-row min-w-0", {
   variants: {
     gap: gapVariant,
-    align: { center: "items-center", top: "items-start", start: "items-start", end: "items-end", stretch: "items-stretch" },
+    align: {
+      center: "items-center",
+      top: "items-start",
+      start: "items-start",
+      end: "items-end",
+      stretch: "items-stretch",
+    },
     justify: {
       start: "",
       center: "justify-center",

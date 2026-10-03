@@ -152,7 +152,7 @@ function QuestionChat({
   // Detect when streaming completes or when tool is called → trigger parent re-fetch
   useEffect(() => {
     let justTriggered = false;
-    
+
     // 1. Instantaneous trigger: Check if AI just invoked the mark_question_passed tool
     const lastMessage = messages[messages.length - 1];
     if (lastMessage?.parts) {

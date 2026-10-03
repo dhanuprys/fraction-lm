@@ -86,7 +86,17 @@ const text = cva("pouf-text [overflow-wrap:anywhere]", {
   defaultVariants: { size: "md", weight: "bold" },
 });
 
-export function Text({ children, size, weight, muted, num, mono, truncate, className, style }: TextProps) {
+export function Text({
+  children,
+  size,
+  weight,
+  muted,
+  num,
+  mono,
+  truncate,
+  className,
+  style,
+}: TextProps) {
   return (
     // dir="auto" by default, and deliberately not opt-in.
     //
@@ -100,7 +110,11 @@ export function Text({ children, size, weight, muted, num, mono, truncate, class
     // character, and digits/punctuation are neutral — so "+2.41%" and "SKU-1420"
     // stay LTR. Opting in per call site would mean remembering it at every one,
     // which is how the bug comes back.
-    <span dir="auto" className={cx(text({ size, weight: weight as any, muted, num, mono, truncate }), className)} style={style}>
+    <span
+      dir="auto"
+      className={cx(text({ size, weight: weight as any, muted, num, mono, truncate }), className)}
+      style={style}
+    >
       {children}
     </span>
   );

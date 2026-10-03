@@ -20,9 +20,7 @@ export function OrderControls({
 }: OrderControlsProps) {
   return (
     <div className="inline-flex items-center gap-1 bg-[var(--surface-sunken)] p-1 rounded-lg border border-[var(--separator)]">
-      <span className="text-xs font-semibold px-1.5 text-[var(--fg-muted)]">
-        Urutan {order}
-      </span>
+      <span className="text-xs font-semibold px-1.5 text-[var(--fg-muted)]">Urutan {order}</span>
       {onMoveUp && (
         <Button
           type="button"

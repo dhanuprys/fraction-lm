@@ -50,6 +50,12 @@ const NAV: NavItem[] = [
     tone: "idle",
   },
   {
+    href: "/admin/backup",
+    label: "Cadangan",
+    icon: "activity",
+    tone: "mint",
+  },
+  {
     href: "/student",
     label: "Halaman Siswa",
     icon: "home",

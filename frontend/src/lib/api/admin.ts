@@ -1,4 +1,4 @@
-import { api } from "../api-client";
+import { api, apiClient } from "../api-client";
 import type { Topic, SubTopic, Material, User, Question } from "@/types/api";
 
 export const adminApi = {
@@ -133,6 +133,40 @@ export const adminApi = {
 
   updateSetting: (data: { key: string; value: string }) =>
     api.put<{ setting: any }>("/admin/settings", data),
+
+  // Backup & Restore
+  getBackupPreview: () =>
+    api.get<{
+      topics: number;
+      subTopics: number;
+      materials: number;
+      questions: number;
+      assets: number;
+      estimatedSizeBytes: number;
+    }>("/admin/backup/preview"),
+
+  downloadBackup: async (): Promise<Blob> => {
+    const response = await apiClient.get("/admin/backup/download", {
+      responseType: "arraybuffer",
+    });
+    return new Blob([response.data], { type: "application/zip" });
+  },
+
+  restoreBackup: (file: File, includeSettings = false) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    return api.post<{
+      topicsCreated: number;
+      subTopicsCreated: number;
+      materialsCreated: number;
+      questionsCreated: number;
+      assetsRestored: number;
+      settingsRestored: boolean;
+    }>(`/admin/backup/restore?includeSettings=${includeSettings}`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+      timeout: 300000, // 5 min timeout for large restores
+    });
+  },
 };
 
 // ── Types for content tree & student level ────────────────────────────────────

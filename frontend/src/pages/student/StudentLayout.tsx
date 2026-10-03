@@ -159,11 +159,7 @@ export default function StudentLayout() {
               <div className="flex items-center gap-2">
                 {user?.isAdmin && (
                   <div className="hidden sm:inline-flex">
-                    <Button
-                      variant="quiet"
-                      tone="info"
-                      onClick={() => navigate("/admin")}
-                    >
+                    <Button variant="quiet" tone="info" onClick={() => navigate("/admin")}>
                       Admin Panel
                     </Button>
                   </div>

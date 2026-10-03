@@ -19,13 +19,7 @@ import { Icon } from "@/components/pouf/Icon";
 import imageCompression from "browser-image-compression";
 import { getAssetUrl } from "@/lib/utils";
 
-function TopicListView({
-  onCreate,
-  onEdit,
-}: {
-  onCreate: () => void;
-  onEdit: (t: Topic) => void;
-}) {
+function TopicListView({ onCreate, onEdit }: { onCreate: () => void; onEdit: (t: Topic) => void }) {
   const navigate = useNavigate();
   const [topics, setTopics] = useState<Topic[]>([]);
   const [subTopics, setSubTopics] = useState<SubTopic[]>([]);
@@ -51,6 +45,7 @@ function TopicListView({
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line react/set-state-in-effect
     loadTopics();
   }, [loadTopics]);
 
@@ -78,7 +73,8 @@ function TopicListView({
         adminApi.updateTopic(t2.id, { order: t1.order }),
       ]);
       toast.success("Urutan topik berhasil diperbarui");
-      loadTopics();
+      // eslint-disable-next-line react/set-state-in-effect
+    loadTopics();
     } catch (err) {
       console.error("Gagal mengubah urutan topik:", err);
       toast.error("Gagal mengubah urutan topik");
@@ -100,7 +96,8 @@ function TopicListView({
           <Eyebrow>Portal Admin</Eyebrow>
           <Heading level={1}>Kelola Topik Kurikulum</Heading>
           <Text muted>
-            Klik pada kartu topik untuk melihat subtopik di dalamnya. Klik tombol 'Edit Topik' untuk mengubah nama/slug topik.
+            Klik pada kartu topik untuk melihat subtopik di dalamnya. Klik tombol 'Edit Topik' untuk
+            mengubah nama/slug topik.
           </Text>
         </Stack>
         <Row gap={3} align="center">
