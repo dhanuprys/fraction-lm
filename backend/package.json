@@ -1,0 +1,33 @@
+{
+	"name": "backend",
+	"type": "module",
+	"scripts": {
+		"dev": "bun run --hot src/index.ts",
+		"check": "tsc --noEmit",
+		"lint": "biome check .",
+		"lint:fix": "biome check --write .",
+		"format": "biome format --write .",
+		"contract:emit": "prisma contract emit",
+		"create-admin": "bun run src/scripts/create-admin.ts",
+		"seed": "bun run src/scripts/seed.ts"
+	},
+	"dependencies": {
+		"@ai-sdk/deepseek": "^3.0.54",
+		"@hono/zod-validator": "^0.9.1",
+		"@prisma/orm-postgres": "^8.0.0-rc.12",
+		"ai": "^7.0.116",
+		"dotenv": "^18.0.4",
+		"hono": "^4.13.9",
+		"temporal-polyfill": "^1.0.5",
+		"zod": "^4.6.5"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.5.14",
+		"@prisma/cli-engine": "0.6.1",
+		"@types/bun": "latest",
+		"@types/node": "^26.6.3",
+		"prisma": "^8.0.0-rc.17",
+		"tsx": "^4.23.15",
+		"typescript": "^7.0.2"
+	}
+}

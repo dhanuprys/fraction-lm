@@ -1,0 +1,35 @@
+{
+	"version": 1,
+	"skills": {
+		"ai-sdk": {
+			"source": "vercel/ai",
+			"sourceType": "github",
+			"skillPath": "skills/use-ai-sdk/SKILL.md",
+			"computedHash": "aee5bf7ecb066b54eae76799610fa8a9be9ff1ca9a000ea92d17c14ec862938b"
+		},
+		"biome": {
+			"source": "bobmatnyc/claude-mpm-skills",
+			"sourceType": "github",
+			"skillPath": "toolchains/javascript/tooling/biome/SKILL.md",
+			"computedHash": "7eeb8068922761916f0b9fdf8a2aba804857ffddd450797d030b8ead90f4f8a5"
+		},
+		"hono": {
+			"source": "honojs/skills",
+			"sourceType": "github",
+			"skillPath": "skills/hono/SKILL.md",
+			"computedHash": "e3f141a41800df815000216a53510fe6f888629471c214706cc05adff27297fb"
+		},
+		"migrate-ai-sdk-v6-to-v7": {
+			"source": "vercel/ai",
+			"sourceType": "github",
+			"skillPath": "skills/migrate-ai-sdk-v6-to-v7/SKILL.md",
+			"computedHash": "92a68769c5a82e6bd35cb8fe13537a80f6341742306d6a23c52afb6c1f7b5ab9"
+		},
+		"review-api-design": {
+			"source": "psenger/ai-agent-skills",
+			"sourceType": "github",
+			"skillPath": "skills/review-api-design/SKILL.md",
+			"computedHash": "5f99bf3f34979c4f51ab4effc7e3f20db5abd18ee31c98a2dda664f089d3416d"
+		}
+	}
+}

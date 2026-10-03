@@ -1,0 +1,68 @@
+/* @import "tailwindcss"; */
+@import "@fontsource-variable/nunito";
+@import "./components/pouf/pouf.css";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+/* @import "@fontsource-variable/geist"; */
+
+/* Custom Cursors */
+body {
+  cursor: url("/images/cursor/default.png"), auto;
+  cursor:
+    -webkit-image-set(
+      url("/images/cursor/default.png") 1x,
+      url("/images/cursor/default@2x.png") 2x
+    ),
+    auto;
+  cursor:
+    image-set(url("/images/cursor/default.png") 1x, url("/images/cursor/default@2x.png") 2x), auto;
+}
+
+/* Interactive elements */
+a,
+button,
+[role="button"],
+input[type="submit"],
+input[type="button"],
+input[type="reset"],
+select,
+label {
+  cursor: url("/images/cursor/pointer.png"), pointer !important;
+  cursor:
+    -webkit-image-set(
+      url("/images/cursor/pointer.png") 1x,
+      url("/images/cursor/pointer@2x.png") 2x
+    ),
+    pointer !important;
+  cursor:
+    image-set(url("/images/cursor/pointer.png") 1x, url("/images/cursor/pointer@2x.png") 2x),
+    pointer !important;
+}
+
+/* Disabled and not-allowed states */
+:disabled,
+[disabled],
+[aria-disabled="true"],
+.cursor-not-allowed {
+  cursor: url("/images/cursor/block.png"), not-allowed !important;
+  cursor:
+    -webkit-image-set(url("/images/cursor/block.png") 1x, url("/images/cursor/block@2x.png") 2x),
+    not-allowed !important;
+  cursor:
+    image-set(url("/images/cursor/block.png") 1x, url("/images/cursor/block@2x.png") 2x),
+    not-allowed !important;
+}
+
+/* Fix inheritance for text fields */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+textarea {
+  cursor: url("/images/cursor/typing.png"), text !important;
+  cursor:
+    -webkit-image-set(url("/images/cursor/typing.png") 1x, url("/images/cursor/typing@2x.png") 2x),
+    text !important;
+  cursor:
+    image-set(url("/images/cursor/typing.png") 1x, url("/images/cursor/typing@2x.png") 2x), text !important;
+}

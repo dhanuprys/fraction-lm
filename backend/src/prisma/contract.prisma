@@ -1,0 +1,207 @@
+// use prisma-8
+// Contract inferred from the live database schema. Edit as needed, then run `prisma contract emit`.
+
+model User {
+  id                 Int       @id @default(autoincrement())
+  username           String    @unique
+  password           String
+  name               String
+  grade              Int?
+  isAdmin            Boolean   @default(false)
+  
+  // Admin-set level checkpoint (nullable = no override, use organic progress only)
+  levelMaterialId    Int?      // The Material ID up to which the student is unlocked
+  levelSetAt         DateTime? // When the admin last changed this
+  levelSetBy         Int?      // Admin user ID who set it
+  
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @default(now())
+
+  chatLogs           ChatLog[]
+  materialProgresses MaterialProgress[]
+  questionProgresses QuestionProgress[]
+  exerciseSessions   ExerciseSession[]
+}
+
+model Topic {
+  id                 Int       @id @default(autoincrement())
+  slug               String    @unique
+  name               String
+  description        String?
+  thumbnail          String?
+  order              Int
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @default(now())
+
+  subTopics          SubTopic[]
+}
+
+model SubTopic {
+  id          Int       @id @default(autoincrement())
+  topicId     Int
+  slug        String    @unique
+  name        String
+  description           String?
+  thumbnail             String?
+  order                 Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now())
+
+  topic       Topic     @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  materials   Material[]
+}
+
+model Material {
+  id                 Int       @id @default(autoincrement())
+  subTopicId         Int
+  title              String
+  order              Int
+  content            Json      // Rich text, multimedia (images/video), etc.
+  materialLlmContext String?   // Plain text explanation of the material's concepts for the LLM
+  difficulty         Int       @default(1) // 1: Easy, 2: Medium, 3: Hard
+  isExerciseOnly     Boolean   @default(false)
+  
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @default(now())
+
+  subTopic           SubTopic  @relation(fields: [subTopicId], references: [id], onDelete: Cascade)
+  questions          Question[]
+  chatLogs           ChatLog[]
+  progresses         MaterialProgress[]
+  exerciseSessions   ExerciseSession[]
+}
+
+model Question {
+  id                   String    @id @default(uuid())
+  materialId           Int
+  learningObjective    String?
+  questionUi           Json?     // <rich text version for student view>
+  questionLlmContext   String?   // The student is asked to divide...
+  evaluationParameters Json?     // JSON object for keywords, misconceptions, strictness_level
+  answers              Json?     // Array of answer objects { answer_ui, answer_llm_context, is_correct }
+  
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @default(now())
+
+  material             Material  @relation(fields: [materialId], references: [id], onDelete: Cascade)
+  chatLogs             ChatLog[]
+  progresses           QuestionProgress[]
+  sessionResults       SessionQuestionResult[]
+}
+
+model ChatLog {
+  id          Int       @id @default(autoincrement())
+  studentId   Int
+  materialId  Int
+  questionId  String?
+  sessionId   String?   // Links to ExerciseSession; nullable for backwards compat
+  message     String
+  sender      String    // "STUDENT" or "AI"
+  isHint      Boolean   @default(false)
+  toolCalled  Boolean   @default(false)
+  usedModel   String?   // The AI model that was used for this turn (e.g. deepseek-v4-flash)
+  audioUrl    String?   // Optional field if STT audio files are kept for teacher review
+  createdAt   DateTime  @default(now())
+
+  student     User      @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  material    Material  @relation(fields: [materialId], references: [id], onDelete: Cascade)
+  question    Question? @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  session     ExerciseSession? @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId, questionId, sender])
+  @@index([usedModel])
+}
+
+model MaterialProgress {
+  id              Int       @id @default(autoincrement())
+  studentId       Int
+  materialId      Int
+  status          String    @default("IN_PROGRESS") // "IN_PROGRESS" | "COMPLETED"
+  totalScore      Int       @default(0)
+  startedAt       DateTime?
+  completedAt     DateTime?
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @default(now())
+
+  student         User      @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  material        Material  @relation(fields: [materialId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, materialId])
+}
+
+model QuestionProgress {
+  id                       Int       @id @default(autoincrement())
+  studentId                Int
+  questionId               String
+  isPassed                 Boolean   @default(false)
+  hintsUsed                Int       @default(0)
+  attemptCount             Int       @default(0)
+  masteryScore             Int       @default(0)
+  teacherFeedback          String?
+  needsTeacherIntervention Boolean   @default(false) // Triggered if student fails multiple times without being shown the answer
+  
+  startedAt                DateTime?
+  completedAt              DateTime?
+  
+  createdAt                DateTime  @default(now())
+  updatedAt                DateTime  @default(now())
+
+  student                  User      @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  question                 Question  @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, questionId])
+}
+
+model ExerciseSession {
+  id          String    @id @default(uuid())
+  studentId   Int
+  materialId  Int
+  attemptNo   Int       @default(1)    // 1st attempt, 2nd attempt, etc.
+  status      String    @default("IN_PROGRESS") // "IN_PROGRESS" | "COMPLETED" | "ABANDONED"
+  totalScore  Int       @default(0)
+
+  // Precomputed LLM context — stored at session creation so chat endpoint doesn't re-fetch
+  llmContext  Json?     // { topicName, subTopicName, materialLlmContext }
+
+  startedAt   DateTime  @default(now())
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now())
+
+  student     User      @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  material    Material  @relation(fields: [materialId], references: [id], onDelete: Cascade)
+  chatLogs    ChatLog[]
+  results     SessionQuestionResult[]
+
+  @@unique([studentId, materialId, attemptNo])
+  @@index([studentId, materialId, status])
+}
+
+model SessionQuestionResult {
+  id            String    @id @default(uuid())
+  sessionId     String
+  questionId    String
+  isPassed      Boolean   @default(false)
+  hintsUsed     Int       @default(0)
+  attemptCount  Int       @default(0)    // Attempts within THIS session only
+  masteryScore  Int       @default(0)
+  feedback      String?                  // AI's congratulatory feedback
+  completedAt   DateTime?
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @default(now())
+
+  session       ExerciseSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  question      Question        @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, questionId])
+}
+
+
+model AppSetting {
+  key       String   @id
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
