@@ -105,6 +105,7 @@ function QuestionChat({
   const [input, setInput] = useState("");
   const chatEndRef = useRef<HTMLDivElement>(null);
   const prevStatusRef = useRef<string>("ready");
+  const triggeredToolMsgIdRef = useRef<string | null>(null);
   const [isHydrated, setIsHydrated] = useState(false);
   const hydrationDoneRef = useRef(false);
 
@@ -150,6 +151,8 @@ function QuestionChat({
 
   // Detect when streaming completes or when tool is called → trigger parent re-fetch
   useEffect(() => {
+    let justTriggered = false;
+    
     // 1. Instantaneous trigger: Check if AI just invoked the mark_question_passed tool
     const lastMessage = messages[messages.length - 1];
     if (lastMessage?.parts) {
@@ -158,14 +161,18 @@ function QuestionChat({
           part.type === "tool-mark_question_passed" ||
           (part.type === "dynamic-tool" && part.toolName === "mark_question_passed"),
       );
-      if (hasPassedTool) {
+      if (hasPassedTool && triggeredToolMsgIdRef.current !== lastMessage.id) {
+        triggeredToolMsgIdRef.current = lastMessage.id;
+        justTriggered = true;
         onStreamComplete();
       }
     }
 
     // 2. Fallback trigger: When streaming completes
     if (prevStatusRef.current !== "ready" && status === "ready" && messages.length > 0) {
-      onStreamComplete();
+      if (!justTriggered) {
+        onStreamComplete();
+      }
     }
     prevStatusRef.current = status;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -538,6 +545,7 @@ export default function ExerciseView() {
     }
   }, [materialId]);
 
+  const isFetchingResultsRef = useRef(false);
   const initDoneRef = useRef(false);
 
   // Initial load
@@ -549,7 +557,8 @@ export default function ExerciseView() {
 
   // Called by QuestionChat when AI finishes streaming — lightweight results check
   const handleStreamComplete = useCallback(async () => {
-    if (!session) return;
+    if (!session || isFetchingResultsRef.current) return;
+    isFetchingResultsRef.current = true;
 
     try {
       const res = await studentApi.getSessionResults(session.id);
@@ -593,6 +602,8 @@ export default function ExerciseView() {
       );
     } catch (err) {
       console.error("Failed to fetch session results:", err);
+    } finally {
+      isFetchingResultsRef.current = false;
     }
   }, [session, currentIdx, passedIds, playSFX]);
 

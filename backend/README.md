@@ -43,7 +43,7 @@ Since this project uses Prisma 8 (`contract.prisma`), the database schema must b
 
 **1. Sync the Database Schema**
 ```bash
-podman compose exec backend bunx prisma db update --schema=src/prisma/contract.prisma
+podman compose exec backend bunx prisma db update
 ```
 
 **2. Seed Initial Data** (Recommended for fresh deployments)
