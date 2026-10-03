@@ -49,6 +49,12 @@ const NAV: NavItem[] = [
     icon: "settings",
     tone: "idle",
   },
+  {
+    href: "/student",
+    label: "Halaman Siswa",
+    icon: "home",
+    tone: "purple",
+  },
 ];
 
 export default function AdminLayout() {

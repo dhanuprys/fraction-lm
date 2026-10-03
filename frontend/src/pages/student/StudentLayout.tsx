@@ -18,6 +18,7 @@ import { TipPopup } from "@/components/ui/TipPopup";
 export default function StudentLayout() {
   const navigate = useNavigate();
   const location = useLocation();
+  const user = useAuthStore((s) => s.user);
   const clearAuth = useAuthStore((s) => s.clearAuth);
   const isMuted = useSoundStore((s) => s.isMuted);
   const toggleMute = useSoundStore((s) => s.toggleMute);
@@ -156,6 +157,17 @@ export default function StudentLayout() {
             ]}
             actions={
               <div className="flex items-center gap-2">
+                {user?.isAdmin && (
+                  <div className="hidden sm:inline-flex">
+                    <Button
+                      variant="quiet"
+                      tone="info"
+                      onClick={() => navigate("/admin")}
+                    >
+                      Admin Panel
+                    </Button>
+                  </div>
+                )}
                 <Button
                   variant="quiet"
                   tone="idle"
