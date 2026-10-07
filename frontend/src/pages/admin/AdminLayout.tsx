@@ -2,7 +2,7 @@ import { Outlet, Link as RouterLink, useLocation } from "react-router-dom";
 import { Shell, Sidebar, Stack } from "@/components/pouf/layout";
 import { BottomNav, type NavItem } from "@/components/pouf/BottomNav";
 import { NavLink, type LinkComponent } from "@/components/pouf/NavLink";
-import logoRectangle from "@/assets/images/bg/logo-rectangle.png";
+import logoRectangle from "@/assets/images/bg/logo-rectangle.webp";
 
 const RouterLinkAdapter: LinkComponent = ({
   href,

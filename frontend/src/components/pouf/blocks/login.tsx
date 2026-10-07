@@ -5,7 +5,7 @@ import { Stack, Row } from "../layout";
 import { Heading, Text } from "../text";
 import { Field, Input } from "../Input";
 import { Button } from "../Button";
-import logoRectangle from "@/assets/images/bg/logo-rectangle.png";
+import logoRectangle from "@/assets/images/bg/logo-rectangle.webp";
 
 export interface LoginValues {
   username: string;

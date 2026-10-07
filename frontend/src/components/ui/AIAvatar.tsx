@@ -1,9 +1,9 @@
-import defaultImage from "@/assets/images/ai-status/default.png";
-import happyImage from "@/assets/images/ai-status/happy.png";
-import loadingImage from "@/assets/images/ai-status/loading.png";
-import standbyImage from "@/assets/images/ai-status/standby.png";
-import thinkingImage from "@/assets/images/ai-status/thinking.png";
-import ideaImage from "@/assets/images/ai-status/idea.png";
+import defaultImage from "@/assets/images/ai-status/default.webp";
+import happyImage from "@/assets/images/ai-status/happy.webp";
+import loadingImage from "@/assets/images/ai-status/loading.webp";
+import standbyImage from "@/assets/images/ai-status/standby.webp";
+import thinkingImage from "@/assets/images/ai-status/thinking.webp";
+import ideaImage from "@/assets/images/ai-status/idea.webp";
 import { clsx } from "clsx";
 
 interface AIAvatarProps {

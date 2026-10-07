@@ -4,7 +4,7 @@ import { LoginBlock, type LoginValues } from "@/components/pouf/blocks/login";
 import { api } from "@/lib/api-client";
 import { useAuthStore } from "@/store/useAuthStore";
 import { type User } from "@/types/api";
-import loginBg from "@/assets/images/bg/login.png";
+import loginBg from "@/assets/images/bg/login.webp";
 
 export default function Login() {
   const navigate = useNavigate();

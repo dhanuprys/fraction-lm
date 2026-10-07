@@ -8,11 +8,11 @@ import { useAuthStore } from "@/store/useAuthStore";
 import { Confirm } from "@/components/pouf/controls";
 import { useSoundStore } from "@/store/useSoundStore";
 import { Volume2, VolumeX } from "lucide-react";
-import dashboardBg from "@/assets/images/bg/dashboard.png";
-import topicBg from "@/assets/images/bg/topic.png";
-import exerciseBg from "@/assets/images/bg/exercise.png";
-import splashBg from "@/assets/images/bg/splash.png";
-import logoRectangle from "@/assets/images/bg/logo-rectangle.png";
+import dashboardBg from "@/assets/images/bg/dashboard.webp";
+import topicBg from "@/assets/images/bg/topic.webp";
+import exerciseBg from "@/assets/images/bg/exercise.webp";
+import splashBg from "@/assets/images/bg/splash.webp";
+import logoRectangle from "@/assets/images/bg/logo-rectangle.webp";
 import { TipPopup } from "@/components/ui/TipPopup";
 
 export default function StudentLayout() {

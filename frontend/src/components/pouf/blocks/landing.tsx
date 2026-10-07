@@ -8,7 +8,7 @@ import { Heading, Text, Eyebrow, Highlight } from "../text";
 import { Button } from "../Button";
 import { Blob, Badge } from "../media";
 import { useAuthStore } from "@/store/useAuthStore";
-import logoRectangle from "@/assets/images/bg/logo-rectangle.png";
+import logoRectangle from "@/assets/images/bg/logo-rectangle.webp";
 
 const brand = (
   <div className="flex items-center">
