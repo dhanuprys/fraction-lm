@@ -74,7 +74,7 @@ function TopicListView({ onCreate, onEdit }: { onCreate: () => void; onEdit: (t:
       ]);
       toast.success("Urutan topik berhasil diperbarui");
       // eslint-disable-next-line react/set-state-in-effect
-    loadTopics();
+      loadTopics();
     } catch (err) {
       console.error("Gagal mengubah urutan topik:", err);
       toast.error("Gagal mengubah urutan topik");

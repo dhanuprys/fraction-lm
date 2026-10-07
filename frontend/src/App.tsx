@@ -9,6 +9,7 @@ import TopicDetail from "./pages/student/TopicDetail";
 import SubTopicDetail from "./pages/student/SubTopicDetail";
 import MaterialView from "./pages/student/MaterialView";
 import ExerciseView from "./pages/student/ExerciseView";
+import StudentQuizLayout from "./pages/student/StudentQuizLayout";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminTopics from "./pages/admin/AdminTopics";
@@ -77,6 +78,17 @@ function App() {
             <Route path="topics/:topicSlug" element={<TopicDetail />} />
             <Route path="topics/:topicSlug/:subTopicSlug" element={<SubTopicDetail />} />
             <Route path="topics/:topicSlug/:subTopicSlug/:materialId" element={<MaterialView />} />
+          </Route>
+
+          {/* Student Quiz Routes */}
+          <Route
+            path="/student"
+            element={
+              <ProtectedRoute>
+                <StudentQuizLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route
               path="topics/:topicSlug/:subTopicSlug/:materialId/exercise"
               element={<ExerciseView />}
