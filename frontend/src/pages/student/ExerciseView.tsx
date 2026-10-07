@@ -1,11 +1,7 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { studentApi, type SessionQuestion, type ExerciseSessionData } from "@/lib/api/student";
-import { Heading, Text, Eyebrow } from "@/components/pouf/text";
-import { Card } from "@/components/pouf/surface";
-import { Stack, Row } from "@/components/pouf/layout";
 import { Button } from "@/components/pouf/Button";
-import { Badge, Blob } from "@/components/pouf/media";
 import { renderTipTapNode } from "@/components/TipTapRenderer";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
@@ -15,7 +11,6 @@ import { useBGM } from "@/hooks/useBGM";
 import { useSoundStore } from "@/store/useSoundStore";
 import { BGM } from "@/config/sound.config";
 import { config } from "@/config";
-import { inputClasses } from "@/components/pouf/Input";
 import { Icon } from "@/components/pouf/Icon";
 import { AIAvatar } from "@/components/ui/AIAvatar";
 import TextareaAutosize from "react-textarea-autosize";
@@ -25,9 +20,80 @@ import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
-import { motion } from "framer-motion";
+
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
+import logoRectangle from "@/assets/images/bg/logo-rectangle.png";
+import exerciseBg from "@/assets/images/bg/exercise.png";
+
+// ─── Constants & helpers ────────────────────────────────────────────────────────
+
+// One-tap messages so younger students don't have to type to get help.
+// They are sent through the normal chat flow, so they appear in the thread
+// as regular student messages.
+const QUICK_REPLIES = [
+  {
+    emoji: "💡",
+    label: "Beri aku petunjuk",
+    text: "Bisakah kamu beri aku petunjuk?",
+  },
+  {
+    emoji: "🔁",
+    label: "Jelaskan lagi",
+    text: "Bisakah kamu jelaskan lagi dengan cara yang lebih mudah?",
+  },
+  {
+    emoji: "🤔",
+    label: "Aku bingung",
+    text: "Aku bingung, bisa bantu aku mulai dari mana?",
+  },
+];
+
+// Learning objectives are authored in the third person for teachers
+// ("Siswa dapat membaca ..."). Shown to the student, that reads like a
+// report card, so address the student directly instead.
+// (Best long-term fix: author a student-facing objective in the content.)
+function toStudentVoice(text: string): string {
+  return text.replace(
+    /^siswa\s+(dapat|mampu|bisa)\b/i,
+    (_match, verb: string) => `Kamu ${verb.toLowerCase()}`,
+  );
+}
+
+// Returns true only for the specific message that actually carries the
+// "mark_question_passed" tool result. Tying the avatar's "happy" mood to this
+// structured signal (instead of scanning text for words like "tepat") avoids
+// a smiling mascot next to corrective feedback such as "belum tepat".
+function hasPassedToolPart(message: any): boolean {
+  if (!message?.parts) return false;
+  return message.parts.some(
+    (part: any) =>
+      part.type === "tool-mark_question_passed" ||
+      (part.type === "dynamic-tool" && part.toolName === "mark_question_passed"),
+  );
+}
+
+// Encouragement shown on the results screen, indexed by star count (0-3).
+// The 2-star emoji is deliberately not a star — the star row right below it
+// would otherwise repeat the same symbol.
+const RESULT_COPY = [
+  {
+    emoji: "📚",
+    message: "Jangan menyerah! Ulangi pelan-pelan, kamu pasti bisa.",
+  },
+  { emoji: "👍", message: "Lumayan! Yuk coba lagi supaya makin paham." },
+  { emoji: "🎉", message: "Bagus sekali! Sedikit lagi menuju bintang penuh." },
+  { emoji: "🏆", message: "Sempurna! Kamu sudah menguasai materi ini." },
+];
+
+function usePrefersReducedMotion(): boolean {
+  return useMemo(
+    () =>
+      typeof window !== "undefined" &&
+      !!window.matchMedia?.("(prefers-reduced-motion: reduce)").matches,
+    [],
+  );
+}
 
 // ─── Progress Stepper ──────────────────────────────────────────────────────────
 function ProgressStepper({
@@ -42,21 +108,32 @@ function ProgressStepper({
   onSelect: (idx: number) => void;
 }) {
   return (
-    <div className="flex items-center justify-center gap-1">
+    <div
+      className="flex items-center gap-1.5 overflow-x-auto py-1.5 px-1.5 -mx-1.5"
+      role="list"
+      aria-label="Daftar soal"
+    >
       {questions.map((q, i) => {
         const isPassed = passedIds.has(q.id);
         const isCurrent = i === currentIdx;
         return (
-          <div key={q.id} className="flex items-center gap-1">
+          <div key={q.id} className="flex items-center gap-1.5" role="listitem">
             <button
               onClick={() => onSelect(i)}
+              aria-label={`Soal ${i + 1}${isPassed ? ", selesai" : ""}`}
+              aria-current={isCurrent ? "step" : undefined}
               className={clsx(
-                "w-10 h-10 rounded-full font-bold text-sm flex items-center justify-center transition-all duration-300 cursor-pointer",
+                "w-8 h-8 rounded-full font-bold text-xs flex items-center justify-center transition-all duration-200 cursor-pointer flex-shrink-0 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-purple-500/30",
                 isPassed
-                  ? "bg-[var(--mint)] text-[var(--on-accent)] shadow-sm"
+                  ? "bg-emerald-500 text-white shadow-xs hover:bg-emerald-600"
                   : isCurrent
-                    ? "bg-[var(--purple)] text-[var(--on-accent)] ring-4 ring-[var(--purple)]/30 scale-110"
-                    : "bg-surface text-[var(--muted)] border border-[var(--separator)] hover:border-[var(--purple)] hover:text-[var(--purple)]",
+                    ? "bg-purple-600 text-white shadow-sm"
+                    : "bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700 border border-slate-200/80",
+                // The current question keeps a visible ring even when it is
+                // already passed — otherwise two green circles look identical
+                // and the student can't tell where they are.
+                isCurrent &&
+                  clsx("ring-4 scale-105", isPassed ? "ring-emerald-500/25" : "ring-purple-500/20"),
               )}
               title={`Soal ${i + 1}${isPassed ? " (Selesai)" : ""}`}
             >
@@ -65,8 +142,8 @@ function ProgressStepper({
             {i < questions.length - 1 && (
               <div
                 className={clsx(
-                  "w-6 h-0.5 rounded transition-colors",
-                  isPassed ? "bg-[var(--mint)]" : "bg-[var(--separator)]",
+                  "w-4 h-0.5 rounded-full transition-colors flex-shrink-0",
+                  isPassed ? "bg-emerald-400" : "bg-slate-200",
                 )}
               />
             )}
@@ -80,11 +157,56 @@ function ProgressStepper({
 // ─── Chat Skeleton ──────────────────────────────────────────────────────────────
 function ChatSkeleton() {
   return (
-    <div className="flex flex-col h-full p-4 gap-3 animate-pulse">
-      <div className="h-10 bg-surface rounded-full w-3/4" />
-      <div className="h-10 bg-surface rounded-full w-1/2 self-end" />
-      <div className="h-10 bg-surface rounded-full w-2/3" />
-      <div className="h-10 bg-surface rounded-full w-1/3 self-end" />
+    <div className="flex flex-col h-full p-6 gap-4 animate-pulse bg-slate-50/50">
+      <div className="h-12 bg-white border border-slate-200/60 rounded-2xl w-3/4 shadow-2xs" />
+      <div className="h-10 bg-purple-100/60 rounded-2xl w-1/2 self-end shadow-2xs" />
+      <div className="h-14 bg-white border border-slate-200/60 rounded-2xl w-2/3 shadow-2xs" />
+      <div className="h-10 bg-purple-100/60 rounded-2xl w-1/3 self-end shadow-2xs" />
+    </div>
+  );
+}
+
+// ─── Completed Dock ─────────────────────────────────────────────────────────────
+// Replaces the input once a question is passed. The "what next?" action lives
+// here — directly under the AI's closing message, where the student is already
+// looking — instead of in a modal that blurs the question the AI just
+// explained.
+function CompletedDock({
+  allPassed,
+  isStreaming,
+  onNext,
+  onComplete,
+}: {
+  allPassed: boolean;
+  isStreaming: boolean;
+  onNext: () => void;
+  onComplete: () => void;
+}) {
+  return (
+    <div className="flex flex-col sm:flex-row sm:items-center gap-3 rounded-2xl border border-emerald-200/80 bg-gradient-to-r from-emerald-50 to-teal-50/60 px-4 py-3.5 animate-in fade-in slide-in-from-bottom-2 duration-300">
+      <div className="flex items-center gap-3 flex-1 min-w-0">
+        <div className="w-11 h-11 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xl flex-shrink-0 shadow-xs animate-in zoom-in-50 duration-300">
+          <span aria-hidden="true">🎉</span>
+        </div>
+        <div className="min-w-0">
+          <p className="text-[15px] font-bold text-emerald-900 m-0 leading-tight">Jawaban benar!</p>
+          <p className="text-xs text-emerald-700 m-0 mt-0.5 leading-snug">
+            {allPassed
+              ? "Semua soal sudah selesai. Saatnya lihat hasilmu!"
+              : "Kerja bagus! Lanjut ke soal berikutnya."}
+          </p>
+        </div>
+      </div>
+      <div className="sm:flex-shrink-0">
+        <Button
+          tone="purple"
+          size="lg"
+          disabled={isStreaming}
+          onClick={allPassed ? onComplete : onNext}
+        >
+          {allPassed ? "🏆 Lihat Hasil" : "Soal Berikutnya →"}
+        </Button>
+      </div>
     </div>
   );
 }
@@ -94,12 +216,18 @@ function QuestionChat({
   question,
   sessionId,
   isPassed,
+  allPassed,
   onStreamComplete,
+  onNext,
+  onComplete,
 }: {
   question: SessionQuestion;
   sessionId: string;
   isPassed: boolean;
+  allPassed: boolean;
   onStreamComplete: () => void;
+  onNext: () => void;
+  onComplete: () => void;
 }) {
   const token = useAuthStore((s) => s.token);
   const [input, setInput] = useState("");
@@ -124,7 +252,7 @@ function QuestionChat({
   });
   const isLoading = status === "streaming" || status === "submitted";
 
-  // Lazy chat hydration — load previous messages from server on mount
+  // Lazy chat hydration
   useEffect(() => {
     if (hydrationDoneRef.current) return;
     hydrationDoneRef.current = true;
@@ -149,43 +277,30 @@ function QuestionChat({
       });
   }, [sessionId, question.id, setMessages]);
 
-  // Detect when streaming completes or when tool is called → trigger parent re-fetch
   useEffect(() => {
     let justTriggered = false;
-
-    // 1. Instantaneous trigger: Check if AI just invoked the mark_question_passed tool
     const lastMessage = messages[messages.length - 1];
-    if (lastMessage?.parts) {
-      const hasPassedTool = lastMessage.parts.some(
-        (part: any) =>
-          part.type === "tool-mark_question_passed" ||
-          (part.type === "dynamic-tool" && part.toolName === "mark_question_passed"),
-      );
-      if (hasPassedTool && triggeredToolMsgIdRef.current !== lastMessage.id) {
+    if (lastMessage && hasPassedToolPart(lastMessage)) {
+      if (triggeredToolMsgIdRef.current !== lastMessage.id) {
         triggeredToolMsgIdRef.current = lastMessage.id;
         justTriggered = true;
         onStreamComplete();
       }
     }
-
-    // 2. Fallback trigger: When streaming completes
     if (prevStatusRef.current !== "ready" && status === "ready" && messages.length > 0) {
-      if (!justTriggered) {
-        onStreamComplete();
-      }
+      if (!justTriggered) onStreamComplete();
     }
     prevStatusRef.current = status;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status, messages]);
 
-  // Auto-scroll to bottom on new messages
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, isLoading]);
+  }, [messages, isLoading, isPassed]);
 
   const handleSubmit = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    if (!input.trim()) return;
+    if (!input.trim() || isLoading) return;
     sendMessage({ text: input });
     setInput("");
   };
@@ -197,159 +312,235 @@ function QuestionChat({
     }
   };
 
-  // Show skeleton while hydrating chat history
-  if (!isHydrated) {
-    return <ChatSkeleton />;
-  }
+  const handleQuickReply = (text: string) => {
+    if (isLoading) return;
+    sendMessage({ text });
+  };
+
+  if (!isHydrated) return <ChatSkeleton />;
 
   return (
-    <div className="flex flex-col h-full">
-      {/* Header */}
-      <div className="p-(--s4) [border-bottom:1px_solid_var(--separator)] flex-none">
-        <Row align="center" gap={2}>
-          <AIAvatar state={isLoading ? "thinking" : isPassed ? "happy" : "standby"} size="sm" />
-          <Heading level={3}>METADIA AI</Heading>
-        </Row>
-      </div>
-
-      {/* Messages */}
-      <div className="flex-1 p-(--s4) overflow-y-auto flex flex-col gap-(--s3)">
-        {/* Welcome message */}
-        <div className="flex gap-2 items-start max-w-full">
-          <AIAvatar state="default" size="sm" />
-          <div className="max-w-[85%] px-4 py-3 rounded-[20px] rounded-tl-sm font-bold text-sm bg-surface text-ink [box-shadow:var(--pouf-row)]">
-            Halo! Saya METADIA AI, asisten belajarmu. 😊 Silakan kerjakan soalnya, lalu ketik
-            jawabanmu di sini. Jika ada kesulitan, tanyakan saja padaku!
+    <div className="flex flex-col h-full min-h-0 bg-slate-50/60">
+      {/* ── Chat Header ── */}
+      <div className="px-6 py-3.5 border-b border-slate-200/80 flex items-center justify-between bg-white flex-none shadow-2xs">
+        <div className="flex items-center gap-3">
+          <div className="relative">
+            <AIAvatar state={isLoading ? "thinking" : isPassed ? "happy" : "standby"} size="sm" />
+            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-white rounded-full" />
+          </div>
+          <div>
+            <h3 className="font-bold text-slate-800 text-sm m-0 leading-tight">METADIA AI</h3>
+            <p className="text-[11px] text-slate-500 m-0">Asisten Belajar Pecahan</p>
           </div>
         </div>
 
-        {messages
-          .filter((m: any) => {
-            const textContent =
-              m.content || m.parts?.map((p: any) => (p.type === "text" ? p.text : "")).join("");
-            return textContent && textContent.trim().length > 0;
-          })
-          .map((m: any, index: number, array: any[]) => {
-            const isLastMessage = index === array.length - 1;
-            const textContent =
-              m.content ||
-              m.parts?.map((part: any) => (part.type === "text" ? part.text : "")).join("") ||
-              "";
-
-            const lower = textContent.toLowerCase();
-            const positiveWords = ["benar", "tepat", "bagus", "hebat", "selamat", "betul"];
-            const aiState =
-              (isLastMessage && isPassed) || positiveWords.some((w) => lower.includes(w))
-                ? "happy"
-                : "default";
-
-            return (
-              <div
-                key={m.id}
-                className={clsx(
-                  "flex gap-2 max-w-full",
-                  m.role === "user" ? "justify-end" : "justify-start",
-                )}
-              >
-                {m.role !== "user" && <AIAvatar state={aiState} size="sm" />}
-                <div
-                  className={clsx(
-                    "max-w-[85%] px-4 py-3 rounded-[20px] font-medium text-sm",
-                    m.role === "user"
-                      ? "bg-purple text-[var(--on-accent)] [box-shadow:var(--pouf-control)] rounded-tr-sm"
-                      : "bg-surface text-ink [box-shadow:var(--pouf-row)] rounded-tl-sm",
-                  )}
-                >
-                  <div className="flex flex-col gap-2 [&>p]:m-0 [&>p]:leading-relaxed [&>ul]:m-0 [&>ul]:list-disc [&>ul]:pl-4 [&>ol]:m-0 [&>ol]:list-decimal [&>ol]:pl-4">
-                    <ReactMarkdown
-                      remarkPlugins={[remarkGfm, remarkMath]}
-                      rehypePlugins={[rehypeKatex]}
-                    >
-                      {textContent}
-                    </ReactMarkdown>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-
-        {/* Typing indicator */}
-        {isLoading && (
-          <div className="flex gap-2 items-start max-w-full">
-            <AIAvatar state="loading" size="sm" />
-            <div className="max-w-[85%] px-4 py-3 rounded-[20px] rounded-tl-sm text-sm bg-surface text-ink [box-shadow:var(--pouf-row)]">
-              <div className="flex gap-1.5 items-center h-5">
-                <span className="w-2 h-2 rounded-full bg-[var(--purple)] animate-bounce [animation-delay:0ms]" />
-                <span className="w-2 h-2 rounded-full bg-[var(--purple)] animate-bounce [animation-delay:150ms]" />
-                <span className="w-2 h-2 rounded-full bg-[var(--purple)] animate-bounce [animation-delay:300ms]" />
-              </div>
-            </div>
-          </div>
-        )}
-        <div ref={chatEndRef} />
+        <div className="flex items-center gap-2">
+          {isPassed ? (
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/70">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              Selesai
+            </span>
+          ) : (
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-purple-50 text-purple-700 border border-purple-200/70">
+              <span className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse" />
+              Aktif
+            </span>
+          )}
+        </div>
       </div>
 
-      {/* Input */}
-      <div className="p-(--s4) [border-top:1px_solid_var(--separator)] flex-none">
-        <form onSubmit={handleSubmit} className="w-full">
-          <Row gap={2} align="end" wrap={false}>
-            <div className="flex-1 min-w-0">
-              <TextareaAutosize
-                className={clsx(
-                  inputClasses({ bare: false, invalid: false, mono: false }),
-                  "resize-none min-h-[52px] max-h-[150px] w-full block",
-                )}
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-                minRows={1}
-                maxRows={5}
-                placeholder={
-                  isPassed ? "Soal ini sudah dijawab benar!" : "Ketik jawaban atau pertanyaanmu..."
-                }
-                disabled={isLoading || isPassed}
-              />
+      {/* ── Messages Container ──
+          The inner wrapper shares max-w-3xl with the input dock so messages
+          and input stay aligned on wide screens. */}
+      <div
+        className="flex-1 min-h-0 px-5 py-6 lg:px-6 overflow-y-auto"
+        role="log"
+        aria-live="polite"
+        aria-label="Percakapan dengan METADIA AI"
+      >
+        <div className="w-full max-w-3xl mx-auto space-y-4">
+          {/* Initial Welcome Bubble */}
+          <div className="flex gap-3 items-start max-w-full">
+            <AIAvatar state="default" size="sm" />
+            <div className="max-w-[85%] px-4 py-3 rounded-2xl rounded-tl-xs text-[15px] font-medium bg-white border border-slate-200/80 text-slate-700 shadow-2xs leading-relaxed">
+              Halo! Saya <span className="font-bold text-purple-700">METADIA AI</span>, asisten
+              belajarmu. 👋 Silakan kerjakan soalnya, lalu ketik jawabanmu di sini. Jika ada
+              kesulitan, tanyakan saja padaku!
             </div>
-            <Button
-              tone="purple"
-              disabled={isLoading || isPassed || !input.trim()}
-              type="submit"
-              label="Kirim"
-            >
-              <Icon name="send" size="sm" />
-            </Button>
-          </Row>
-        </form>
+          </div>
+
+          {messages
+            .filter((m: any) => {
+              const textContent =
+                m.content || m.parts?.map((p: any) => (p.type === "text" ? p.text : "")).join("");
+              return textContent && textContent.trim().length > 0;
+            })
+            .map((m: any) => {
+              const aiState = hasPassedToolPart(m) ? "happy" : "default";
+              const textContent =
+                m.content ||
+                m.parts?.map((part: any) => (part.type === "text" ? part.text : "")).join("") ||
+                "";
+
+              return (
+                <div
+                  key={m.id}
+                  className={clsx(
+                    "flex gap-3 max-w-full",
+                    m.role === "user" ? "justify-end" : "justify-start",
+                  )}
+                >
+                  {m.role !== "user" && <AIAvatar state={aiState} size="sm" />}
+                  <div
+                    className={clsx(
+                      "max-w-[85%] px-4.5 py-3.5 rounded-2xl text-[15px] leading-relaxed break-words",
+                      // Explicit weights: AI text is medium so **bold** inside
+                      // a reply actually stands out; the student's own bubble
+                      // is slightly heavier on the purple background.
+                      m.role === "user"
+                        ? "bg-purple-600 text-white font-semibold rounded-tr-xs shadow-xs"
+                        : "bg-white border border-slate-200/90 text-slate-800 font-medium rounded-tl-xs shadow-2xs",
+                    )}
+                  >
+                    <div className="flex flex-col gap-2.5 [&>p]:m-0 [&>ul]:m-0 [&>ul]:list-disc [&>ul]:pl-5 [&>ol]:m-0 [&>ol]:list-decimal [&>ol]:pl-5 [&_strong]:font-bold [&_pre]:bg-slate-800 [&_pre]:text-white [&_pre]:p-3 [&_pre]:rounded-lg [&_code]:bg-purple-50 [&_code]:text-purple-700 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded-md font-sans">
+                      <ReactMarkdown
+                        remarkPlugins={[remarkGfm, remarkMath]}
+                        rehypePlugins={[rehypeKatex]}
+                      >
+                        {textContent}
+                      </ReactMarkdown>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+
+          {isLoading && (
+            <div className="flex gap-3 items-start max-w-full animate-in fade-in duration-200">
+              <AIAvatar state="thinking" size="sm" />
+              <div className="max-w-[85%] px-4 py-3 rounded-2xl rounded-tl-xs text-sm bg-white border border-slate-200/80 shadow-2xs">
+                <div className="flex gap-1.5 items-center h-5">
+                  <span className="w-2 h-2 rounded-full bg-purple-500 animate-bounce [animation-delay:0ms]" />
+                  <span className="w-2 h-2 rounded-full bg-purple-500 animate-bounce [animation-delay:150ms]" />
+                  <span className="w-2 h-2 rounded-full bg-purple-500 animate-bounce [animation-delay:300ms]" />
+                </div>
+              </div>
+            </div>
+          )}
+          <div ref={chatEndRef} />
+        </div>
+      </div>
+
+      {/* ── Chat Input Dock ── */}
+      <div className="px-4 pt-3 pb-4 border-t border-slate-200/80 bg-white flex-none">
+        <div className="w-full max-w-3xl mx-auto">
+          {isPassed ? (
+            <CompletedDock
+              allPassed={allPassed}
+              isStreaming={isLoading}
+              onNext={onNext}
+              onComplete={onComplete}
+            />
+          ) : (
+            <form onSubmit={handleSubmit} className="flex flex-col gap-2.5">
+              {/* Quick replies */}
+              <div
+                className="flex gap-2 overflow-x-auto pb-0.5"
+                role="group"
+                aria-label="Pertanyaan cepat"
+              >
+                {QUICK_REPLIES.map((q) => (
+                  <button
+                    key={q.label}
+                    type="button"
+                    disabled={isLoading}
+                    onClick={() => handleQuickReply(q.text)}
+                    className="flex-shrink-0 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[13px] font-semibold text-purple-700 bg-purple-50 border border-purple-200/70 hover:bg-purple-100 hover:border-purple-300 active:scale-95 transition cursor-pointer disabled:opacity-50 disabled:pointer-events-none focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-purple-500/20"
+                  >
+                    <span aria-hidden="true">{q.emoji}</span>
+                    {q.label}
+                  </button>
+                ))}
+              </div>
+
+              <div className="relative flex items-center bg-slate-50 border border-slate-200/90 focus-within:bg-white focus-within:border-purple-500 focus-within:ring-4 focus-within:ring-purple-500/10 rounded-2xl p-2 transition-all shadow-2xs">
+                <TextareaAutosize
+                  className="flex-1 bg-transparent border-0 focus:outline-none focus:ring-0 text-slate-800 placeholder-slate-400 text-[15px] min-h-[44px] max-h-[140px] py-2 px-3 resize-none font-sans"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  minRows={1}
+                  maxRows={5}
+                  placeholder="Ketik jawaban atau pertanyaanmu di sini..."
+                  aria-label="Jawaban atau pertanyaanmu"
+                  disabled={isLoading}
+                />
+                <div className="flex items-center gap-2 pl-2">
+                  <Button
+                    tone="purple"
+                    size="sm"
+                    disabled={isLoading || !input.trim()}
+                    type="submit"
+                  >
+                    <Icon name="send" size="sm" /> Kirim
+                  </Button>
+                </div>
+              </div>
+
+              {/* Keyboard hint is irrelevant on touch devices, so it's desktop-only */}
+              <p className="hidden md:block text-xs text-slate-400 text-center m-0">
+                Tekan{" "}
+                <kbd className="px-1 py-0.5 bg-slate-100 border border-slate-200 rounded text-[10px] text-slate-500">
+                  Enter ↵
+                </kbd>{" "}
+                untuk mengirim •{" "}
+                <kbd className="px-1 py-0.5 bg-slate-100 border border-slate-200 rounded text-[10px] text-slate-500">
+                  Shift + Enter
+                </kbd>{" "}
+                untuk baris baru
+              </p>
+            </form>
+          )}
+        </div>
       </div>
     </div>
   );
 }
 
-// ─── Success Celebration Overlay ────────────────────────────────────────────────
-function SuccessCelebration({
-  isLastQuestion,
-  onNext,
-  onComplete,
-}: {
-  isLastQuestion: boolean;
-  onNext: () => void;
-  onComplete: () => void;
-}) {
-  return (
-    <div className="absolute inset-0 flex items-center justify-center bg-white/80 backdrop-blur-sm rounded-[var(--card-radius)] z-10 animate-in fade-in duration-300">
-      <Stack gap={4} className="text-center items-center p-8">
-        <div className="text-6xl animate-bounce">🎉</div>
-        <Heading level={2}>Jawaban Benar!</Heading>
-        <Text muted>Kamu berhasil menjawab soal ini dengan benar. Hebat!</Text>
-        <Button tone="mint" size="lg" onClick={isLastQuestion ? onComplete : onNext}>
-          {isLastQuestion ? "🏆 Lihat Hasil Latihan" : "Lanjut ke Soal Berikutnya →"}
-        </Button>
-      </Stack>
-    </div>
-  );
+// ─── Animated Counter ───────────────────────────────────────────────────────────
+function AnimatedCounter({ value }: { value: number }) {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    let startTime: number | null = null;
+    const duration = 1500;
+    const startValue = 0;
+
+    const animate = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const progress = timestamp - startTime;
+      const percentage = Math.min(progress / duration, 1);
+
+      // easeOutQuart
+      const easeOut = 1 - Math.pow(1 - percentage, 4);
+      setCount(Math.floor(startValue + (value - startValue) * easeOut));
+
+      if (progress < duration) {
+        requestAnimationFrame(animate);
+      } else {
+        setCount(value);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }, [value]);
+
+  return <>{count}</>;
 }
 
 // ─── Completion Screen ──────────────────────────────────────────────────────────
+// Two columns on large screens (summary | breakdown + actions) so everything,
+// including the buttons, fits without scrolling; stacked on small screens.
 function CompletionScreen({
   materialTitle,
   questions,
@@ -369,110 +560,230 @@ function CompletionScreen({
     sessionTotalScore || questions.reduce((acc, q) => acc + (q.masteryScore || 0), 0);
   const avgScore = questions.length > 0 ? totalScore / questions.length : 0;
   const stars = avgScore >= 90 ? 3 : avgScore >= 60 ? 2 : avgScore >= 30 ? 1 : 0;
+  const passedCount = questions.filter((q) => q.isPassed).length;
+  const copy = RESULT_COPY[stars];
+  // Below full stars the most useful next step is another try; with full
+  // stars it's moving on. The primary button follows that.
+  const retakeIsPrimary = stars < 3;
   const { width, height } = useWindowSize();
+  const prefersReducedMotion = usePrefersReducedMotion();
+
+  const masteredObjectives = Array.from(
+    new Set(
+      questions
+        .filter((q) => q.isPassed && q.learningObjective)
+        .map((q) => toStudentVoice(q.learningObjective!)),
+    ),
+  );
 
   return (
-    <div className="flex flex-col gap-8">
-      <div className="fixed inset-0 z-50 pointer-events-none">
-        <Confetti
-          width={width}
-          height={height}
-          recycle={false}
-          numberOfPieces={500}
-          gravity={0.15}
-        />
-      </div>
-      <Stack gap={4}>
-        <Card variant="default">
-          <Stack gap={6} className="items-center text-center py-4">
-            {/* Trophy / Stars */}
-            <div className="text-7xl">
-              {stars >= 3 ? "🏆" : stars >= 2 ? "⭐" : stars >= 1 ? "👍" : "📚"}
-            </div>
-
-            <Stack gap={2} className="items-center">
-              <Heading level={1}>Latihan Selesai!</Heading>
-              <Text muted>{materialTitle}</Text>
-              <div className="flex justify-center">
-                {attemptNo > 1 && <Badge tone="purple">Percobaan ke-{attemptNo}</Badge>}
-              </div>
-            </Stack>
-
-            {/* Star display */}
-            <div className="flex gap-2 text-4xl">
-              {[1, 2, 3].map((s) => (
-                <span
-                  key={s}
-                  className={clsx(
-                    "transition-transform",
-                    s <= stars ? "scale-110" : "opacity-20 grayscale",
-                  )}
-                >
-                  ⭐
-                </span>
-              ))}
-            </div>
-
-            <Stack gap={1} className="items-center">
-              <div className="text-5xl font-black text-[var(--purple)]">{totalScore}</div>
-              <Text size="sm" muted>
-                Total Skor
-              </Text>
-            </Stack>
-
-            <Text size="sm" muted>
-              {questions.filter((q) => q.isPassed).length} dari {questions.length} soal berhasil
-              dijawab
-            </Text>
-          </Stack>
-        </Card>
-
-        {/* Per-question summary */}
-        <Card variant="default">
-          <Stack gap={4}>
-            <Heading level={3}>Rincian Soal</Heading>
-            <Stack gap={2}>
-              {questions.map((q, i) => (
-                <div key={q.id} className="flex items-center gap-3 px-4 py-3 bg-surface rounded-xl">
-                  <div
-                    className={clsx(
-                      "w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0",
-                      q.isPassed
-                        ? "bg-[var(--mint)] text-[var(--on-accent)]"
-                        : "bg-[var(--separator)] text-[var(--muted)]",
-                    )}
-                  >
-                    {q.isPassed ? "✓" : "✗"}
-                  </div>
-                  <div className="flex-1 min-w-0 flex flex-col gap-0.5">
-                    <Text size="sm" className="font-bold">
-                      Soal {i + 1}
-                    </Text>
-                    {q.learningObjective && (
-                      <Text size="sm" muted className="truncate">
-                        {q.learningObjective}
-                      </Text>
-                    )}
-                  </div>
-                  <div className="flex items-center gap-2 flex-shrink-0">
-                    <Badge tone={q.isPassed ? "up" : "idle"}>{q.masteryScore ?? 0} poin</Badge>
-                  </div>
-                </div>
-              ))}
-            </Stack>
-          </Stack>
-        </Card>
-
-        {/* Actions */}
-        <div className="flex justify-center gap-3">
-          <Button tone="purple" size="lg" onClick={onRetake}>
-            <Icon name="history" /> Ulangi Latihan
-          </Button>
-          <Button variant="solid" tone="idle" size="lg" onClick={onBackToMaterial}>
-            <Icon name="prev" /> Kembali ke Materi
-          </Button>
+    // w-full + flex-1: without them this root shrinks to its content width
+    // when the parent layout is a flex row, pinning the screen to the left.
+    // Added overflow-y-auto to allow scrolling on shorter viewports.
+    <div
+      className="w-full flex-1 min-h-screen flex flex-col bg-slate-50/90 bg-blend-overlay p-5 lg:p-10 overflow-y-auto"
+      style={{
+        backgroundImage: `url(${exerciseBg})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      {!prefersReducedMotion && (
+        <div className="fixed inset-0 z-50 pointer-events-none">
+          <Confetti
+            width={width}
+            height={height}
+            recycle={false}
+            numberOfPieces={500}
+            gravity={0.15}
+          />
         </div>
-      </Stack>
+      )}
+
+      {/* my-auto (not justify-center) centers the content when it is short,
+          but never clips the top when it is taller than the viewport. */}
+      <div className="my-auto mx-auto w-full max-w-xl lg:max-w-5xl grid grid-cols-1 lg:grid-cols-5 lg:items-start gap-6 py-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
+        {/* ── Summary Column ── */}
+        <section aria-labelledby="result-title" className="lg:col-span-2 flex flex-col gap-4">
+          {/* Achievement Hero */}
+          <div className="flex flex-col items-center text-center gap-4 bg-gradient-to-b from-white to-purple-50/40 rounded-3xl p-7 lg:p-8 border border-purple-100/70 shadow-sm relative overflow-hidden">
+            <div className="absolute -top-20 -right-20 w-40 h-40 bg-amber-200/30 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-purple-300/20 rounded-full blur-3xl pointer-events-none" />
+
+            <div
+              className="w-24 h-24 rounded-full bg-gradient-to-tr from-amber-100 to-amber-50 border border-amber-200 flex items-center justify-center text-5xl shadow-sm z-10 animate-in zoom-in-50 duration-500 delay-150"
+              aria-hidden="true"
+            >
+              {copy.emoji}
+            </div>
+
+            <div className="z-10 flex flex-col items-center">
+              <h1
+                id="result-title"
+                className="text-3xl font-extrabold text-slate-900 m-0 tracking-tight"
+              >
+                Latihan Selesai!
+              </h1>
+              <p className="text-slate-500 text-sm font-medium mt-1 mb-0">{materialTitle}</p>
+            </div>
+
+            {attemptNo > 1 && (
+              <span className="px-3.5 py-1 bg-amber-50 text-amber-700 rounded-full text-xs font-bold border border-amber-200/60 z-10">
+                Percobaan ke-{attemptNo}
+              </span>
+            )}
+
+            <div className="flex flex-col items-center gap-2 z-10">
+              <div
+                className="flex gap-2 text-4xl"
+                role="img"
+                aria-label={`${stars} dari 3 bintang`}
+              >
+                {[1, 2, 3].map((s, idx) => (
+                  <span
+                    key={s}
+                    className={clsx(
+                      "transition-transform",
+                      s <= stars ? "scale-110 drop-shadow-xs" : "opacity-20 grayscale",
+                      !prefersReducedMotion && s <= stars && "animate-in zoom-in duration-500",
+                    )}
+                    style={{ animationDelay: `${200 + idx * 150}ms`, animationFillMode: "both" }}
+                  >
+                    ⭐
+                  </span>
+                ))}
+              </div>
+              <p className="text-sm font-bold text-slate-600 m-0 max-w-[17rem] leading-relaxed">
+                {copy.message}
+              </p>
+            </div>
+          </div>
+
+          {/* Score Cards */}
+          <div className="grid grid-cols-2 gap-3 w-full">
+            <div className="flex flex-col items-center justify-center rounded-3xl bg-white border border-slate-200/80 p-5 shadow-sm">
+              <span className="text-4xl font-black text-purple-600 tracking-tight leading-none mb-1">
+                <AnimatedCounter value={totalScore} />
+              </span>
+              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                Score
+              </span>
+            </div>
+            <div className="flex flex-col items-center justify-center rounded-3xl bg-white border border-slate-200/80 p-5 shadow-sm">
+              <span className="text-4xl font-black text-emerald-600 tracking-tight leading-none mb-1">
+                {passedCount}/{questions.length}
+              </span>
+              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                Soal Benar
+              </span>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Breakdown Column + Actions ── */}
+        <section aria-label="Rincian hasil" className="lg:col-span-3 flex flex-col gap-5">
+          {/* Learning Achievement */}
+          {masteredObjectives.length > 0 && (
+            <div className="bg-white rounded-3xl border border-slate-200/80 shadow-sm p-5 lg:p-6">
+              <div className="flex items-center gap-3 mb-4">
+                <span className="w-8 h-8 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center text-base shadow-xs">
+                  <span aria-hidden="true">📚</span>
+                </span>
+                <h2 className="text-[15px] font-bold text-slate-800 m-0">Yang kamu kuasai</h2>
+              </div>
+              <ul className="m-0 p-0 list-none space-y-2.5">
+                {masteredObjectives.map((obj, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <div className="w-5 h-5 mt-0.5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center flex-shrink-0 text-[10px] shadow-xs font-bold">
+                      ✓
+                    </div>
+                    <p className="text-slate-600 text-sm font-medium leading-relaxed m-0 pt-0.5">
+                      {obj}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Rincian Soal (Simplified Achievement Cards) */}
+          <div className="bg-white rounded-3xl border border-slate-200/80 shadow-sm overflow-hidden">
+            <div className="px-5 py-4 border-b border-slate-100 bg-slate-50/50">
+              <h2 className="text-sm font-bold text-slate-800 m-0 flex items-center gap-2">
+                <span aria-hidden="true">📋</span> Rincian Soal
+              </h2>
+            </div>
+            <ul className="m-0 p-0 list-none divide-y divide-slate-100">
+              {questions.map((q, i) => {
+                const isPassed = q.isPassed;
+                return (
+                  <li
+                    key={q.id}
+                    className="flex items-center gap-4 px-5 py-3 hover:bg-slate-50/30 transition-colors"
+                  >
+                    <div
+                      className={clsx(
+                        "w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-bold flex-shrink-0 shadow-2xs",
+                        isPassed
+                          ? "bg-emerald-500 text-white"
+                          : "bg-slate-100 text-slate-400 border border-slate-200/80",
+                      )}
+                    >
+                      {isPassed ? "✓" : "○"}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <span className="font-bold text-slate-800 text-sm block mb-0.5">
+                        Soal {i + 1}
+                      </span>
+                      {q.learningObjective && (
+                        <span className="text-xs text-slate-500 block truncate">
+                          {toStudentVoice(q.learningObjective)}
+                        </span>
+                      )}
+                    </div>
+                    {isPassed && (
+                      <div className="flex-shrink-0 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/60 uppercase tracking-wider">
+                        Mastered
+                      </div>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-3 pt-1">
+            <div className={clsx("flex-1", retakeIsPrimary ? "order-1" : "order-2")}>
+              <Button
+                variant={retakeIsPrimary ? "solid" : "quiet"}
+                tone="purple"
+                size="lg"
+                block
+                onClick={onRetake}
+              >
+                <Icon name="history" /> {retakeIsPrimary ? "Coba Lagi" : "Ulangi Latihan"}
+              </Button>
+            </div>
+            <div className={clsx("flex-1", retakeIsPrimary ? "order-2" : "order-1")}>
+              <Button
+                variant={retakeIsPrimary ? "quiet" : "solid"}
+                tone="purple"
+                size="lg"
+                block
+                onClick={onBackToMaterial}
+              >
+                {retakeIsPrimary ? (
+                  <>
+                    <Icon name="prev" /> Pelajari Materi
+                  </>
+                ) : (
+                  <>🚀 Lanjut Materi</>
+                )}
+              </Button>
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
   );
 }
@@ -497,37 +808,30 @@ export default function ExerciseView() {
 
   const [currentIdx, setCurrentIdx] = useState(0);
   const [passedIds, setPassedIds] = useState<Set<string>>(new Set());
-  const [justPassed, setJustPassed] = useState(false);
+  // True while the confetti burst is playing after a question is newly passed.
+  const [celebrating, setCelebrating] = useState(false);
   const [showCompletion, setShowCompletion] = useState(false);
   const { width, height } = useWindowSize();
 
-  // Start or resume session
+  const prefersReducedMotion = usePrefersReducedMotion();
+
   const initSession = useCallback(async () => {
     if (!materialId) return;
     const id = parseInt(materialId, 10);
     if (isNaN(id)) return;
-
     try {
       const res = await studentApi.startSession(id);
       if (res.data) {
         const { session: sess, material: mat } = res.data;
         setSession(sess);
         setMaterialData(mat);
-
-        // Build initial passed set from session results
         const passed = new Set<string>();
         sess.questions.forEach((q) => {
           if (q.isPassed) passed.add(q.id);
         });
         setPassedIds(passed);
-
-        // Auto-advance to first unpassed question
         const firstUnpassed = sess.questions.findIndex((q) => !q.isPassed);
-        if (firstUnpassed >= 0) {
-          setCurrentIdx(firstUnpassed);
-        }
-
-        // If all already passed, show completion screen
+        if (firstUnpassed >= 0) setCurrentIdx(firstUnpassed);
         if (
           sess.status === "COMPLETED" ||
           (sess.questions.length > 0 && sess.questions.every((q) => q.isPassed))
@@ -537,9 +841,7 @@ export default function ExerciseView() {
       }
     } catch (err: any) {
       console.error(err);
-      if (err.response?.status === 403) {
-        setIsLocked(true);
-      }
+      if (err.response?.status === 403) setIsLocked(true);
     } finally {
       setLoading(false);
     }
@@ -548,45 +850,38 @@ export default function ExerciseView() {
   const isFetchingResultsRef = useRef(false);
   const initDoneRef = useRef(false);
 
-  // Initial load
   useEffect(() => {
     if (initDoneRef.current) return;
     initDoneRef.current = true;
     initSession();
   }, [initSession]);
 
-  // Called by QuestionChat when AI finishes streaming — lightweight results check
   const handleStreamComplete = useCallback(async () => {
     if (!session || isFetchingResultsRef.current) return;
     isFetchingResultsRef.current = true;
-
     try {
       const res = await studentApi.getSessionResults(session.id);
       if (!res.data) return;
-
       const { results, status, totalScore } = res.data;
-
-      // Build fresh passed set
       const newPassedIds = new Set<string>();
       results.forEach((r) => {
         if (r.isPassed) newPassedIds.add(r.questionId);
       });
-
-      // Detect if the CURRENT question just became passed (optimistic)
       const questions = session.questions;
       const currentQ = questions[currentIdx];
-      if (currentQ && newPassedIds.has(currentQ.id) && !passedIds.has(currentQ.id)) {
-        setJustPassed(true);
-        if (newPassedIds.size === questions.length) {
-          playSFX("VICTORY");
-        } else {
-          playSFX("SUCCESS");
-        }
+      const isNewlyPassed =
+        !!currentQ && newPassedIds.has(currentQ.id) && !passedIds.has(currentQ.id);
+
+      if (isNewlyPassed) {
+        if (newPassedIds.size === questions.length) playSFX("VICTORY");
+        else playSFX("SUCCESS");
+        // The celebration is non-blocking (confetti + the completion dock in
+        // the chat), so it can start right away without hiding anything the
+        // student still needs to read.
+        setCelebrating(true);
       }
 
       setPassedIds(newPassedIds);
-
-      // Update session questions with new scores
       const updatedQuestions = questions.map((q) => {
         const result = results.find((r) => r.questionId === q.id);
         return result
@@ -607,20 +902,16 @@ export default function ExerciseView() {
     }
   }, [session, currentIdx, passedIds, playSFX]);
 
-  // Navigate to next unpassed question
   const handleNextQuestion = useCallback(() => {
     if (!session?.questions) return;
-    setJustPassed(false);
-
+    setCelebrating(false);
     const questions = session.questions;
-    // Look forward first
     for (let i = currentIdx + 1; i < questions.length; i++) {
       if (!passedIds.has(questions[i].id)) {
         setCurrentIdx(i);
         return;
       }
     }
-    // Wrap around
     for (let i = 0; i < currentIdx; i++) {
       if (!passedIds.has(questions[i].id)) {
         setCurrentIdx(i);
@@ -629,10 +920,8 @@ export default function ExerciseView() {
     }
   }, [session, currentIdx, passedIds]);
 
-  // Show completion screen
   const handleShowCompletion = useCallback(async () => {
-    setJustPassed(false);
-    // Lightweight refresh of final scores
+    setCelebrating(false);
     if (session) {
       try {
         const res = await studentApi.getSessionResults(session.id);
@@ -659,15 +948,13 @@ export default function ExerciseView() {
     setShowCompletion(true);
   }, [session]);
 
-  // Retake handler
   const handleRetake = useCallback(async () => {
     if (!session) return;
     setLoading(true);
     setShowCompletion(false);
-    setJustPassed(false);
+    setCelebrating(false);
     setCurrentIdx(0);
     setPassedIds(new Set());
-
     try {
       const res = await studentApi.retakeSession(session.id);
       if (res.data) {
@@ -684,56 +971,58 @@ export default function ExerciseView() {
 
   const materialPath = `/student/topics/${topicSlug}/${subTopicSlug}/${materialId}`;
 
-  // ── Loading / Error States ──
   if (loading) {
     return (
-      <Stack gap={6}>
-        <Text muted>Memuat latihan soal...</Text>
-      </Stack>
+      <div className="flex-1 flex items-center justify-center min-h-screen bg-slate-50/50">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-8 h-8 border-3 border-purple-600 border-t-transparent rounded-full animate-spin" />
+          <p className="text-slate-500 text-sm font-medium m-0">Memuat latihan soal...</p>
+        </div>
+      </div>
     );
   }
 
   if (isLocked) {
     return (
-      <Stack gap={6}>
-        <Heading level={2}>Latihan Terkunci 🔒</Heading>
-        <Text muted>
-          Anda harus menyelesaikan materi sebelumnya terlebih dahulu sebelum dapat mengakses latihan
-          ini.
-        </Text>
-        <div>
-          <Button
-            variant="solid"
-            tone="idle"
-            onClick={() => navigate(`/student/topics/${topicSlug}/${subTopicSlug}`)}
-          >
-            <Icon name="prev" /> Kembali ke Subtopik
-          </Button>
+      <div className="flex-1 flex flex-col items-center justify-center min-h-screen gap-6 text-center px-6 bg-slate-50/50">
+        <div className="w-16 h-16 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-3xl shadow-xs">
+          🔒
         </div>
-      </Stack>
+        <div>
+          <h2 className="text-2xl font-bold text-slate-800 m-0">Latihan Terkunci</h2>
+          <p className="text-slate-500 text-sm max-w-md mt-2 m-0 leading-relaxed">
+            Anda harus menyelesaikan materi sebelumnya terlebih dahulu sebelum dapat mengakses
+            latihan ini.
+          </p>
+        </div>
+        <Button
+          variant="solid"
+          tone="purple"
+          onClick={() => navigate(`/student/topics/${topicSlug}/${subTopicSlug}`)}
+        >
+          <Icon name="prev" /> Kembali ke Subtopik
+        </Button>
+      </div>
     );
   }
 
   if (!session || !materialData) {
     return (
-      <Stack gap={6}>
-        <Heading level={2}>Materi tidak ditemukan</Heading>
-        <div>
-          <Button
-            variant="solid"
-            tone="idle"
-            onClick={() => navigate(`/student/topics/${topicSlug}/${subTopicSlug}`)}
-          >
-            <Icon name="prev" /> Kembali ke Subtopik
-          </Button>
-        </div>
-      </Stack>
+      <div className="flex-1 flex flex-col items-center justify-center min-h-screen gap-6 text-center px-6 bg-slate-50/50">
+        <h2 className="text-2xl font-bold text-slate-800 m-0">Materi tidak ditemukan</h2>
+        <Button
+          variant="solid"
+          tone="purple"
+          onClick={() => navigate(`/student/topics/${topicSlug}/${subTopicSlug}`)}
+        >
+          <Icon name="prev" /> Kembali ke Subtopik
+        </Button>
+      </div>
     );
   }
 
   const questions = session.questions || [];
 
-  // ── Completion Screen ──
   if (showCompletion) {
     return (
       <CompletionScreen
@@ -747,170 +1036,133 @@ export default function ExerciseView() {
     );
   }
 
-  // ── No questions ──
   if (questions.length === 0) {
     return (
-      <Stack gap={6}>
-        <Heading level={2}>Tidak ada soal untuk materi ini.</Heading>
-        <div>
-          <Button variant="solid" tone="idle" onClick={() => navigate(materialPath)}>
-            <Icon name="prev" /> Kembali ke Materi
-          </Button>
-        </div>
-      </Stack>
+      <div className="flex-1 flex flex-col items-center justify-center min-h-screen gap-6 text-center px-6 bg-slate-50/50">
+        <h2 className="text-2xl font-bold text-slate-800 m-0">Tidak ada soal untuk materi ini.</h2>
+        <Button variant="solid" tone="purple" onClick={() => navigate(materialPath)}>
+          <Icon name="prev" /> Kembali ke Materi
+        </Button>
+      </div>
     );
   }
 
   const currentQuestion = questions[currentIdx];
-  const allPassedAfterThis = passedIds.size + (justPassed ? 0 : 1) >= questions.length;
+  const isCurrentPassed = passedIds.has(currentQuestion.id);
+  const allPassed = passedIds.size >= questions.length;
 
   return (
-    <div className="flex flex-col gap-3 md:h-[calc(100vh-120px)]">
-      {/* ── Compact Header ── */}
-      <div className="flex-none">
-        <Link to={materialPath} className="inline-block mb-2" data-clicksound="click">
-          <span className="hover:text-[var(--on-surface)] transition-colors">
-            <Text size="sm" muted>
-              ← Kembali ke Penjelasan Materi
-            </Text>
-          </span>
-        </Link>
+    <div className="flex flex-col lg:flex-row w-full min-h-screen lg:h-screen lg:overflow-hidden bg-white">
+      {/* ── Left Pane: Quiz & App Info ── */}
+      <div className="w-full lg:w-[45%] lg:h-full flex flex-col border-r border-slate-200/80 relative bg-slate-50/40">
+        <div className="flex flex-col flex-1 min-h-0 p-5 lg:p-8 lg:overflow-y-auto">
+          {/* Top bar — kept slim so the question stays above the fold */}
+          <div className="flex items-center justify-between mb-6">
+            <img src={logoRectangle} alt="METADIA" className="h-11 w-auto object-contain -ml-1" />
+            <Link
+              to={materialPath}
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-purple-600 px-3 py-1.5 rounded-lg hover:bg-white border border-transparent hover:border-slate-200/60 transition-all shadow-none hover:shadow-xs focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-purple-500/20"
+              data-clicksound="click"
+            >
+              <Icon name="prev" size="sm" /> Kembali ke Materi
+            </Link>
+          </div>
 
-        <motion.div
-          className="relative z-10"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-        >
-          <Card variant="default">
-            {/* Desktop: single row | Mobile: stacked */}
-            <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4">
-              <div className="flex flex-col gap-0.5 flex-shrink-0">
-                <Eyebrow>
-                  Latihan Soal {session.attemptNo > 1 ? `(Percobaan ke-${session.attemptNo})` : ""}
-                </Eyebrow>
-                <Heading level={3}>{materialData.title}</Heading>
+          {/* Title Area */}
+          <div className="mb-5">
+            <div className="flex flex-wrap items-center gap-2 mb-3">
+              <span className="inline-flex items-center px-3 py-1 rounded-full bg-purple-100/60 text-purple-700 text-xs font-bold border border-purple-200/50">
+                Latihan Soal
+              </span>
+              {session.attemptNo > 1 && (
+                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-bold border border-amber-200/60">
+                  Percobaan ke-{session.attemptNo}
+                </span>
+              )}
+            </div>
+            <h1 className="text-2xl lg:text-3xl font-extrabold text-slate-900 tracking-tight leading-snug m-0">
+              {materialData.title}
+            </h1>
+          </div>
+
+          {/* Progress — stepper and counter share one row; the "Progres
+              Latihan" label was dropped because the stepper explains itself. */}
+          <div className="flex items-center justify-between gap-4 mb-6">
+            <ProgressStepper
+              questions={questions}
+              currentIdx={currentIdx}
+              passedIds={passedIds}
+              onSelect={(i) => setCurrentIdx(i)}
+            />
+            <span className="text-xs font-semibold text-slate-500 flex-shrink-0">
+              Soal {currentIdx + 1} dari {questions.length}
+            </span>
+          </div>
+
+          {/* Question Section Focal Point */}
+          <div className="flex flex-col flex-1">
+            {currentQuestion.learningObjective && (
+              <div className="mb-3 flex items-start gap-2 px-1">
+                <span className="text-purple-500 mt-0.5 flex-shrink-0">
+                  <Icon name="target" size="sm" />
+                </span>
+                <span className="text-sm font-medium text-slate-500 leading-relaxed">
+                  {toStudentVoice(currentQuestion.learningObjective)}
+                </span>
               </div>
+            )}
 
-              {/* Progress Stepper + Badge row */}
-              <div className="flex items-center gap-3 flex-1 justify-between md:justify-end">
-                {questions.length > 1 && (
-                  <div className="flex-shrink-0">
-                    <ProgressStepper
-                      questions={questions}
-                      currentIdx={currentIdx}
-                      passedIds={passedIds}
-                      onSelect={(i) => {
-                        if (!justPassed) {
-                          setJustPassed(false);
-                          setCurrentIdx(i);
-                        }
-                      }}
-                    />
-                  </div>
+            {/* Question card. Passed questions get a calm green tint instead
+                of a text badge — status is already spelled out in the chat
+                dock, so the card only needs a quiet visual cue. */}
+            <div
+              className={clsx(
+                "relative flex-1 flex items-center min-h-[240px] rounded-3xl border p-6 lg:p-8 text-slate-800 text-lg lg:text-xl leading-relaxed transition-colors duration-500",
+                isCurrentPassed
+                  ? "bg-emerald-50/40 border-emerald-300/70 ring-4 ring-emerald-500/10"
+                  : "bg-white border-slate-200/70 shadow-[0_8px_30px_rgb(0,0,0,0.04)]",
+              )}
+            >
+              <div className="w-full">
+                {currentQuestion.questionUi?.type === "doc" ? (
+                  renderTipTapNode(currentQuestion.questionUi)
+                ) : (
+                  <p className="text-slate-400 m-0">Konten soal tidak dapat dimuat.</p>
                 )}
-                <Badge tone="purple" className="flex-shrink-0">
-                  {passedIds.size} / {questions.length} Selesai
-                </Badge>
               </div>
             </div>
-          </Card>
-        </motion.div>
+          </div>
+        </div>
       </div>
 
-      {/* ── Main Content: Two Equal-Height Columns ── */}
-      <div className="flex-1 min-h-0 flex flex-col lg:flex-row gap-3">
-        {/* Left: Question Card — scrollable inside */}
-        <motion.div
-          className="lg:flex-1 min-h-0 flex flex-col relative z-10"
-          key={`question-${currentQuestion.id}`}
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-        >
-          <div className="flex-1 overflow-y-auto rounded-[var(--card-radius)]">
-            <Card variant="default">
-              <Stack gap={4}>
-                <Row justify="between" align="center">
-                  <Heading level={3}>Pertanyaan</Heading>
-                  <Badge tone={passedIds.has(currentQuestion.id) ? "up" : "purple"}>
-                    {passedIds.has(currentQuestion.id)
-                      ? "✓ Selesai"
-                      : `Soal ${currentIdx + 1} dari ${questions.length}`}
-                  </Badge>
-                </Row>
-
-                {/* Learning objective */}
-                {currentQuestion.learningObjective && (
-                  <div className="px-4 py-3 bg-[rgba(201,168,255,0.12)] rounded-xl border border-[var(--purple)]/20">
-                    <Row gap={2} wrap={false} align="center">
-                      <Blob icon="target" tone="purple" size="sm" />
-                      <Text size="sm">
-                        <strong>Tujuan:</strong> {currentQuestion.learningObjective}
-                      </Text>
-                    </Row>
-                  </div>
-                )}
-
-                {/* Question content */}
-                <div className="text-xl leading-loose pt-4 pb-2 pouf-text">
-                  {currentQuestion.questionUi?.type === "doc" ? (
-                    renderTipTapNode(currentQuestion.questionUi)
-                  ) : (
-                    <Text muted>Konten soal tidak dapat dimuat.</Text>
-                  )}
-                </div>
-              </Stack>
-            </Card>
-          </div>
-
-          {/* Success celebration overlay */}
-          {justPassed && (
-            <SuccessCelebration
-              isLastQuestion={allPassedAfterThis}
-              onNext={handleNextQuestion}
-              onComplete={handleShowCompletion}
-            />
-          )}
-        </motion.div>
-
-        {/* Full-screen Confetti on Success */}
-        {justPassed && (
-          <div className="fixed inset-0 z-50 pointer-events-none">
-            <Confetti
-              width={width}
-              height={height}
-              recycle={false}
-              numberOfPieces={300}
-              gravity={0.2}
-            />
-          </div>
-        )}
-
-        {/* Right: Chat Panel — all chats rendered, only active one visible */}
-        <motion.div
-          className="w-full lg:w-[400px] min-h-[380px] lg:min-h-0 flex-none flex flex-col relative z-10"
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
-        >
-          <div className="flex-1 min-h-0 rounded-[var(--card-radius)] bg-white [box-shadow:var(--pouf-card)] flex flex-col overflow-hidden">
-            {questions.map((q, i) => (
-              <div
-                key={q.id}
-                className={i === currentIdx ? "flex flex-col flex-1 min-h-0" : "hidden"}
-              >
-                <QuestionChat
-                  question={q}
-                  sessionId={session.id}
-                  isPassed={passedIds.has(q.id)}
-                  onStreamComplete={handleStreamComplete}
-                />
-              </div>
-            ))}
-          </div>
-        </motion.div>
+      {/* ── Right Pane: AI Chat ── */}
+      <div className="w-full lg:w-[55%] flex flex-col h-[70vh] lg:h-full min-h-0 bg-slate-50/60 relative">
+        <QuestionChat
+          key={currentQuestion.id}
+          question={currentQuestion}
+          sessionId={session.id.toString()}
+          isPassed={isCurrentPassed}
+          allPassed={allPassed}
+          onStreamComplete={handleStreamComplete}
+          onNext={handleNextQuestion}
+          onComplete={handleShowCompletion}
+        />
       </div>
+
+      {/* Full-screen confetti burst on success (skipped for students who
+          prefer reduced motion). It unmounts itself when it finishes. */}
+      {celebrating && !prefersReducedMotion && (
+        <div className="fixed inset-0 z-50 pointer-events-none">
+          <Confetti
+            width={width}
+            height={height}
+            recycle={false}
+            numberOfPieces={300}
+            gravity={0.2}
+            onConfettiComplete={() => setCelebrating(false)}
+          />
+        </div>
+      )}
     </div>
   );
 }
