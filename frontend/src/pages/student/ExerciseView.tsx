@@ -17,6 +17,7 @@ import { BGM } from "@/config/sound.config";
 import { config } from "@/config";
 import { Icon } from "@/components/pouf/Icon";
 import { AIAvatar } from "@/components/ui/AIAvatar";
+import { ErrorNote } from "@/components/pouf/feedback";
 import TextareaAutosize from "react-textarea-autosize";
 import clsx from "clsx";
 import ReactMarkdown from "react-markdown";
@@ -389,7 +390,11 @@ function QuestionChat({
             onClick={toggleMute}
             aria-label={isMuted ? "Bunyikan Musik" : "Matikan Musik"}
           >
-            {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
+            {isMuted ? (
+              <VolumeX className="w-5 h-5" />
+            ) : (
+              <Volume2 className="w-5 h-5" />
+            )}
           </Button>
         </div>
       </div>
@@ -908,6 +913,7 @@ export default function ExerciseView() {
   const { width, height } = useWindowSize();
 
   const prefersReducedMotion = usePrefersReducedMotion();
+  const [error, setError] = useState<string | null>(null);
 
   const initSession = useCallback(async () => {
     if (!materialId) return;
@@ -935,7 +941,11 @@ export default function ExerciseView() {
       }
     } catch (err: any) {
       console.error(err);
-      if (err.response?.status === 403) setIsLocked(true);
+      if (err.response?.status === 403) {
+        setIsLocked(true);
+      } else {
+        setError("Koneksi jaringan bermasalah. Gagal memuat sesi latihan.");
+      }
     } finally {
       setLoading(false);
     }
@@ -1078,6 +1088,25 @@ export default function ExerciseView() {
             Memuat latihan soal...
           </p>
         </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex-1 flex flex-col items-center justify-center min-h-[100dvh] gap-6 text-center px-6 bg-slate-50/50">
+        <ErrorNote>{error}</ErrorNote>
+        <Button
+          variant="solid"
+          tone="purple"
+          onClick={() => {
+            setLoading(true);
+            setError(null);
+            initSession();
+          }}
+        >
+          <Icon name="refresh" /> Coba Lagi
+        </Button>
       </div>
     );
   }

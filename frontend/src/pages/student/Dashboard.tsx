@@ -9,6 +9,7 @@ import { Grid, Row, Stack } from "@/components/pouf/layout";
 import { Progress } from "@/components/pouf/progress";
 import { Card, RowCard } from "@/components/pouf/surface";
 import { Eyebrow, Heading, Text } from "@/components/pouf/text";
+import { ErrorNote, Skeleton } from "@/components/pouf/feedback";
 import { studentApi, type StudentDashboardData } from "@/lib/api/student";
 
 const MINUTES = new Intl.NumberFormat("en-US", {
@@ -22,22 +23,32 @@ export default function Dashboard() {
   useBGM(BGM.DASHBOARD);
   const [data, setData] = useState<StudentDashboardData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [activeId, setActiveId] = useState("");
 
-  useEffect(() => {
+  const loadData = () => {
+    setLoading(true);
+    setError(null);
     studentApi
       .getDashboard()
       .then((res) => {
         if (res.data?.dashboard) {
           setData(res.data.dashboard);
           setActiveId(res.data.dashboard.activeId);
+        } else {
+          setError("Gagal memuat data dashboard.");
         }
         setLoading(false);
       })
       .catch((err) => {
         console.error(err);
+        setError("Koneksi jaringan bermasalah. Gagal memuat dashboard.");
         setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    loadData();
   }, []);
 
   const active = useMemo(() => {
@@ -53,7 +64,21 @@ export default function Dashboard() {
   }, [data]);
 
   if (loading) {
-    return <Text muted>Memuat dashboard...</Text>;
+    return (
+      <Stack gap={5}>
+        <Skeleton variant="text" count={2} />
+        <Skeleton variant="card" count={2} />
+      </Stack>
+    );
+  }
+
+  if (error) {
+    return (
+      <Stack gap={5} align="start">
+        <ErrorNote>{error}</ErrorNote>
+        <Button onClick={loadData} tone="purple">Coba Lagi</Button>
+      </Stack>
+    );
   }
 
   if (!data || !active) {

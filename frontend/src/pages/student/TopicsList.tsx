@@ -4,6 +4,8 @@ import { useBGM } from "@/hooks/useBGM";
 import { BGM } from "@/config/sound.config";
 import { studentApi, type StudentTopic } from "@/lib/api/student";
 import { Heading, Text, Eyebrow } from "@/components/pouf/text";
+import { ErrorNote, Skeleton } from "@/components/pouf/feedback";
+import { Button } from "@/components/pouf/Button";
 import { Card } from "@/components/pouf/surface";
 import { Stack, Row, Grid } from "@/components/pouf/layout";
 import { Badge, Blob } from "@/components/pouf/media";
@@ -16,18 +18,30 @@ export default function TopicsList() {
   useBGM(BGM.DASHBOARD);
   const [topics, setTopics] = useState<StudentTopic[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
+  const loadData = () => {
+    setLoading(true);
+    setError(null);
     studentApi
       .getTopics()
       .then((res) => {
-        setTopics(res.data?.topics || []);
+        if (res.data?.topics) {
+          setTopics(res.data.topics);
+        } else {
+          setError("Gagal memuat data topik.");
+        }
         setLoading(false);
       })
       .catch((err) => {
         console.error(err);
+        setError("Koneksi jaringan bermasalah. Gagal memuat daftar topik.");
         setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    loadData();
   }, []);
 
   return (
@@ -39,7 +53,14 @@ export default function TopicsList() {
       </Stack>
 
       {loading ? (
-        <Text muted>Memuat topik...</Text>
+        <Grid cols={3} gap={5}>
+          <Skeleton variant="card" count={3} />
+        </Grid>
+      ) : error ? (
+        <Stack gap={3} align="start">
+          <ErrorNote>{error}</ErrorNote>
+          <Button onClick={loadData} tone="purple">Coba Lagi</Button>
+        </Stack>
       ) : topics.length === 0 ? (
         <Text muted>Belum ada topik yang tersedia.</Text>
       ) : (

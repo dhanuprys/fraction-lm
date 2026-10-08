@@ -25,6 +25,7 @@ import {
   IconPencil,
   IconPhoto,
   IconPlus,
+  IconRefresh,
   IconSearch,
   IconSettings,
   IconTargetArrow,
@@ -131,6 +132,7 @@ const ICONS = {
   prev: IconChevronLeft,
   next: IconChevronRight,
   photo: IconPhoto,
+  refresh: IconRefresh,
   // general vocabulary — a broader set so app screens never reach for emoji.
   heart: IconHeart,
   "heart-filled": IconHeartFilled,
@@ -184,9 +186,10 @@ interface Props {
    *  visible text label it is decoration, and naming it makes a screen reader
    *  say everything twice. */
   label?: string;
+  className?: string;
 }
 
-export function Icon({ name, size = "md", label }: Props) {
+export function Icon({ name, size = "md", label, className }: Props) {
   const Glyph = ICONS[name] as ComponentType<IconProps>;
   const resolvedSize = typeof size === "number" ? size : SIZES[size as keyof typeof SIZES];
   return (
@@ -199,6 +202,7 @@ export function Icon({ name, size = "md", label }: Props) {
       role={label ? "img" : undefined}
       aria-label={label}
       aria-hidden={label ? undefined : true}
+      className={className}
     />
   );
 }

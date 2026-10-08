@@ -8,6 +8,7 @@ import { Card } from "@/components/pouf/surface";
 import { Stack, Row } from "@/components/pouf/layout";
 import { Badge, Blob } from "@/components/pouf/media";
 import { Button } from "@/components/pouf/Button";
+import { ErrorNote, Skeleton } from "@/components/pouf/feedback";
 import { CTA } from "@/components/pouf/cta";
 import { renderTipTapNode } from "@/components/TipTapRenderer";
 import { toast } from "@/components/pouf/toaster";
@@ -20,19 +21,26 @@ export default function MaterialView() {
   const [loading, setLoading] = useState(true);
   const [isLocked, setIsLocked] = useState(false);
   const [isCompleting, setIsCompleting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useDocumentTitle(material?.title || "Baca Materi");
 
-  useEffect(() => {
+  const loadData = () => {
     if (!materialId) return;
     const id = parseInt(materialId, 10);
     if (isNaN(id)) return;
+
+    setLoading(true);
+    setError(null);
+    setIsLocked(false);
 
     studentApi
       .getMaterial(id)
       .then((res) => {
         if (res.data) {
           setMaterial(res.data.material);
+        } else {
+          setError("Gagal memuat materi pembelajaran.");
         }
         setLoading(false);
       })
@@ -40,15 +48,31 @@ export default function MaterialView() {
         console.error(err);
         if (err.response?.status === 403) {
           setIsLocked(true);
+        } else {
+          setError("Koneksi jaringan bermasalah. Gagal memuat materi.");
         }
         setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    loadData();
   }, [materialId]);
 
   if (loading) {
     return (
       <Stack gap={6}>
-        <Text muted>Memuat materi...</Text>
+        <Skeleton variant="text" count={1} />
+        <Skeleton variant="card" count={3} />
+      </Stack>
+    );
+  }
+
+  if (error) {
+    return (
+      <Stack gap={6} align="start">
+        <ErrorNote>{error}</ErrorNote>
+        <Button onClick={loadData} tone="purple">Coba Lagi</Button>
       </Stack>
     );
   }

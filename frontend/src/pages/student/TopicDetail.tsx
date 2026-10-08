@@ -10,7 +10,7 @@ import { Stack, Row, Grid } from "@/components/pouf/layout";
 import { Badge, Blob } from "@/components/pouf/media";
 import { Icon } from "@/components/pouf/Icon";
 import { Button } from "@/components/pouf/Button";
-import { Empty } from "@/components/pouf/feedback";
+import { Empty, ErrorNote, Skeleton } from "@/components/pouf/feedback";
 import { getAssetUrl } from "@/lib/utils";
 
 export default function TopicDetail() {
@@ -20,11 +20,14 @@ export default function TopicDetail() {
   const [topic, setTopic] = useState<StudentTopic | null>(null);
   const [subTopics, setSubTopics] = useState<StudentSubTopic[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useDocumentTitle(topic?.name || "Subtopik Belajar");
 
-  useEffect(() => {
+  const loadData = () => {
     if (!topicSlug) return;
+    setLoading(true);
+    setError(null);
     studentApi
       .getSubTopics(topicSlug)
       .then((res) => {
@@ -34,19 +37,36 @@ export default function TopicDetail() {
             ...st,
           }));
           setSubTopics(mappedSubTopics);
+        } else {
+          setError("Gagal memuat detail topik.");
         }
         setLoading(false);
       })
       .catch((err) => {
         console.error(err);
+        setError("Koneksi jaringan bermasalah. Gagal memuat data.");
         setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    loadData();
   }, [topicSlug]);
 
   if (loading) {
     return (
       <Stack gap={6}>
-        <Text muted>Memuat data topik...</Text>
+        <Skeleton variant="text" count={2} />
+        <Skeleton variant="card" count={3} />
+      </Stack>
+    );
+  }
+
+  if (error) {
+    return (
+      <Stack gap={6} align="start">
+        <ErrorNote>{error}</ErrorNote>
+        <Button onClick={loadData} tone="purple">Coba Lagi</Button>
       </Stack>
     );
   }
