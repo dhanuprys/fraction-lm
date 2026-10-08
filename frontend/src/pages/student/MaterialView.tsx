@@ -8,7 +8,7 @@ import { Card } from "@/components/pouf/surface";
 import { Stack, Row } from "@/components/pouf/layout";
 import { Badge, Blob } from "@/components/pouf/media";
 import { Button } from "@/components/pouf/Button";
-import { ErrorNote, Skeleton } from "@/components/pouf/feedback";
+import { ErrorNote } from "@/components/pouf/feedback";
 import { CTA } from "@/components/pouf/cta";
 import { renderTipTapNode } from "@/components/TipTapRenderer";
 import { toast } from "@/components/pouf/toaster";
@@ -61,10 +61,10 @@ export default function MaterialView() {
 
   if (loading) {
     return (
-      <Stack gap={6}>
-        <Skeleton variant="text" count={1} />
-        <Skeleton variant="card" count={3} />
-      </Stack>
+      <div className="flex flex-col items-center justify-center py-20 gap-3">
+        <div className="w-8 h-8 border-3 border-purple-600 border-t-transparent rounded-full animate-spin" />
+        <Text muted>Memuat data...</Text>
+      </div>
     );
   }
 
@@ -72,7 +72,9 @@ export default function MaterialView() {
     return (
       <Stack gap={6} align="start">
         <ErrorNote>{error}</ErrorNote>
-        <Button onClick={loadData} tone="purple">Coba Lagi</Button>
+        <Button onClick={loadData} tone="purple">
+          Coba Lagi
+        </Button>
       </Stack>
     );
   }

@@ -10,7 +10,7 @@ import { Stack, Row, Grid } from "@/components/pouf/layout";
 import { Badge, Blob } from "@/components/pouf/media";
 import { Icon } from "@/components/pouf/Icon";
 import { Button } from "@/components/pouf/Button";
-import { Empty, ErrorNote, Skeleton } from "@/components/pouf/feedback";
+import { Empty, ErrorNote } from "@/components/pouf/feedback";
 import { getAssetUrl } from "@/lib/utils";
 
 export default function TopicDetail() {
@@ -55,10 +55,10 @@ export default function TopicDetail() {
 
   if (loading) {
     return (
-      <Stack gap={6}>
-        <Skeleton variant="text" count={2} />
-        <Skeleton variant="card" count={3} />
-      </Stack>
+      <div className="flex flex-col items-center justify-center py-20 gap-3">
+        <div className="w-8 h-8 border-3 border-purple-600 border-t-transparent rounded-full animate-spin" />
+        <Text muted>Memuat data...</Text>
+      </div>
     );
   }
 
@@ -66,7 +66,9 @@ export default function TopicDetail() {
     return (
       <Stack gap={6} align="start">
         <ErrorNote>{error}</ErrorNote>
-        <Button onClick={loadData} tone="purple">Coba Lagi</Button>
+        <Button onClick={loadData} tone="purple">
+          Coba Lagi
+        </Button>
       </Stack>
     );
   }

@@ -4,7 +4,7 @@ import { useBGM } from "@/hooks/useBGM";
 import { BGM } from "@/config/sound.config";
 import { studentApi, type StudentTopic } from "@/lib/api/student";
 import { Heading, Text, Eyebrow } from "@/components/pouf/text";
-import { ErrorNote, Skeleton } from "@/components/pouf/feedback";
+import { ErrorNote } from "@/components/pouf/feedback";
 import { Button } from "@/components/pouf/Button";
 import { Card } from "@/components/pouf/surface";
 import { Stack, Row, Grid } from "@/components/pouf/layout";
@@ -53,13 +53,16 @@ export default function TopicsList() {
       </Stack>
 
       {loading ? (
-        <Grid cols={3} gap={5}>
-          <Skeleton variant="card" count={3} />
-        </Grid>
+        <div className="flex flex-col items-center justify-center py-20 gap-3">
+          <div className="w-8 h-8 border-3 border-purple-600 border-t-transparent rounded-full animate-spin" />
+          <Text muted>Memuat topik...</Text>
+        </div>
       ) : error ? (
         <Stack gap={3} align="start">
           <ErrorNote>{error}</ErrorNote>
-          <Button onClick={loadData} tone="purple">Coba Lagi</Button>
+          <Button onClick={loadData} tone="purple">
+            Coba Lagi
+          </Button>
         </Stack>
       ) : topics.length === 0 ? (
         <Text muted>Belum ada topik yang tersedia.</Text>

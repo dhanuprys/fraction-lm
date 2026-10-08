@@ -9,7 +9,7 @@ import { Grid, Row, Stack } from "@/components/pouf/layout";
 import { Progress } from "@/components/pouf/progress";
 import { Card, RowCard } from "@/components/pouf/surface";
 import { Eyebrow, Heading, Text } from "@/components/pouf/text";
-import { ErrorNote, Skeleton } from "@/components/pouf/feedback";
+import { ErrorNote } from "@/components/pouf/feedback";
 import { studentApi, type StudentDashboardData } from "@/lib/api/student";
 
 const MINUTES = new Intl.NumberFormat("en-US", {
@@ -65,10 +65,10 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <Stack gap={5}>
-        <Skeleton variant="text" count={2} />
-        <Skeleton variant="card" count={2} />
-      </Stack>
+      <div className="flex flex-col items-center justify-center py-20 gap-3">
+        <div className="w-8 h-8 border-3 border-purple-600 border-t-transparent rounded-full animate-spin" />
+        <Text muted>Memuat data...</Text>
+      </div>
     );
   }
 
@@ -76,7 +76,9 @@ export default function Dashboard() {
     return (
       <Stack gap={5} align="start">
         <ErrorNote>{error}</ErrorNote>
-        <Button onClick={loadData} tone="purple">Coba Lagi</Button>
+        <Button onClick={loadData} tone="purple">
+          Coba Lagi
+        </Button>
       </Stack>
     );
   }
