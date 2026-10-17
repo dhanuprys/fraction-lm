@@ -35,6 +35,8 @@ async function main() {
 	// Clean existing data (in reverse dependency order)
 	console.log('🧹 Cleaning existing data...');
 	await db.orm.public.ChatLog.where({}).deleteAndCount();
+	await db.orm.public.SessionQuestionResult.where({}).deleteAndCount();
+	await db.orm.public.ExerciseSession.where({}).deleteAndCount();
 	await db.orm.public.QuestionProgress.where({}).deleteAndCount();
 	await db.orm.public.MaterialProgress.where({}).deleteAndCount();
 	await db.orm.public.Question.where({}).deleteAndCount();

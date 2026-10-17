@@ -29,6 +29,7 @@ export const topic1 =
 						title: 'Pengertian Pecahan dan Gambar Bagiannya',
 						order: 1,
 						difficulty: 1,
+						isExerciseOnly: false,
 						content: doc(
 							heading(2, 'Apa Itu Pecahan?'),
 							p(
@@ -70,86 +71,15 @@ export const topic1 =
 							'Visualisasi menggunakan kotak berwarna (🟩 = bagian yang diambil, ⬜ = bagian sisa). ' +
 							'Contoh: pizza dibagi 4 bagian sama besar, diambil 1 → 1/4. ' +
 							'Siswa harus memahami bahwa bagian-bagian harus sama besar, dan bisa menyatakan bagian berwarna pada gambar sebagai pecahan.',
-						questions: [
-							{
-								learningObjective:
-									'Siswa dapat menyatakan bagian berwarna pada gambar sebagai pecahan.',
-								questionUi: doc(
-									p('Perhatikan gambar berikut:'),
-									p('🟦🟦🟦⬜'),
-									p(
-										bold('Pertanyaan: '),
-										'Semua kotak sama besar. Pecahan berapakah yang menunjukkan kotak yang berwarna biru?',
-									),
-								),
-								questionLlmContext:
-									'Gambar terdiri dari 4 kotak sama besar, 3 kotak berwarna biru. Jawaban benar: 3/4 (tiga per empat atau tiga perempat). ' +
-									'Pembilang = jumlah kotak berwarna (3), penyebut = jumlah seluruh kotak (4).',
-								evaluationParameters: {
-									expected_answer_keywords: [
-										'3/4',
-										'tiga per empat',
-										'tiga perempat',
-									],
-									common_misconceptions: [
-										'Menulis 1/4 (menghitung kotak yang tidak berwarna)',
-										'Menulis 4/3 (membalik posisi)',
-									],
-									strictness_level: 'lenient',
-									hints: [
-										'Coba hitung dulu ada berapa kotak semuanya.',
-										'Sekarang hitung ada berapa kotak yang berwarna biru.',
-										'Pecahan ditulis (kotak berwarna) per (seluruh kotak).',
-									],
-								},
-								answers: { pecahan: '3/4' },
-							},
-							{
-								learningObjective:
-									'Siswa memahami bahwa bagian pecahan harus sama besar.',
-								questionUi: doc(
-									p(
-										'Sebuah roti dipotong menjadi 3 bagian, tetapi ',
-										bold(
-											'ukuran potongannya tidak sama besar',
-										),
-										'. Adi mengambil 1 potong.',
-									),
-									p(
-										bold('Pertanyaan: '),
-										'Apakah bagian yang diambil Adi bisa disebut 1/3 roti? Jelaskan alasanmu!',
-									),
-								),
-								questionLlmContext:
-									'Roti dipotong 3 bagian dengan ukuran tidak sama. Jawaban benar: TIDAK, karena pecahan mensyaratkan semua bagian sama besar. ' +
-									'Siswa harus menyebutkan alasan bahwa bagian-bagiannya tidak sama besar.',
-								evaluationParameters: {
-									expected_answer_keywords: [
-										'tidak',
-										'sama besar',
-										'tidak sama',
-									],
-									common_misconceptions: [
-										'Menjawab ya karena ada 3 potongan',
-										'Menjawab tidak tanpa alasan',
-									],
-									strictness_level: 'lenient',
-								},
-								answers: {
-									jawaban: 'Tidak',
-									alasan: 'Bagian-bagiannya tidak sama besar',
-								},
-							},
-						],
+						questions: [],
 					},
 
 					// ───────────────────────── MATERI 2 ─────────────────────────
-					// Catatan: materi ini sengaja TANPA soal (pengenalan istilah),
-					// pemahamannya diuji pada materi LATIHAN.
 					{
 						title: 'Bentuk Penulisan Pecahan',
 						order: 2,
 						difficulty: 1,
+						isExerciseOnly: false,
 						content: doc(
 							heading(2, 'Bentuk Penulisan Pecahan'),
 							p(
@@ -186,9 +116,7 @@ export const topic1 =
 						materialLlmContext:
 							'Materi ini mengajarkan bentuk penulisan pecahan: a/b dengan "a" adalah pembilang (angka atas, bagian yang diambil) ' +
 							'dan "b" adalah penyebut (angka bawah, jumlah seluruh bagian sama besar), dipisahkan garis pecahan. ' +
-							'Contoh: cokelat 5 bagian, dimakan 2 → 2/5 (pembilang 2, penyebut 5). ' +
-							'Materi ini tidak memiliki soal sendiri; pemahaman siswa diuji pada LATIHAN. ' +
-							'Jika siswa bertanya, bantu dengan penjelasan dan contoh sederhana, jangan langsung memberi jawaban soal latihan.',
+							'Contoh: cokelat 5 bagian, dimakan 2 → 2/5 (pembilang 2, penyebut 5).',
 						questions: [],
 					},
 
@@ -197,6 +125,7 @@ export const topic1 =
 						title: 'Membaca dan Menuliskan Pecahan',
 						order: 3,
 						difficulty: 1,
+						isExerciseOnly: false,
 						content: doc(
 							heading(2, 'Cara Membaca Pecahan'),
 							p(
@@ -235,69 +164,18 @@ export const topic1 =
 							'Materi ini mengajarkan cara membaca dan menuliskan pecahan dalam Bahasa Indonesia. ' +
 							'Cara baca: [pembilang] per [penyebut], contoh 3/7 = "tiga per tujuh". ' +
 							'Nama khusus: 1/2 = setengah, 1/3 = sepertiga, 1/4 = seperempat, 3/4 = tiga perempat. ' +
-							'Cara menulis: bilangan sebelum "per" jadi pembilang, bilangan sesudah "per" jadi penyebut. ' +
-							'Siswa diharapkan bisa membaca pecahan dan menuliskan pecahan dari cara bacanya.',
-						questions: [
-							{
-								learningObjective:
-									'Siswa dapat membaca pecahan dengan benar.',
-								questionUi: doc(
-									p(
-										'Bagaimana cara membaca pecahan berikut?',
-									),
-									math('\\frac{5}{8}'),
-								),
-								questionLlmContext:
-									'Siswa diminta membaca pecahan 5/8. Jawaban benar: "lima per delapan".',
-								evaluationParameters: {
-									expected_answer_keywords: [
-										'lima per delapan',
-										'lima perdelapan',
-										'5 per 8',
-									],
-									common_misconceptions: [
-										'Membaca "delapan per lima" (terbalik)',
-										'Membaca "lima bagi delapan"',
-									],
-									strictness_level: 'lenient',
-								},
-								answers: { cara_baca: 'lima per delapan' },
-							},
-							{
-								learningObjective:
-									'Siswa dapat menuliskan pecahan dari cara bacanya.',
-								questionUi: doc(
-									p(
-										'Tuliskan pecahan yang dibaca ',
-										bold('"tiga per tujuh"'),
-										'!',
-									),
-								),
-								questionLlmContext:
-									'Siswa diminta menuliskan pecahan dari bacaan "tiga per tujuh". Jawaban benar: 3/7.',
-								evaluationParameters: {
-									expected_answer_keywords: [
-										'3/7',
-										'3 per 7',
-									],
-									common_misconceptions: [
-										'Menulis 7/3 (terbalik)',
-										'Menulis 37 (tanpa garis pecahan)',
-									],
-									strictness_level: 'lenient',
-								},
-								answers: { pecahan: '3/7' },
-							},
-						],
+							'Cara menulis: bilangan sebelum "per" jadi pembilang, bilangan sesudah "per" jadi penyebut.',
+						questions: [],
 					},
 
-					// ───────────────────────── LATIHAN ─────────────────────────
+					// ───────────────────────── POST-TEST (isExerciseOnly) ─────────────────────────
 					{
-						title: 'LATIHAN',
+						title: 'Post-Test: Konsep dan Makna Pecahan',
 						order: 4,
 						difficulty: 2,
+						isExerciseOnly: true,
 						content: doc(
-							heading(2, 'LATIHAN'),
+							heading(2, 'Post-Test: Konsep dan Makna Pecahan'),
 							p(
 								'Latihan untuk menguji pemahaman siswa tentang seluruh materi pada subtopik ini: pengertian pecahan, bentuk penulisan, serta cara membaca dan menuliskan pecahan.',
 							),

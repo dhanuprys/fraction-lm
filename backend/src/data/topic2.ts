@@ -29,6 +29,7 @@ export const topic2 =
 						title: 'Penjumlahan Bilangan Pecahan Berpenyebut Sama',
 						order: 1,
 						difficulty: 1,
+						isExerciseOnly: false,
 						content: doc(
 							heading(2, 'Penjumlahan Pecahan Berpenyebut Sama'),
 							p(
@@ -72,67 +73,13 @@ export const topic2 =
 							'Kesalahan umum: ikut menjumlahkan penyebut (5/14). ' +
 							'Jika hasil pembilang > penyebut, hasil lebih dari 1; contoh 4/5 + 3/5 = 7/5 = 1 2/5 (7/5 = 5/5 + 2/5). ' +
 							'Jawaban 7/5 maupun 1 2/5 sama-sama benar.',
-						questions: [
-							{
-								learningObjective:
-									'Siswa dapat menjumlahkan pecahan berpenyebut sama.',
-								questionUi: doc(
-									p('Hitunglah:'),
-									math(
-										'\\frac{1}{6} + \\frac{4}{6} = \\ldots',
-									),
-								),
-								questionLlmContext:
-									'1/6 + 4/6 = (1+4)/6 = 5/6. Penyebut tetap 6.',
-								evaluationParameters: {
-									expected_answer_keywords: [
-										'5/6',
-										'lima per enam',
-									],
-									common_misconceptions: [
-										'5/12 (ikut menjumlahkan penyebut)',
-									],
-									strictness_level: 'moderate',
-									hints: [
-										'Penyebutnya sudah sama, yaitu 6. Penyebut tidak berubah.',
-										'Jumlahkan saja pembilangnya: 1 + 4.',
-									],
-								},
-								answers: { hasil: '5/6' },
-							},
-							{
-								learningObjective:
-									'Siswa dapat menjumlahkan pecahan berpenyebut sama dengan hasil lebih dari 1.',
-								questionUi: doc(
-									p('Hitunglah:'),
-									math(
-										'\\frac{5}{6} + \\frac{4}{6} = \\ldots',
-									),
-									p(
-										'Hasilnya boleh ditulis sebagai pecahan biasa atau pecahan campuran.',
-									),
-								),
-								questionLlmContext:
-									'5/6 + 4/6 = 9/6 = 1 3/6 (= 1 1/2). Terima 9/6, 1 3/6, atau 1 1/2.',
-								evaluationParameters: {
-									expected_answer_keywords: [
-										'9/6',
-										'1 3/6',
-										'1 1/2',
-									],
-									common_misconceptions: [
-										'9/12 (ikut menjumlahkan penyebut)',
-									],
-									strictness_level: 'moderate',
-								},
-								answers: { hasil: '9/6', campuran: '1 3/6' },
-							},
-						],
+						questions: [],
 					},
 					{
 						title: 'Penjumlahan Bilangan Pecahan Berpenyebut Berbeda',
 						order: 2,
 						difficulty: 2,
+						isExerciseOnly: false,
 						content: doc(
 							heading(
 								2,
@@ -169,71 +116,15 @@ export const topic2 =
 							'Langkah: (1) cari KPK penyebut, (2) ubah ke penyebut yang sama dengan mengalikan pembilang dan penyebut dengan bilangan yang sama, (3) jumlahkan pembilang. ' +
 							'Contoh: 1/3 + 1/4 → KPK(3,4)=12 → 4/12 + 3/12 = 7/12. ' +
 							'Kesalahan umum: menjumlahkan pembilang dengan pembilang dan penyebut dengan penyebut (2/7).',
-						questions: [
-							{
-								learningObjective:
-									'Siswa dapat menjumlahkan pecahan berpenyebut berbeda.',
-								questionUi: doc(
-									p('Hitunglah:'),
-									math(
-										'\\frac{1}{2} + \\frac{1}{3} = \\ldots',
-									),
-								),
-								questionLlmContext:
-									'1/2 + 1/3. KPK(2,3)=6. 1/2=3/6, 1/3=2/6. Hasil 5/6.',
-								evaluationParameters: {
-									expected_answer_keywords: [
-										'5/6',
-										'lima per enam',
-									],
-									common_misconceptions: [
-										'2/5 (menjumlahkan pembilang dan penyebut langsung)',
-									],
-									strictness_level: 'moderate',
-									hints: [
-										'Penyebutnya berbeda (2 dan 3). Samakan dulu.',
-										'Cari KPK dari 2 dan 3. Kelipatan 2: 2, 4, 6. Kelipatan 3: 3, 6.',
-										'Ubah keduanya menjadi penyebut 6, lalu jumlahkan pembilangnya.',
-									],
-								},
-								answers: { hasil: '5/6' },
-							},
-							{
-								learningObjective:
-									'Siswa dapat menunjukkan langkah menyamakan penyebut saat menjumlahkan.',
-								questionUi: doc(
-									p(
-										'Hitunglah dengan menunjukkan langkah-langkahnya:',
-									),
-									math(
-										'\\frac{2}{5} + \\frac{1}{3} = \\ldots',
-									),
-								),
-								questionLlmContext:
-									'2/5 + 1/3. KPK(5,3)=15. 2/5=6/15, 1/3=5/15. Hasil 11/15.',
-								evaluationParameters: {
-									expected_answer_keywords: [
-										'11/15',
-										'KPK',
-										'15',
-										'6/15',
-										'5/15',
-									],
-									common_misconceptions: [
-										'3/8 (menjumlahkan pembilang dan penyebut langsung)',
-									],
-									strictness_level: 'moderate',
-								},
-								answers: { hasil: '11/15' },
-							},
-						],
+						questions: [],
 					},
 					{
-						title: 'LATIHAN',
+						title: 'Post-Test: Penjumlahan Bilangan Pecahan',
 						order: 3,
 						difficulty: 2,
+						isExerciseOnly: true,
 						content: doc(
-							heading(2, 'LATIHAN'),
+							heading(2, 'Post-Test: Penjumlahan Bilangan Pecahan'),
 							p(
 								'Latihan untuk menguji pemahaman siswa tentang penjumlahan pecahan berpenyebut sama maupun berbeda.',
 							),
@@ -392,6 +283,7 @@ export const topic2 =
 						title: 'Pengurangan Bilangan Pecahan Berpenyebut Sama',
 						order: 1,
 						difficulty: 1,
+						isExerciseOnly: false,
 						content: doc(
 							heading(2, 'Pengurangan Pecahan Berpenyebut Sama'),
 							p(
@@ -420,57 +312,13 @@ export const topic2 =
 							'Rumus: a/c - b/c = (a-b)/c. Penyebut tetap, pembilang dikurangkan. Contoh: 5/9 - 2/9 = 3/9. ' +
 							'Kesalahan umum: ikut mengurangkan penyebut (menghasilkan penyebut 0). ' +
 							'Hasil seperti 3/9 sudah benar; tidak wajib disederhanakan.',
-						questions: [
-							{
-								learningObjective:
-									'Siswa dapat mengurangkan pecahan berpenyebut sama.',
-								questionUi: doc(
-									p('Hitunglah:'),
-									math(
-										'\\frac{7}{10} - \\frac{3}{10} = \\ldots',
-									),
-								),
-								questionLlmContext:
-									'7/10 - 3/10 = 4/10. Boleh juga disederhanakan menjadi 2/5.',
-								evaluationParameters: {
-									expected_answer_keywords: ['4/10', '2/5'],
-									common_misconceptions: [
-										'4/0 (ikut mengurangkan penyebut)',
-									],
-									strictness_level: 'moderate',
-									hints: [
-										'Penyebutnya sudah sama (10) dan tidak berubah.',
-										'Kurangkan pembilangnya: 7 - 3.',
-									],
-								},
-								answers: { hasil: '4/10', sederhana: '2/5' },
-							},
-							{
-								learningObjective:
-									'Siswa dapat mengurangkan pecahan berpenyebut sama dengan benar.',
-								questionUi: doc(
-									p('Hitunglah:'),
-									math(
-										'\\frac{6}{8} - \\frac{2}{8} = \\ldots',
-									),
-								),
-								questionLlmContext:
-									'6/8 - 2/8 = 4/8. Boleh juga disederhanakan menjadi 1/2.',
-								evaluationParameters: {
-									expected_answer_keywords: ['4/8', '1/2'],
-									common_misconceptions: [
-										'4/0 (ikut mengurangkan penyebut)',
-									],
-									strictness_level: 'moderate',
-								},
-								answers: { hasil: '4/8', sederhana: '1/2' },
-							},
-						],
+						questions: [],
 					},
 					{
 						title: 'Pengurangan Bilangan Pecahan Berpenyebut Berbeda',
 						order: 2,
 						difficulty: 2,
+						isExerciseOnly: false,
 						content: doc(
 							heading(
 								2,
@@ -501,68 +349,15 @@ export const topic2 =
 							'Langkah: cari KPK, samakan penyebut, kurangkan pembilang. ' +
 							'Contoh: 3/4 - 1/3 → KPK(4,3)=12 → 9/12 - 4/12 = 5/12. ' +
 							'Kesalahan umum: mengurangkan pembilang dengan pembilang dan penyebut dengan penyebut tanpa menyamakan penyebut.',
-						questions: [
-							{
-								learningObjective:
-									'Siswa dapat mengurangkan pecahan berpenyebut berbeda.',
-								questionUi: doc(
-									p('Hitunglah:'),
-									math(
-										'\\frac{3}{4} - \\frac{1}{2} = \\ldots',
-									),
-								),
-								questionLlmContext:
-									'3/4 - 1/2. KPK(4,2)=4. 1/2 = 2/4. 3/4 - 2/4 = 1/4.',
-								evaluationParameters: {
-									expected_answer_keywords: [
-										'1/4',
-										'seperempat',
-									],
-									common_misconceptions: [
-										'2/2 (mengurangkan pembilang dan penyebut langsung)',
-									],
-									strictness_level: 'moderate',
-									hints: [
-										'Penyebutnya berbeda (4 dan 2). Samakan dulu.',
-										'Ubah 1/2 menjadi pecahan berpenyebut 4.',
-									],
-								},
-								answers: { hasil: '1/4' },
-							},
-							{
-								learningObjective:
-									'Siswa dapat menunjukkan langkah lengkap pengurangan pecahan berpenyebut berbeda.',
-								questionUi: doc(
-									p('Hitunglah dan tunjukkan langkahnya:'),
-									math(
-										'\\frac{5}{6} - \\frac{1}{4} = \\ldots',
-									),
-								),
-								questionLlmContext:
-									'5/6 - 1/4. KPK(6,4)=12. 5/6 = 10/12, 1/4 = 3/12. 10/12 - 3/12 = 7/12.',
-								evaluationParameters: {
-									expected_answer_keywords: [
-										'7/12',
-										'KPK',
-										'12',
-										'10/12',
-										'3/12',
-									],
-									common_misconceptions: [
-										'4/2 (mengurangkan pembilang dan penyebut langsung)',
-									],
-									strictness_level: 'moderate',
-								},
-								answers: { hasil: '7/12' },
-							},
-						],
+						questions: [],
 					},
 					{
-						title: 'LATIHAN',
+						title: 'Post-Test: Pengurangan Bilangan Pecahan',
 						order: 3,
 						difficulty: 2,
+						isExerciseOnly: true,
 						content: doc(
-							heading(2, 'LATIHAN'),
+							heading(2, 'Post-Test: Pengurangan Bilangan Pecahan'),
 							p(
 								'Latihan untuk menguji pemahaman siswa tentang pengurangan pecahan berpenyebut sama maupun berbeda.',
 							),
