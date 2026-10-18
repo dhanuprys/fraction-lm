@@ -9,6 +9,7 @@ import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
+import { preprocessLatex } from "@/lib/latex-utils";
 
 export function ChatSessionViewer({ sessionId }: { sessionId: string }) {
   const [data, setData] = useState<SessionLogsResponse | null>(null);
@@ -112,9 +113,9 @@ export function ChatSessionViewer({ sessionId }: { sessionId: string }) {
                 <div className="flex flex-col gap-2 [&>p]:m-0 [&>p]:leading-relaxed [&>ul]:m-0 [&>ul]:list-disc [&>ul]:pl-4 [&>ol]:m-0 [&>ol]:list-decimal [&>ol]:pl-4 pouf-text">
                   <ReactMarkdown
                     remarkPlugins={[remarkGfm, remarkMath]}
-                    rehypePlugins={[rehypeKatex]}
+                    rehypePlugins={[[rehypeKatex, { throwOnError: false, strict: false }]]}
                   >
-                    {log.message}
+                    {preprocessLatex(log.message)}
                   </ReactMarkdown>
                 </div>
                 {isAI && log.usedModel && (

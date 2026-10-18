@@ -30,6 +30,7 @@ import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
+import { preprocessLatex } from "@/lib/latex-utils";
 
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
@@ -459,12 +460,13 @@ function QuestionChat({
             })
             .map((m: any) => {
               const aiState = hasPassedToolPart(m) ? "happy" : "default";
-              const textContent =
+              const rawText =
                 m.content ||
                 m.parts
                   ?.map((part: any) => (part.type === "text" ? part.text : ""))
                   .join("") ||
                 "";
+              const textContent = preprocessLatex(rawText);
 
               return (
                 <div
@@ -482,14 +484,14 @@ function QuestionChat({
                       // a reply actually stands out; the student's own bubble
                       // is slightly heavier on the purple background.
                       m.role === "user"
-                        ? "bg-purple-600 text-white font-semibold rounded-tr-xs shadow-xs"
-                        : "bg-white border border-slate-200/90 text-slate-800 font-medium rounded-tl-xs shadow-2xs",
+                        ? "bg-purple-600 text-white font-semibold rounded-tr-xs shadow-xs [&_.katex]:text-white [&_.katex_.frac-line]:border-white [&_.katex_.base]:text-white"
+                        : "bg-white border border-slate-200/90 text-slate-800 font-medium rounded-tl-xs shadow-2xs [&_.katex]:text-slate-900",
                     )}
                   >
-                    <div className="flex flex-col gap-2.5 [&>p]:m-0 [&>ul]:m-0 [&>ul]:list-disc [&>ul]:pl-5 [&>ol]:m-0 [&>ol]:list-decimal [&>ol]:pl-5 [&_strong]:font-bold [&_pre]:bg-slate-800 [&_pre]:text-white [&_pre]:p-3 [&_pre]:rounded-lg [&_code]:bg-purple-50 [&_code]:text-purple-700 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded-md font-sans">
+                    <div className="flex flex-col gap-2.5 [&>p]:m-0 [&>ul]:m-0 [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:flex [&>ul]:flex-col [&>ul]:gap-2 [&>ol]:m-0 [&>ol]:list-decimal [&>ol]:pl-5 [&>ol]:flex [&>ol]:flex-col [&>ol]:gap-2 [&_strong]:font-bold [&_pre]:bg-slate-800 [&_pre]:text-white [&_pre]:p-3 [&_pre]:rounded-lg [&_code]:bg-purple-50 [&_code]:text-purple-700 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded-md [&_.katex-display]:my-1.5 [&_.katex-display]:overflow-x-auto [&_.katex-display]:max-w-full font-sans">
                       <ReactMarkdown
                         remarkPlugins={[remarkGfm, remarkMath]}
-                        rehypePlugins={[rehypeKatex]}
+                        rehypePlugins={[[rehypeKatex, { throwOnError: false, strict: false }]]}
                       >
                         {textContent}
                       </ReactMarkdown>

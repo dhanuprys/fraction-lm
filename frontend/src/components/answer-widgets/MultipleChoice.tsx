@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { MathText } from "@/components/common/MathText";
 
 interface MultipleChoiceProps {
   config: {
@@ -65,7 +66,7 @@ export function MultipleChoice({ config, value, onChange, disabled }: MultipleCh
                 isSelected ? "text-purple-800" : "text-slate-700",
               )}
             >
-              {choice.label}
+              <MathText text={choice.label} />
             </span>
           </button>
         );

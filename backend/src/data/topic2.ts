@@ -319,22 +319,22 @@ export const topic2 =
 								answerConfig: {
 									items: [
 										{
-											prompt: '3/6 menggambarkan bagian yang lebih besar daripada 3/8',
+											prompt: '$\\frac{3}{6}$ menggambarkan bagian yang lebih besar daripada $\\frac{3}{8}$',
 											leftFraction: '3/6',
 											rightFraction: '3/8',
 										},
 										{
-											prompt: '3/4 menggambarkan bagian yang lebih besar daripada 1/4',
+											prompt: '$\\frac{3}{4}$ menggambarkan bagian yang lebih besar daripada $\\frac{1}{4}$',
 											leftFraction: '3/4',
 											rightFraction: '1/4',
 										},
 										{
-											prompt: '1/2 menggambarkan bagian yang lebih besar daripada 1/4',
+											prompt: '$\\frac{1}{2}$ menggambarkan bagian yang lebih besar daripada $\\frac{1}{4}$',
 											leftFraction: '1/2',
 											rightFraction: '1/4',
 										},
 										{
-											prompt: '4/6 menggambarkan bagian yang lebih besar daripada 1/6',
+											prompt: '$\\frac{4}{6}$ menggambarkan bagian yang lebih besar daripada $\\frac{1}{6}$',
 											leftFraction: '4/6',
 											rightFraction: '1/6',
 										},
@@ -343,13 +343,17 @@ export const topic2 =
 								questionLlmContext:
 									'Siswa menuliskan notasi matematika dari perbandingan verbal "lebih besar dari". ' +
 									'Semua jawaban menggunakan simbol >: ' +
-									'3/6 > 3/8, 3/4 > 1/4, 1/2 > 1/4, 4/6 > 1/6.',
+									'$\\frac{3}{6} > \\frac{3}{8}$, $\\frac{3}{4} > \\frac{1}{4}$, $\\frac{1}{2} > \\frac{1}{4}$, $\\frac{4}{6} > \\frac{1}{6}$.',
 								evaluationParameters: {
 									expected_answer_keywords: [
 										'>',
+										'\\frac{3}{6} > \\frac{3}{8}',
 										'3/6 > 3/8',
+										'\\frac{3}{4} > \\frac{1}{4}',
 										'3/4 > 1/4',
+										'\\frac{1}{2} > \\frac{1}{4}',
 										'1/2 > 1/4',
+										'\\frac{4}{6} > \\frac{1}{6}',
 										'4/6 > 1/6',
 									],
 									expected_operators: ['>', '>', '>', '>'],
@@ -383,22 +387,22 @@ export const topic2 =
 								answerConfig: {
 									items: [
 										{
-											prompt: '3/6 menggambarkan bagian yang lebih kecil daripada 5/6',
+											prompt: '$\\frac{3}{6}$ menggambarkan bagian yang lebih kecil daripada $\\frac{5}{6}$',
 											leftFraction: '3/6',
 											rightFraction: '5/6',
 										},
 										{
-											prompt: '2/4 menggambarkan bagian yang lebih kecil daripada 3/4',
+											prompt: '$\\frac{2}{4}$ menggambarkan bagian yang lebih kecil daripada $\\frac{3}{4}$',
 											leftFraction: '2/4',
 											rightFraction: '3/4',
 										},
 										{
-											prompt: '1/2 menggambarkan bagian yang lebih kecil daripada 3/4',
+											prompt: '$\\frac{1}{2}$ menggambarkan bagian yang lebih kecil daripada $\\frac{3}{4}$',
 											leftFraction: '1/2',
 											rightFraction: '3/4',
 										},
 										{
-											prompt: '4/6 menggambarkan bagian yang lebih kecil daripada 5/6',
+											prompt: '$\\frac{4}{6}$ menggambarkan bagian yang lebih kecil daripada $\\frac{5}{6}$',
 											leftFraction: '4/6',
 											rightFraction: '5/6',
 										},
@@ -407,13 +411,17 @@ export const topic2 =
 								questionLlmContext:
 									'Siswa menuliskan notasi matematika dari perbandingan verbal "lebih kecil dari". ' +
 									'Semua jawaban menggunakan simbol <: ' +
-									'3/6 < 5/6, 2/4 < 3/4, 1/2 < 3/4, 4/6 < 5/6.',
+									'$\\frac{3}{6} < \\frac{5}{6}$, $\\frac{2}{4} < \\frac{3}{4}$, $\\frac{1}{2} < \\frac{3}{4}$, $\\frac{4}{6} < \\frac{5}{6}$.',
 								evaluationParameters: {
 									expected_answer_keywords: [
 										'<',
+										'\\frac{3}{6} < \\frac{5}{6}',
 										'3/6 < 5/6',
+										'\\frac{2}{4} < \\frac{3}{4}',
 										'2/4 < 3/4',
+										'\\frac{1}{2} < \\frac{3}{4}',
 										'1/2 < 3/4',
+										'\\frac{4}{6} < \\frac{5}{6}',
 										'4/6 < 5/6',
 									],
 									expected_operators: ['<', '<', '<', '<'],
@@ -439,7 +447,7 @@ export const topic2 =
 								questionType: 'fraction_input',
 								questionUi: doc(
 									p(
-										'Pada gambar berikut, sebuah bidang dibagi menjadi 12 bagian yang sama besar. Setiap 2 kotak mewakili 1/6 dari bidang tersebut.',
+										'Pada gambar berikut, sebuah bidang dibagi menjadi 12 bagian yang sama besar. Setiap 2 kotak mewakili $\\frac{1}{6}$ dari bidang tersebut.',
 									),
 									diagram({
 										diagramType: 'rectangle',
@@ -449,23 +457,23 @@ export const topic2 =
 										cols: 4,
 									}),
 									p(
-										'Lengkapilah pecahan senilai: ',
-										bold('1/6 = □/12'),
+										'Lengkapilah pecahan senilai:',
 									),
+									math('\\frac{1}{6} = \\frac{\\square}{12}'),
 								),
 								answerConfig: {
 									fields: [
 										{
-											prompt: '1/6 = □/12',
+											prompt: '$\\frac{1}{6} = \\frac{\\square}{12}$',
 											prefilled: { denominator: 12 },
 										},
 									],
 								},
 								questionLlmContext:
-									'Pecahan senilai: 1/6 = 2/12. Bidang 3×4 = 12 kotak. 1/6 artinya 2 kotak dari 12. ' +
+									'Pecahan senilai: $\\frac{1}{6} = \\frac{2}{12}$. Bidang 3×4 = 12 kotak. $\\frac{1}{6}$ artinya 2 kotak dari 12. ' +
 									'Pembilang yang dicari: 2.',
 								evaluationParameters: {
-									expected_answer_keywords: ['2', '2/12'],
+									expected_answer_keywords: ['2', '\\frac{2}{12}', '2/12'],
 									common_misconceptions: [
 										'Menjawab 1 karena 1/6 hanya melihat pembilang asli',
 										'Menjawab 6 karena bingung pembilang dan penyebut',
@@ -496,22 +504,22 @@ export const topic2 =
 								),
 								answerConfig: {
 									statements: [
-										'3/6 lebih besar dari 3/8',
-										'1/3 lebih besar dari 1/4',
-										'1/2 lebih besar dari 1/3',
-										'1/2 sama dengan 2/4',
-										'3/5 lebih besar dari 3/4',
-										'7/8 lebih besar dari 8/9',
+										'$\\frac{3}{6}$ lebih besar dari $\\frac{3}{8}$',
+										'$\\frac{1}{3}$ lebih besar dari $\\frac{1}{4}$',
+										'$\\frac{1}{2}$ lebih besar dari $\\frac{1}{3}$',
+										'$\\frac{1}{2}$ sama dengan $\\frac{2}{4}$',
+										'$\\frac{3}{5}$ lebih besar dari $\\frac{3}{4}$',
+										'$\\frac{7}{8}$ lebih besar dari $\\frac{8}{9}$',
 									],
 								},
 								questionLlmContext:
 									'Tabel Benar/Salah untuk 6 pernyataan perbandingan pecahan: ' +
-									'(a) 3/6 > 3/8 → BENAR (pembilang sama, penyebut 6 < 8 → potongan lebih besar). ' +
-									'(b) 1/3 > 1/4 → BENAR (pembilang sama, penyebut 3 < 4 → potongan lebih besar). ' +
-									'(c) 1/2 > 1/3 → BENAR (pembilang sama, penyebut 2 < 3). ' +
-									'(d) 1/2 = 2/4 → BENAR (pecahan senilai: 1/2 = 2/4). ' +
-									'(e) 3/5 > 3/4 → SALAH (pembilang sama, penyebut 5 > 4 → potongan lebih kecil, jadi 3/5 < 3/4). ' +
-									'(f) 7/8 > 8/9 → SALAH (7/8 = 63/72, 8/9 = 64/72, jadi 7/8 < 8/9).',
+									'(a) $\\frac{3}{6} > \\frac{3}{8}$ → BENAR (pembilang sama, penyebut 6 < 8 → potongan lebih besar). ' +
+									'(b) $\\frac{1}{3} > \\frac{1}{4}$ → BENAR (pembilang sama, penyebut 3 < 4 → potongan lebih besar). ' +
+									'(c) $\\frac{1}{2} > \\frac{1}{3}$ → BENAR (pembilang sama, penyebut 2 < 3). ' +
+									'(d) $\\frac{1}{2} = \\frac{2}{4}$ → BENAR (pecahan senilai: $\\frac{1}{2} = \\frac{2}{4}$). ' +
+									'(e) $\\frac{3}{5} > \\frac{3}{4}$ → SALAH (pembilang sama, penyebut 5 > 4 → potongan lebih kecil, jadi $\\frac{3}{5} < \\frac{3}{4}$). ' +
+									'(f) $\\frac{7}{8} > \\frac{8}{9}$ → SALAH ($\\frac{7}{8} = \\frac{63}{72}$, $\\frac{8}{9} = \\frac{64}{72}$, jadi $\\frac{7}{8} < \\frac{8}{9}$).',
 								evaluationParameters: {
 									expected_answer_keywords: [
 										'Benar',
@@ -574,8 +582,8 @@ export const topic2 =
 									'Irfan yang benar. Untuk menentukan pecahan (bagian dari keseluruhan), ' +
 									'kita perlu mengetahui DUA hal: (1) berapa potong yang dimakan (pembilang), dan ' +
 									'(2) menjadi berapa bagian pizza dipotong (penyebut). ' +
-									'Contoh: makan 2 potong dari pizza yang dipotong 4 = 2/4 = 1/2, ' +
-									'tetapi 2 potong dari pizza yang dipotong 8 = 2/8 = 1/4. ' +
+									'Contoh: makan 2 potong dari pizza yang dipotong 4 = $\\frac{2}{4} = \\frac{1}{2}$, ' +
+									'tetapi 2 potong dari pizza yang dipotong 8 = $\\frac{2}{8} = \\frac{1}{4}$. ' +
 									'Tanpa tahu total potongan, kita tidak bisa tentukan besarnya bagian.',
 								evaluationParameters: {
 									expected_answer_keywords: [
@@ -617,17 +625,17 @@ export const topic2 =
 								answerConfig: {
 									items: [
 										{
-											prompt: 'Bandingkan 3/17 dan 15/17 (penyebut sama)',
+											prompt: 'Bandingkan $\\frac{3}{17}$ dan $\\frac{15}{17}$ (penyebut sama)',
 											leftFraction: '3/17',
 											rightFraction: '15/17',
 										},
 										{
-											prompt: 'Bandingkan 10/12 dan 6/12 (penyebut sama)',
+											prompt: 'Bandingkan $\\frac{10}{12}$ dan $\\frac{6}{12}$ (penyebut sama)',
 											leftFraction: '10/12',
 											rightFraction: '6/12',
 										},
 										{
-											prompt: 'Bandingkan 13/25 dan 15/25 (penyebut sama)',
+											prompt: 'Bandingkan $\\frac{13}{25}$ dan $\\frac{15}{25}$ (penyebut sama)',
 											leftFraction: '13/25',
 											rightFraction: '15/25',
 										},
@@ -635,12 +643,15 @@ export const topic2 =
 								},
 								questionLlmContext:
 									'Membandingkan pecahan berpenyebut sama: cukup bandingkan pembilang. ' +
-									'3/17 < 15/17 (3 < 15). 10/12 > 6/12 (10 > 6). 13/25 < 15/25 (13 < 15). ' +
+									'$\\frac{3}{17} < \\frac{15}{17}$ (3 < 15). $\\frac{10}{12} > \\frac{6}{12}$ (10 > 6). $\\frac{13}{25} < \\frac{15}{25}$ (13 < 15). ' +
 									'Catatan: soal asli menulis 15/257 tetapi diperbaiki ke 15/25 agar penyebut sama.',
 								evaluationParameters: {
 									expected_answer_keywords: [
+										'\\frac{3}{17} < \\frac{15}{17}',
 										'3/17 < 15/17',
+										'\\frac{10}{12} > \\frac{6}{12}',
 										'10/12 > 6/12',
+										'\\frac{13}{25} < \\frac{15}{25}',
 										'13/25 < 15/25',
 									],
 									expected_operators: ['<', '>', '<'],
@@ -671,32 +682,32 @@ export const topic2 =
 								answerConfig: {
 									items: [
 										{
-											prompt: 'Bandingkan 2/4 dan 2/8',
+											prompt: 'Bandingkan $\\frac{2}{4}$ dan $\\frac{2}{8}$',
 											leftFraction: '2/4',
 											rightFraction: '2/8',
 										},
 										{
-											prompt: 'Bandingkan 4/6 dan 4/11',
+											prompt: 'Bandingkan $\\frac{4}{6}$ dan $\\frac{4}{11}$',
 											leftFraction: '4/6',
 											rightFraction: '4/11',
 										},
 										{
-											prompt: 'Bandingkan 5/9 dan 5/12',
+											prompt: 'Bandingkan $\\frac{5}{9}$ dan $\\frac{5}{12}$',
 											leftFraction: '5/9',
 											rightFraction: '5/12',
 										},
 										{
-											prompt: 'Bandingkan 6/8 dan 6/10',
+											prompt: 'Bandingkan $\\frac{6}{8}$ dan $\\frac{6}{10}$',
 											leftFraction: '6/8',
 											rightFraction: '6/10',
 										},
 										{
-											prompt: 'Bandingkan 7/12 dan 7/15',
+											prompt: 'Bandingkan $\\frac{7}{12}$ dan $\\frac{7}{15}$',
 											leftFraction: '7/12',
 											rightFraction: '7/15',
 										},
 										{
-											prompt: 'Bandingkan 3/7 dan 3/10',
+											prompt: 'Bandingkan $\\frac{3}{7}$ dan $\\frac{3}{10}$',
 											leftFraction: '3/7',
 											rightFraction: '3/10',
 										},
@@ -704,14 +715,20 @@ export const topic2 =
 								},
 								questionLlmContext:
 									'Membandingkan pecahan berpembilang sama: penyebut lebih besar = potongan lebih kecil. ' +
-									'2/4 > 2/8. 4/6 > 4/11. 5/9 > 5/12. 6/8 > 6/10. 7/12 > 7/15.',
+									'$\\frac{2}{4} > \\frac{2}{8}$. $\\frac{4}{6} > \\frac{4}{11}$. $\\frac{5}{9} > \\frac{5}{12}$. $\\frac{6}{8} > \\frac{6}{10}$. $\\frac{7}{12} > \\frac{7}{15}$. $\\frac{3}{7} > \\frac{3}{10}$.',
 								evaluationParameters: {
 									expected_answer_keywords: [
+										'\\frac{2}{4} > \\frac{2}{8}',
 										'2/4 > 2/8',
+										'\\frac{4}{6} > \\frac{4}{11}',
 										'4/6 > 4/11',
+										'\\frac{5}{9} > \\frac{5}{12}',
 										'5/9 > 5/12',
+										'\\frac{6}{8} > \\frac{6}{10}',
 										'6/8 > 6/10',
+										'\\frac{7}{12} > \\frac{7}{15}',
 										'7/12 > 7/15',
+										'\\frac{3}{7} > \\frac{3}{10}',
 										'3/7 > 3/10',
 									],
 									expected_operators: [
@@ -743,9 +760,12 @@ export const topic2 =
 								questionType: 'fraction_ordering',
 								questionUi: doc(
 									p(
-										'Aktivitas 2.7c: Urutkan pecahan-pecahan tersebut dari yang ',
+										'Aktivitas 2.7c: Urutkan pecahan-pecahan berikut dari yang ',
 										bold('terkecil hingga terbesar'),
-										'. Gunakan simbol matematika yang sesuai.',
+										'. Gunakan simbol matematika yang sesuai:',
+									),
+									math(
+										'\\frac{17}{100} \\quad \\frac{65}{100} \\quad \\frac{15}{100} \\quad \\frac{39}{100}',
 									),
 								),
 								answerConfig: {
@@ -756,15 +776,20 @@ export const topic2 =
 								},
 								questionLlmContext:
 									'Aktivitas 2.7c: Siswa mengurutkan pecahan berpenyebut sama (100) dari terkecil ke terbesar. ' +
-									'Pecahan awal yang ditampilkan: 17/100, 65/100, 15/100, 39/100. ' +
+									'Pecahan awal yang ditampilkan: $\\frac{17}{100}$, $\\frac{65}{100}$, $\\frac{15}{100}$, $\\frac{39}{100}$. ' +
 									'Urutan pembilang dari terkecil: 15 < 17 < 39 < 65. ' +
-									'Jawaban benar: 15/100 < 17/100 < 39/100 < 65/100.',
+									'Jawaban benar: $\\frac{15}{100} < \\frac{17}{100} < \\frac{39}{100} < \\frac{65}{100}$.',
 								evaluationParameters: {
 									expected_answer_keywords: [
+										'\\frac{15}{100} < \\frac{17}{100} < \\frac{39}{100} < \\frac{65}{100}',
 										'15/100 < 17/100 < 39/100 < 65/100',
+										'\\frac{15}{100}',
 										'15/100',
+										'\\frac{17}{100}',
 										'17/100',
+										'\\frac{39}{100}',
 										'39/100',
+										'\\frac{65}{100}',
 										'65/100',
 										'<',
 									],

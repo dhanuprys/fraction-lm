@@ -1,9 +1,24 @@
 /* @import "tailwindcss"; */
+@import "katex/dist/katex.min.css";
 @import "@fontsource-variable/nunito";
 @import "./components/pouf/pouf.css";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 /* @import "@fontsource-variable/geist"; */
+
+/* KaTeX fraction enhancements: prevent narrow squished fractions and line collision */
+.katex {
+  text-rendering: optimizeLegibility;
+}
+
+.katex .mfrac {
+  padding: 0 0.2em;
+}
+
+.katex .mfrac .frac-line {
+  min-width: 1.4em;
+  border-bottom-width: 0.08em !important;
+}
 
 /* Custom Cursors */
 body {

@@ -12,6 +12,9 @@
 
 import { useState, useEffect } from "react";
 import clsx from "clsx";
+import { InlineMath } from "react-katex";
+import "katex/dist/katex.min.css";
+import { MathText } from "@/components/common/MathText";
 import {
   GripVertical,
   ChevronLeft,
@@ -33,28 +36,39 @@ interface Props {
   disabled?: boolean;
 }
 
-/** Renders a fraction as a stacked numerator/denominator with horizontal bar. */
+/** Renders a fraction using KaTeX mathematical typesetting with spacious display fractions. */
 function StackedFraction({ fraction }: { fraction: string }) {
-  const parts = fraction.split("/");
-  if (parts.length !== 2) {
+  let mathStr = fraction.trim();
+  if (!mathStr.startsWith("\\") && mathStr.includes("/")) {
+    const parts = mathStr.split("/");
+    if (parts.length === 2) {
+      mathStr = `\\dfrac{\\enspace ${parts[0].trim()} \\enspace}{\\enspace ${parts[1].trim()} \\enspace}`;
+    }
+  } else if (mathStr.startsWith("\\frac{")) {
+    mathStr = mathStr.replace(
+      /\\frac\{([^{}]+)\}\{([^{}]+)\}/,
+      "\\dfrac{\\enspace $1 \\enspace}{\\enspace $2 \\enspace}",
+    );
+  } else if (mathStr.startsWith("\\dfrac{") && !mathStr.includes("\\enspace")) {
+    mathStr = mathStr.replace(
+      /\\dfrac\{([^{}]+)\}\{([^{}]+)\}/,
+      "\\dfrac{\\enspace $1 \\enspace}{\\enspace $2 \\enspace}",
+    );
+  }
+
+  try {
+    return (
+      <div className="inline-flex items-center justify-center text-xl font-semibold select-none text-slate-900">
+        <InlineMath math={mathStr} />
+      </div>
+    );
+  } catch {
     return (
       <span className="font-extrabold text-xl text-slate-800 tracking-tight">
         {fraction}
       </span>
     );
   }
-  const [num, den] = parts;
-  return (
-    <div className="inline-flex flex-col items-center justify-center leading-none select-none">
-      <span className="text-xl font-black text-slate-900 px-1 py-0.5">
-        {num.trim()}
-      </span>
-      <span className="w-full min-w-[2.2rem] h-[2.5px] bg-slate-900 rounded-full" />
-      <span className="text-xl font-black text-slate-900 px-1 py-0.5">
-        {den.trim()}
-      </span>
-    </div>
-  );
 }
 
 export function FractionOrdering({ config, value, onChange, disabled }: Props) {
@@ -171,7 +185,7 @@ export function FractionOrdering({ config, value, onChange, disabled }: Props) {
           </span>
           <div>
             <h3 className="text-sm font-bold text-slate-800 m-0">
-              {config.instruction || "Urutkan kartu pecahan berikut:"}
+              <MathText text={config.instruction || "Urutkan kartu pecahan berikut:"} />
             </h3>
             <p className="text-xs text-slate-500 font-medium m-0 mt-0.5">
               {selectedIdx !== null ? (
@@ -338,8 +352,19 @@ export function FractionOrdering({ config, value, onChange, disabled }: Props) {
         <span className="text-xs font-semibold text-purple-600 uppercase tracking-wider mr-1">
           Notasi:
         </span>
-        <span className="font-mono font-extrabold text-purple-950">
-          {items.join(` ${separator} `)}
+        <span className="font-extrabold text-purple-950 flex items-center">
+          <InlineMath
+            math={items
+              .map((f) => {
+                const trimmed = f.trim();
+                if (!trimmed.startsWith("\\") && trimmed.includes("/")) {
+                  const [n, d] = trimmed.split("/");
+                  return `\\dfrac{${n.trim()}}{${d.trim()}}`;
+                }
+                return trimmed.replace(/\\frac/g, "\\dfrac");
+              })
+              .join(` ${separator} `)}
+          />
         </span>
       </div>
     </div>

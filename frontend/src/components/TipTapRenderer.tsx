@@ -3,6 +3,7 @@ import "katex/dist/katex.min.css";
 import React from "react";
 import { Heading } from "@/components/pouf/text";
 import { RectangleDiagram, CircleDiagram, DiagonalRectangleDiagram } from "@/components/diagrams/FractionDiagrams";
+import { MathText } from "@/components/common/MathText";
 
 export function renderTipTapNode(node: any, index: number = 0): React.ReactNode {
   if (!node) return null;
@@ -28,7 +29,12 @@ export function renderTipTapNode(node: any, index: number = 0): React.ReactNode 
   }
 
   if (node.type === "text") {
-    let el: React.ReactNode = node.text;
+    const rawText = node.text || "";
+    let el: React.ReactNode = rawText.includes("$") ? (
+      <MathText text={rawText} />
+    ) : (
+      rawText
+    );
     if (node.marks) {
       node.marks.forEach((mark: any, mIdx: number) => {
         if (mark.type === "bold")

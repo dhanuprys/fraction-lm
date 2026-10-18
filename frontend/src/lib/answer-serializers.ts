@@ -1,10 +1,12 @@
 /* ─────────────────────────────────────────────────────────────────────────────
  *  Answer Serializers
  *  ──────────────────────────────────────────────────────────────────────────
- *  Each function converts structured answer-widget state into plain-text that
- *  the tutor LLM can evaluate using its existing keyword / misconception
- *  matching.  The serialized text is sent as a regular chat message.
+ *  Each function converts structured answer-widget state into LaTeX-formatted
+ *  text that both renders beautifully in the student chat bubble via KaTeX
+ *  and allows the tutor LLM to evaluate using mathematical notation.
  * ───────────────────────────────────────────────────────────────────────── */
+
+import { toLatexFrac } from "./latex-utils";
 
 // ─── True / False Table ─────────────────────────────────────────────────────
 
@@ -15,9 +17,9 @@ export function serializeTrueFalseTable(
   const lines = statements.map((s, i) => {
     const a = answers[i];
     const label = a === true ? "Benar" : a === false ? "Salah" : "(belum dijawab)";
-    return `${i + 1}. "${s}" → ${label}`;
+    return `- Pernyataan ${i + 1} (${s}): **${label}**`;
   });
-  return `Jawaban saya untuk tabel Benar/Salah:\n${lines.join("\n")}`;
+  return `Jawaban saya untuk tabel Benar/Salah:\n\n${lines.join("\n")}`;
 }
 
 // ─── Fraction Input ─────────────────────────────────────────────────────────
@@ -29,12 +31,20 @@ export interface FractionFieldValue {
 }
 
 export function serializeFractionInput(fields: FractionFieldValue[]): string {
+  if (fields.length === 1) {
+    const f = fields[0];
+    const n = f.numerator ?? "?";
+    const d = f.denominator ?? "?";
+    const promptStr = f.prompt ? `${f.prompt} → ` : "";
+    return `Jawaban pecahan saya: ${promptStr}$\\frac{${n}}{${d}}$`;
+  }
   const lines = fields.map((f, i) => {
     const n = f.numerator ?? "?";
     const d = f.denominator ?? "?";
-    return `${i + 1}. ${f.prompt || "Pecahan"} → ${n}/${d}`;
+    const promptStr = f.prompt ? `${f.prompt} → ` : "";
+    return `- Soal ${i + 1}: ${promptStr}$\\frac{${n}}{${d}}$`;
   });
-  return `Jawaban pecahan saya:\n${lines.join("\n")}`;
+  return `Jawaban pecahan saya:\n\n${lines.join("\n")}`;
 }
 
 // ─── Grid Coloring ──────────────────────────────────────────────────────────
@@ -52,9 +62,10 @@ export function serializeGridColoring(
   const total = grid.length * (grid[0]?.length ?? 0);
   const counts = instructions.map((inst) => {
     const count = grid.flat().filter((c) => c === inst.color).length;
-    return `- ${inst.label}: ${count}/${total} kotak diwarnai (diminta ${inst.fraction})`;
+    const fractionLatex = toLatexFrac(inst.fraction);
+    return `- ${inst.label}: $\\frac{${count}}{${total}}$ kotak diwarnai (diminta $${fractionLatex}$)`;
   });
-  return `Jawaban pewarnaan grid saya:\n${counts.join("\n")}`;
+  return `Jawaban pewarnaan grid saya:\n\n${counts.join("\n")}`;
 }
 
 // ─── Numeric ────────────────────────────────────────────────────────────────
@@ -85,12 +96,17 @@ export interface FractionIdentifyValue {
 }
 
 export function serializeFractionIdentify(answers: FractionIdentifyValue[]): string {
+  if (answers.length === 1) {
+    const n = answers[0].numerator ?? "?";
+    const d = answers[0].denominator ?? "?";
+    return `Jawaban pecahan dari gambar: $\\frac{${n}}{${d}}$`;
+  }
   const lines = answers.map((a, i) => {
     const n = a.numerator ?? "?";
     const d = a.denominator ?? "?";
-    return `Gambar ${i + 1}: ${n}/${d}`;
+    return `- Gambar ${i + 1}: $\\frac{${n}}{${d}}$`;
   });
-  return `Jawaban pecahan dari gambar:\n${lines.join("\n")}`;
+  return `Jawaban pecahan dari gambar:\n\n${lines.join("\n")}`;
 }
 
 // ─── Fraction Comparison ────────────────────────────────────────────────────
@@ -105,11 +121,25 @@ export function serializeFractionComparison(
   items: FractionComparisonItem[],
   answers: Record<number, string | null>,
 ): string {
+  if (items.length === 1) {
+    const op = answers[0];
+    const left = toLatexFrac(items[0].leftFraction);
+    const right = toLatexFrac(items[0].rightFraction);
+    if (!op) {
+      return `Jawaban perbandingan pecahan saya: $${left}$ dan $${right}$ (belum dijawab)`;
+    }
+    return `Jawaban perbandingan pecahan saya: $${left} ${op} ${right}$`;
+  }
   const lines = items.map((item, i) => {
-    const op = answers[i] ?? "(belum dijawab)";
-    return `${i + 1}. ${item.leftFraction} ${op} ${item.rightFraction}`;
+    const op = answers[i];
+    const left = toLatexFrac(item.leftFraction);
+    const right = toLatexFrac(item.rightFraction);
+    if (!op) {
+      return `- Soal ${i + 1}: $${left}$ dan $${right}$ (belum dijawab)`;
+    }
+    return `- Soal ${i + 1}: $${left} ${op} ${right}$`;
   });
-  return `Jawaban perbandingan pecahan saya:\n${lines.join("\n")}`;
+  return `Jawaban perbandingan pecahan saya:\n\n${lines.join("\n")}`;
 }
 
 // ─── Fraction Ordering ──────────────────────────────────────────────────────
@@ -118,8 +148,9 @@ export function serializeFractionOrdering(
   orderedFractions: string[],
   separator: string = "<",
 ): string {
-  const expression = (orderedFractions || []).join(` ${separator} `);
-  return `Urutan pecahan saya dari yang terkecil hingga terbesar:\n${expression}`;
+  const latexFractions = (orderedFractions || []).map((f) => toLatexFrac(f));
+  const expression = latexFractions.join(` ${separator} `);
+  return `Urutan pecahan saya dari yang terkecil hingga terbesar:\n\n$${expression}$`;
 }
 
 // ─── Dispatcher ─────────────────────────────────────────────────────────────

@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { MathText } from "@/components/common/MathText";
 
 interface TrueFalseTableProps {
   config: {
@@ -50,7 +51,7 @@ export function TrueFalseTable({ config, value, onChange, disabled }: TrueFalseT
             {/* Statement text */}
             <p className="text-sm font-medium text-slate-700 m-0 leading-relaxed pr-2">
               <span className="text-purple-500 font-bold mr-1.5">{i + 1}.</span>
-              {statement}
+              <MathText text={statement} />
             </p>
 
             {/* True button */}

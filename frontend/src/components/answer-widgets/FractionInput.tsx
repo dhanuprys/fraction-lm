@@ -1,5 +1,6 @@
 import { useRef, useEffect } from "react";
 import clsx from "clsx";
+import { MathText } from "@/components/common/MathText";
 
 interface FractionField {
   prompt: string;
@@ -65,7 +66,7 @@ function SingleFractionInput({
       {/* Prompt text */}
       {field.prompt && (
         <p className="flex-1 text-sm font-medium text-slate-600 m-0 leading-relaxed min-w-0">
-          {field.prompt}
+          <MathText text={field.prompt} />
         </p>
       )}
 

@@ -305,17 +305,17 @@ export const topic1 =
 								),
 								answerConfig: {
 									statements: [
-										'Ochan telah memakan 3/6 bagian dari sebuah pizza.',
-										'Ochan telah memakan 6/3 bagian dari sebuah pizza.',
+										'Ochan telah memakan $\\frac{3}{6}$ bagian dari sebuah pizza.',
+										'Ochan telah memakan $\\frac{6}{3}$ bagian dari sebuah pizza.',
 										'Kedua pizza tersebut memiliki ukuran yang sama.',
-										'Pecahan 3/6 menggambarkan porsi yang lebih besar daripada 3/8.',
+										'Pecahan $\\frac{3}{6}$ menggambarkan porsi yang lebih besar daripada $\\frac{3}{8}$.',
 									],
 									labels: ['Benar', 'Salah'],
 								},
 								questionLlmContext:
 									'Siswa menentukan Benar/Salah untuk 4 pernyataan tentang pizza Ochan. ' +
-									'Ochan memakan 3 dari 6 potong = 3/6. ' +
-									'Jawaban: 1=Benar (3/6 benar), 2=Salah (6/3 terbalik), 3=Benar (kedua pizza sama besar), 4=Benar (3/6 > 3/8).',
+									'Ochan memakan 3 dari 6 potong = $\\frac{3}{6}$. ' +
+									'Jawaban: 1=Benar ($\\frac{3}{6}$ benar), 2=Salah ($\\frac{6}{3}$ terbalik), 3=Benar (kedua pizza sama besar), 4=Benar ($\\frac{3}{6} > \\frac{3}{8}$).',
 								evaluationParameters: {
 									expected_answer_keywords: [
 										'1:Benar',
@@ -371,7 +371,7 @@ export const topic1 =
 											prompt: 'Pembilang adalah 6, penyebutnya adalah 8.',
 										},
 										{
-											prompt: 'Pecahan ini sudah diketahui:',
+											prompt: 'Pecahan ini sudah diketahui: $\\frac{5}{11}$',
 											prefilled: {
 												numerator: 5,
 												denominator: 11,
@@ -389,13 +389,18 @@ export const topic1 =
 								},
 								questionLlmContext:
 									'Siswa menuliskan pecahan dari informasi pembilang/penyebut. ' +
-									'Jawaban benar: 1) 7/12, 2) 6/8, 3) sudah terisi 5/11, 4) 8/9, 5) 1/10.',
+									'Jawaban benar: 1) $\\frac{7}{12}$, 2) $\\frac{6}{8}$, 3) sudah terisi $\\frac{5}{11}$, 4) $\\frac{8}{9}$, 5) $\\frac{1}{10}$.',
 								evaluationParameters: {
 									expected_answer_keywords: [
+										'\\frac{7}{12}',
 										'7/12',
+										'\\frac{6}{8}',
 										'6/8',
+										'\\frac{5}{11}',
 										'5/11',
+										'\\frac{8}{9}',
 										'8/9',
+										'\\frac{1}{10}',
 										'1/10',
 									],
 									common_misconceptions: [
@@ -442,15 +447,15 @@ export const topic1 =
 									statements: [
 										'Pius telah memotong pizza tersebut menjadi tiga bagian.',
 										'Ketiga bagian tersebut memiliki ukuran yang berbeda-beda.',
-										'Setiap potongan merupakan 1/3 bagian dari pizza.',
-										'Hanya jika pizza dipotong menjadi 3 bagian yang sama besar, maka satu potong merupakan 1/3 bagian dari pizza.',
+										'Setiap potongan merupakan $\\frac{1}{3}$ bagian dari pizza.',
+										'Hanya jika pizza dipotong menjadi 3 bagian yang sama besar, maka satu potong merupakan $\\frac{1}{3}$ bagian dari pizza.',
 									],
 									labels: ['Benar', 'Salah'],
 								},
 								questionLlmContext:
 									'Siswa menentukan Benar/Salah tentang pemotongan pizza Pius yang tidak sama besar. ' +
 									'Jawaban: 1=Benar (memang 3 bagian), 2=Benar (ukuran berbeda-beda), ' +
-									'3=Salah (bukan 1/3 karena tidak sama besar), 4=Benar (syarat pecahan: bagian harus sama besar).',
+									'3=Salah (bukan $\\frac{1}{3}$ karena tidak sama besar), 4=Benar (syarat pecahan: bagian harus sama besar).',
 								evaluationParameters: {
 									expected_answer_keywords: [
 										'1:Benar',
@@ -498,10 +503,10 @@ export const topic1 =
 										bold('Warnailah pada bidang pertama:'),
 									),
 									bulletList(
-										'50/100 dengan warna merah',
-										'10/100 dengan warna biru',
-										'2/100 dengan warna hijau',
-										'1/100 dengan warna hitam',
+										'$\\frac{50}{100}$ dengan warna merah',
+										'$\\frac{10}{100}$ dengan warna biru',
+										'$\\frac{2}{100}$ dengan warna hijau',
+										'$\\frac{1}{100}$ dengan warna hitam',
 									),
 								),
 								answerConfig: {
@@ -511,22 +516,22 @@ export const topic1 =
 										{
 											fraction: '50/100',
 											color: 'red',
-											label: '50/100 merah',
+											label: '$\\frac{50}{100}$ merah',
 										},
 										{
 											fraction: '10/100',
 											color: 'blue',
-											label: '10/100 biru',
+											label: '$\\frac{10}{100}$ biru',
 										},
 										{
 											fraction: '2/100',
 											color: 'green',
-											label: '2/100 hijau',
+											label: '$\\frac{2}{100}$ hijau',
 										},
 										{
 											fraction: '1/100',
 											color: 'black',
-											label: '1/100 hitam',
+											label: '$\\frac{1}{100}$ hitam',
 										},
 									],
 								},
@@ -536,9 +541,13 @@ export const topic1 =
 									'Total diwarnai = 63 kotak, sisa 37 kotak kosong.',
 								evaluationParameters: {
 									expected_answer_keywords: [
+										'\\frac{50}{100}',
 										'50/100',
+										'\\frac{10}{100}',
 										'10/100',
+										'\\frac{2}{100}',
 										'2/100',
+										'\\frac{1}{100}',
 										'1/100',
 									],
 									expected_grid_state: {
@@ -575,10 +584,10 @@ export const topic1 =
 									heading(3, 'Aktivitas 1.4 — Bidang Kedua'),
 									p(bold('Warnailah pada bidang kedua:')),
 									bulletList(
-										'25/100 dengan warna merah',
-										'12/100 dengan warna biru',
-										'8/100 dengan warna hijau',
-										'11/100 dengan warna hitam',
+										'$\\frac{25}{100}$ dengan warna merah',
+										'$\\frac{12}{100}$ dengan warna biru',
+										'$\\frac{8}{100}$ dengan warna hijau',
+										'$\\frac{11}{100}$ dengan warna hitam',
 									),
 								),
 								answerConfig: {
@@ -588,22 +597,22 @@ export const topic1 =
 										{
 											fraction: '25/100',
 											color: 'red',
-											label: '25/100 merah',
+											label: '$\\frac{25}{100}$ merah',
 										},
 										{
 											fraction: '12/100',
 											color: 'blue',
-											label: '12/100 biru',
+											label: '$\\frac{12}{100}$ biru',
 										},
 										{
 											fraction: '8/100',
 											color: 'green',
-											label: '8/100 hijau',
+											label: '$\\frac{8}{100}$ hijau',
 										},
 										{
 											fraction: '11/100',
 											color: 'black',
-											label: '11/100 hitam',
+											label: '$\\frac{11}{100}$ hitam',
 										},
 									],
 								},
@@ -613,9 +622,13 @@ export const topic1 =
 									'Total diwarnai = 56 kotak, sisa 44 kotak kosong.',
 								evaluationParameters: {
 									expected_answer_keywords: [
+										'\\frac{25}{100}',
 										'25/100',
+										'\\frac{12}{100}',
 										'12/100',
+										'\\frac{8}{100}',
 										'8/100',
+										'\\frac{11}{100}',
 										'11/100',
 									],
 									expected_grid_state: {
@@ -736,20 +749,30 @@ export const topic1 =
 								},
 								questionLlmContext:
 									'Siswa menentukan pecahan dari 10 gambar yang diarsir. ' +
-									'Jawaban benar: 1) 2/6, 2) 2/8, 3) 5/12, 4) 3/8, 5) 4/12, 6) 4/8, ' +
-									'7) 1/2, 8) 2/4, 9) 2/5, 10) 3/6. ' +
+									'Jawaban benar: 1) $\\frac{2}{6}$, 2) $\\frac{2}{8}$, 3) $\\frac{5}{12}$, 4) $\\frac{3}{8}$, 5) $\\frac{4}{12}$, 6) $\\frac{4}{8}$, ' +
+									'7) $\\frac{1}{2}$, 8) $\\frac{2}{4}$, 9) $\\frac{2}{5}$, 10) $\\frac{3}{6}$. ' +
 									'Pembilang = bagian diarsir, penyebut = total bagian.',
 								evaluationParameters: {
 									expected_answer_keywords: [
+										'\\frac{2}{6}',
 										'2/6',
+										'\\frac{2}{8}',
 										'2/8',
+										'\\frac{5}{12}',
 										'5/12',
+										'\\frac{3}{8}',
 										'3/8',
+										'\\frac{4}{12}',
 										'4/12',
+										'\\frac{4}{8}',
 										'4/8',
+										'\\frac{1}{2}',
 										'1/2',
+										'\\frac{2}{4}',
 										'2/4',
+										'\\frac{2}{5}',
 										'2/5',
+										'\\frac{3}{6}',
 										'3/6',
 									],
 									common_misconceptions: [
@@ -788,11 +811,11 @@ export const topic1 =
 								questionUi: doc(
 									heading(
 										3,
-										'Warnailah 1/6 bagian dari kotak di bawah ini!',
+										'Warnailah $\\frac{1}{6}$ bagian dari kotak di bawah ini!',
 									),
 									p(
 										'Kotak di bawah terdiri dari 12 kotak kecil yang sama besar. ' +
-											'Warnailah kotak-kotak sehingga menunjukkan pecahan 1/6.',
+											'Warnailah kotak-kotak sehingga menunjukkan pecahan $\\frac{1}{6}$.',
 									),
 								),
 								answerConfig: {
@@ -802,7 +825,7 @@ export const topic1 =
 										{
 											fraction: '2/12',
 											color: 'purple',
-											label: '1/6 bagian (= 2/12)',
+											label: '$\\frac{1}{6}$ bagian (= $\\frac{2}{12}$)',
 										},
 									],
 								},
@@ -811,8 +834,10 @@ export const topic1 =
 									'1/6 dari 12 = 2 kotak. Siswa harus mewarnai tepat 2 kotak.',
 								evaluationParameters: {
 									expected_answer_keywords: [
+										'\\frac{2}{12}',
 										'2/12',
 										'2 kotak',
+										'\\frac{1}{6}',
 										'1/6',
 									],
 									expected_grid_state: { purple: 2 },
@@ -842,11 +867,11 @@ export const topic1 =
 								questionUi: doc(
 									heading(
 										3,
-										'Arsirlah 5/8 bagian dari bidang di bawah ini!',
+										'Arsirlah $\\frac{5}{8}$ bagian dari bidang di bawah ini!',
 									),
 									p(
 										'Bidang di bawah terdiri dari 24 kotak kecil yang sama besar. ' +
-											'Arsirlah kotak-kotak sehingga menunjukkan pecahan 5/8.',
+											'Arsirlah kotak-kotak sehingga menunjukkan pecahan $\\frac{5}{8}$.',
 									),
 								),
 								answerConfig: {
@@ -856,7 +881,7 @@ export const topic1 =
 										{
 											fraction: '15/24',
 											color: 'purple',
-											label: '5/8 bagian (= 15/24)',
+											label: '$\\frac{5}{8}$ bagian (= $\\frac{15}{24}$)',
 										},
 									],
 								},
@@ -866,8 +891,10 @@ export const topic1 =
 									'Kunci: 24 / 8 = 3 kotak per bagian, 5 x 3 = 15 kotak.',
 								evaluationParameters: {
 									expected_answer_keywords: [
+										'\\frac{15}{24}',
 										'15/24',
 										'15 kotak',
+										'\\frac{5}{8}',
 										'5/8',
 									],
 									expected_grid_state: { purple: 15 },

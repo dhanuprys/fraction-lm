@@ -39,6 +39,11 @@ export function math(latex: string) {
 	return { type: 'math', attrs: { latex } };
 }
 
+/** LaTeX inline math node. */
+export function inlineMath(latex: string) {
+	return { type: 'inlineMath', attrs: { latex } };
+}
+
 /** Bullet list from string items. */
 export function bulletList(...items: string[]) {
 	return {

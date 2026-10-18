@@ -9,6 +9,9 @@
  * ───────────────────────────────────────────────────────────────────────── */
 
 import clsx from "clsx";
+import { InlineMath } from "react-katex";
+import "katex/dist/katex.min.css";
+import { MathText } from "@/components/common/MathText";
 
 interface FractionComparisonConfig {
   items: Array<{
@@ -33,20 +36,35 @@ const OPERATORS: { symbol: Operator; label: string }[] = [
   { symbol: ">", label: "lebih besar dari" },
 ];
 
-/** Renders a fraction as a stacked numerator/denominator with a dividing line. */
+/** Renders a fraction using KaTeX mathematical typesetting with comfortable spacing. */
 function FractionDisplay({ fraction }: { fraction: string }) {
-  const parts = fraction.split("/");
-  if (parts.length !== 2) {
+  let mathStr = fraction.trim();
+  if (!mathStr.startsWith("\\") && mathStr.includes("/")) {
+    const parts = mathStr.split("/");
+    if (parts.length === 2) {
+      mathStr = `\\dfrac{\\enspace ${parts[0].trim()} \\enspace}{\\enspace ${parts[1].trim()} \\enspace}`;
+    }
+  } else if (mathStr.startsWith("\\frac{")) {
+    mathStr = mathStr.replace(
+      /\\frac\{([^{}]+)\}\{([^{}]+)\}/,
+      "\\dfrac{\\enspace $1 \\enspace}{\\enspace $2 \\enspace}",
+    );
+  } else if (mathStr.startsWith("\\dfrac{") && !mathStr.includes("\\enspace")) {
+    mathStr = mathStr.replace(
+      /\\dfrac\{([^{}]+)\}\{([^{}]+)\}/,
+      "\\dfrac{\\enspace $1 \\enspace}{\\enspace $2 \\enspace}",
+    );
+  }
+
+  try {
+    return (
+      <span className="text-xl text-slate-800 flex items-center justify-center select-none font-semibold">
+        <InlineMath math={mathStr} />
+      </span>
+    );
+  } catch {
     return <span className="font-bold text-lg text-slate-800">{fraction}</span>;
   }
-  const [num, den] = parts;
-  return (
-    <span className="inline-flex flex-col items-center leading-none gap-0">
-      <span className="text-lg font-bold text-slate-800 px-1">{num.trim()}</span>
-      <span className="w-full h-px bg-slate-800 min-w-[1.5rem]" />
-      <span className="text-lg font-bold text-slate-800 px-1">{den.trim()}</span>
-    </span>
-  );
 }
 
 export function FractionComparison({
@@ -73,14 +91,14 @@ export function FractionComparison({
             {/* Optional text prompt above the comparison */}
             {item.prompt && (
               <p className="text-sm text-slate-600 font-medium mb-3 m-0 leading-relaxed">
-                {item.prompt}
+                <MathText text={item.prompt} />
               </p>
             )}
 
             {/* Fraction — Operator — Fraction row */}
             <div className="flex items-center justify-center gap-3 sm:gap-5 flex-wrap">
               {/* Left fraction */}
-              <div className="flex items-center justify-center min-w-[3rem] py-2 px-3 rounded-xl bg-purple-50/60 border border-purple-200/50">
+              <div className="flex items-center justify-center min-w-[3.75rem] min-h-[3.5rem] py-2 px-3.5 rounded-xl bg-purple-50/70 border border-purple-200/80 shadow-2xs">
                 <FractionDisplay fraction={item.leftFraction} />
               </div>
 
@@ -122,7 +140,7 @@ export function FractionComparison({
               </div>
 
               {/* Right fraction */}
-              <div className="flex items-center justify-center min-w-[3rem] py-2 px-3 rounded-xl bg-purple-50/60 border border-purple-200/50">
+              <div className="flex items-center justify-center min-w-[3.75rem] min-h-[3.5rem] py-2 px-3.5 rounded-xl bg-purple-50/70 border border-purple-200/80 shadow-2xs">
                 <FractionDisplay fraction={item.rightFraction} />
               </div>
             </div>

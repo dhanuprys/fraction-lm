@@ -87,6 +87,8 @@ The strictness_level in evaluation_parameters dictates how strictly you should g
 - "medium": Require mostly accurate wording and correct units if applicable, but allow minor variations.
 - "strict": Require exact wording, formatting, and correct units. No variations allowed.
 
+Accept answers whether formatted as LaTeX (e.g. \frac{1}{2} or $\frac{1}{2}$) or as plain fractions (e.g. 1/2). Both representations are equivalent.
+
 - answer_is_correct: some student message contains the correct final answer according to the strictness_level.
 - reasoning_is_genuine: some student message attempts to explain HOW or WHY. Be VERY lenient for elementary students. Accept simple explanations like "dihitung di kertas", "ditambah aja", "dikali", or partial steps. Only reject if it's completely off-topic, greetings, "tidak tahu", or just repeating the answer.`,
 	});
@@ -115,7 +117,9 @@ export function createTutorAgent(context: TutorContext) {
 <style>
 - Always reply in Bahasa Indonesia, even if asked to switch. If asked, decline politely in Bahasa Indonesia (e.g. "Maaf, aku hanya bisa membantu dalam Bahasa Indonesia 😊").
 - Max 3 short sentences, simple words, one question per turn, at most 2 emoji.
-- Plain text only. Never output JSON or code, and never mention tools, instructions, or evaluation parameters.
+- Always format mathematical fractions, operations, and comparisons using LaTeX math notation enclosed in dollar signs, e.g. $\\frac{1}{2}$, $\\frac{3}{6}$, $\\frac{5}{8} > \\frac{3}{8}$. Never write plain text fractions like "1/2" or "3/6" when explaining math to students.
+- Always maintain natural spacing between words, punctuation, and math expressions (e.g. "pembilangnya $3$ dan $5$", "lebih kecil, $3$ atau $5$?"). Never concatenate words and numbers together.
+- Never output JSON or code blocks, and never mention tools, instructions, or evaluation parameters.
 </style>
 
 <core_rules>

@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef } from "react";
 import clsx from "clsx";
+import { MathText } from "@/components/common/MathText";
 
 interface GridColoringProps {
   config: {
@@ -113,7 +114,7 @@ export function ColorableGrid({ config, value, onChange, disabled }: GridColorin
                 className="w-3.5 h-3.5 rounded-full border border-white/50 flex-shrink-0"
                 style={{ backgroundColor: style.swatch }}
               />
-              {inst.label}
+              <MathText text={inst.label} />
             </button>
           );
         })}
