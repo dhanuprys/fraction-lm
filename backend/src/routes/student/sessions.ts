@@ -75,7 +75,9 @@ sessionsApp.post(
 					return {
 						id: q.id,
 						learningObjective: q.learningObjective,
+						questionType: q.questionType || 'short_answer',
 						questionUi: q.questionUi,
+						answerConfig: q.answerConfig,
 						isPassed: result ? result.isPassed : false,
 						masteryScore: result ? result.masteryScore : 0,
 					};
@@ -122,7 +124,9 @@ sessionsApp.post(
 						questions: Array<{
 							id: number;
 							learningObjective: string | null;
+							questionType: string;
 							questionUi: string | null;
+							answerConfig: unknown;
 							content: string | null;
 						}>;
 				  }
@@ -163,7 +167,9 @@ sessionsApp.post(
 			const questions = (material.questions || []).map((q) => ({
 				id: q.id,
 				learningObjective: q.learningObjective,
+				questionType: q.questionType || 'short_answer',
 				questionUi: q.questionUi,
+				answerConfig: q.answerConfig,
 				isPassed: false,
 				masteryScore: 0,
 			}));
@@ -314,7 +320,9 @@ sessionsApp.post('/:sessionId/retake', async (c) => {
 					questions: Array<{
 						id: number;
 						learningObjective: string | null;
+						questionType: string;
 						questionUi: string | null;
+						answerConfig: unknown;
 						content: string | null;
 					}>;
 			  }
@@ -323,7 +331,9 @@ sessionsApp.post('/:sessionId/retake', async (c) => {
 		const questions = (material?.questions || []).map((q) => ({
 			id: q.id,
 			learningObjective: q.learningObjective,
+			questionType: q.questionType || 'short_answer',
 			questionUi: q.questionUi,
+			answerConfig: q.answerConfig,
 			isPassed: false,
 			masteryScore: 0,
 		}));

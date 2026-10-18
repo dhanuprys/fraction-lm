@@ -73,12 +73,17 @@ export interface Question {
   id: string; // UUID
   materialId: number;
   learningObjective?: string;
+  questionType: string;
   questionUi?: unknown;
+  answerConfig?: unknown;
   questionLlmContext?: string;
   evaluationParameters?: {
+    expected_answer_keywords?: string[];
+    common_misconceptions?: string[];
     keywords?: string[];
     misconceptions?: string[];
     strictness_level?: string;
+    hints?: string[];
   } | null;
   answers?: unknown;
   createdAt: string;

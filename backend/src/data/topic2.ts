@@ -1,6 +1,7 @@
 import {
 	bold,
 	bulletList,
+	diagram,
 	doc,
 	heading,
 	math,
@@ -9,480 +10,778 @@ import {
 } from './helpers';
 
 export const topic2 =
-	// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  TOPIC 2 (Topik 4)  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+	// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  TOPIC 2  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 	{
-		name: 'Penjumlahan dan Pengurangan Bilangan Pecahan',
-		slug: 'penjumlahan-pengurangan-bilangan-pecahan',
+		name: 'Membandingkan dan Mengurutkan Pecahan',
+		slug: 'membandingkan-mengurutkan-pecahan',
 		description:
-			'Mempelajari cara menjumlahkan dan mengurangkan bilangan pecahan, baik yang berpenyebut sama maupun berpenyebut berbeda.',
-		order: 4,
+			'Mempelajari cara membandingkan dua pecahan dan mengurutkan beberapa pecahan, baik yang berpenyebut sama maupun berbeda.',
+		order: 2,
 		subTopics: [
-			// ═══════════════════ SUB-TOPIK 4.1 ═══════════════════
+			// ═══════════════════ SUB-TOPIK 3.1 ═══════════════════
 			{
-				name: 'Penjumlahan Bilangan Pecahan',
-				slug: 'penjumlahan-bilangan-pecahan',
+				name: 'Membandingkan Dua Pecahan',
+				slug: 'membandingkan-dua-pecahan',
 				description:
-					'Menjumlahkan pecahan yang berpenyebut sama maupun berbeda.',
+					'Menentukan mana yang lebih besar, lebih kecil, atau sama di antara dua pecahan.',
 				order: 1,
 				materials: [
 					{
-						title: 'Penjumlahan Bilangan Pecahan Berpenyebut Sama',
+						title: 'Pengertian Membandingkan Pecahan',
 						order: 1,
 						difficulty: 1,
 						isExerciseOnly: false,
 						content: doc(
-							heading(2, 'Penjumlahan Pecahan Berpenyebut Sama'),
+							heading(2, 'Apa Itu Membandingkan Pecahan?'),
 							p(
-								'Jika dua pecahan memiliki ',
-								bold('penyebut yang sama'),
-								', kita cukup ',
-								bold('menjumlahkan pembilangnya'),
-								'. Penyebutnya tetap.',
+								'Membandingkan pecahan artinya menentukan pecahan mana yang ',
+								bold('lebih besar'),
+								', ',
+								bold('lebih kecil'),
+								', atau apakah keduanya ',
+								bold('sama'),
+								'.',
 							),
-							math(
-								'\\frac{a}{c} + \\frac{b}{c} = \\frac{a + b}{c}',
-							),
-							heading(3, 'Contoh'),
-							p(
-								'Ayah makan 2 potong dan Ibu makan 3 potong dari kue yang dipotong menjadi 7 bagian sama besar:',
-							),
-							p(
-								'🟩🟩⬜⬜⬜⬜⬜ + ⬜⬜🟨🟨🟨⬜⬜ = 🟩🟩🟨🟨🟨⬜⬜',
-							),
-							math(
-								'\\frac{2}{7} + \\frac{3}{7} = \\frac{2 + 3}{7} = \\frac{5}{7}',
+							heading(3, 'Simbol Perbandingan'),
+							bulletList(
+								'> artinya "lebih besar dari"',
+								'< artinya "lebih kecil dari"',
+								'= artinya "sama dengan"',
 							),
 							p(
-								bold('Ingat: '),
-								'Penyebutnya TIDAK dijumlahkan. Hasilnya bukan 5/14!',
+								bold('Tips: '),
+								'Mulut simbol selalu terbuka ke arah bilangan yang lebih besar.',
 							),
-							heading(3, 'Jika Hasilnya Lebih dari 1'),
+							heading(3, 'Contoh dengan Gambar'),
+							p('Dua cokelat yang sama besar:'),
+							p('1/2 → 🟫🟫⬜⬜'),
+							p('3/4 → 🟫🟫🟫⬜'),
+							p('Bagian berwarna 3/4 lebih banyak daripada 1/2.'),
+							math('\\frac{1}{2} < \\frac{3}{4}'),
 							p(
-								'Kadang pembilang hasilnya lebih besar dari penyebut. Itu artinya hasilnya lebih dari 1 utuh.',
-							),
-							math(
-								'\\frac{4}{5} + \\frac{3}{5} = \\frac{7}{5} = 1\\frac{2}{5}',
-							),
-							p(
-								'7/5 berarti 5/5 (satu utuh) ditambah 2/5 lagi, sehingga ditulis 1 2/5.',
+								'Ada tiga cara membandingkan pecahan, tergantung penyebut dan pembilangnya. Kita akan mempelajarinya satu per satu.',
 							),
 						),
 						materialLlmContext:
-							'Materi ini mengajarkan penjumlahan pecahan berpenyebut sama untuk siswa SD. ' +
-							'Rumus: a/c + b/c = (a+b)/c. Penyebut tetap, pembilang dijumlahkan. Contoh: 2/7 + 3/7 = 5/7. ' +
-							'Kesalahan umum: ikut menjumlahkan penyebut (5/14). ' +
-							'Jika hasil pembilang > penyebut, hasil lebih dari 1; contoh 4/5 + 3/5 = 7/5 = 1 2/5 (7/5 = 5/5 + 2/5). ' +
-							'Jawaban 7/5 maupun 1 2/5 sama-sama benar.',
+							'Materi ini memperkenalkan pengertian membandingkan pecahan untuk siswa SD: menentukan pecahan yang lebih besar, lebih kecil, atau sama. ' +
+							'Simbol: > (lebih besar dari), < (lebih kecil dari), = (sama dengan). Mulut simbol terbuka ke arah bilangan yang lebih besar. ' +
+							'Contoh visual: 1/2 < 3/4.',
 						questions: [],
 					},
 					{
-						title: 'Penjumlahan Bilangan Pecahan Berpenyebut Berbeda',
+						title: 'Membandingkan Pecahan dengan Penyebut Sama',
 						order: 2,
+						difficulty: 1,
+						isExerciseOnly: false,
+						content: doc(
+							heading(2, 'Penyebut Sama'),
+							p(
+								'Jika dua pecahan memiliki ',
+								bold('penyebut yang sama'),
+								', bandingkan saja ',
+								bold('pembilangnya'),
+								'. Pembilang lebih besar berarti pecahan lebih besar.',
+							),
+							heading(3, 'Contoh'),
+							p('3/5 → 🟩🟩🟩⬜⬜'),
+							p('2/5 → 🟩🟩⬜⬜⬜'),
+							math('\\frac{3}{5} > \\frac{2}{5}'),
+							p('Karena penyebutnya sama (5) dan 3 > 2.'),
+						),
+						materialLlmContext:
+							'Materi ini mengajarkan membandingkan pecahan berpenyebut sama. ' +
+							'Jika penyebut sama, bandingkan pembilang: pembilang lebih besar = pecahan lebih besar. ' +
+							'Contoh: 3/5 > 2/5 karena 3 > 2.',
+						questions: [],
+					},
+					{
+						title: 'Membandingkan Pecahan dengan Pembilang Sama',
+						order: 3,
 						difficulty: 2,
 						isExerciseOnly: false,
 						content: doc(
-							heading(
-								2,
-								'Penjumlahan Pecahan Berpenyebut Berbeda',
-							),
+							heading(2, 'Pembilang Sama'),
 							p(
-								'Pecahan hanya bisa dijumlahkan jika ',
-								bold('penyebutnya sama'),
-								'. Jika berbeda, samakan dulu penyebutnya menggunakan ',
+								'Jika dua pecahan memiliki ',
+								bold('pembilang yang sama'),
+								', bandingkan ',
+								bold('penyebutnya'),
+								'. Caranya terbalik dari sebelumnya: ',
+								bold(
+									'penyebut lebih besar berarti pecahan lebih kecil',
+								),
+								'.',
+							),
+							heading(3, 'Mengapa?'),
+							p(
+								'Semakin banyak potongan yang dibuat, semakin kecil tiap potongannya. Perhatikan dua kue yang sama besar:',
+							),
+							p('1/3 → 🟩⬜⬜ (potongan besar)'),
+							p('1/6 → 🟩⬜⬜⬜⬜⬜ (potongan kecil)'),
+							math('\\frac{1}{3} > \\frac{1}{6}'),
+							heading(3, 'Contoh'),
+							math('\\frac{3}{4} > \\frac{3}{8}'),
+							p(
+								'Pembilangnya sama (3). Penyebut 4 lebih kecil dari 8, jadi 3/4 lebih besar.',
+							),
+						),
+						materialLlmContext:
+							'Materi ini mengajarkan membandingkan pecahan berpembilang sama. ' +
+							'Jika pembilang sama, bandingkan penyebut: penyebut lebih besar → pecahan lebih kecil (potongan makin banyak, makin kecil). ' +
+							'Contoh: 1/3 > 1/6; 3/4 > 3/8.',
+						questions: [],
+					},
+					{
+						title: 'Membandingkan Pecahan dengan Penyebut Berbeda',
+						order: 4,
+						difficulty: 2,
+						isExerciseOnly: false,
+						content: doc(
+							heading(2, 'Penyebut Berbeda'),
+							p(
+								'Jika pembilang dan penyebutnya sama-sama berbeda, kita ',
+								bold('samakan penyebutnya'),
+								' terlebih dahulu menggunakan ',
 								bold('KPK'),
-								' (Kelipatan Persekutuan Terkecil).',
+								' (Kelipatan Persekutuan Terkecil), lalu bandingkan pembilangnya.',
 							),
 							heading(3, 'Langkah-langkah'),
 							orderedList(
 								'Cari KPK dari kedua penyebut',
-								'Ubah kedua pecahan agar penyebutnya sama dengan KPK',
-								'Jumlahkan pembilangnya, penyebut tetap',
+								'Ubah kedua pecahan agar penyebutnya sama dengan KPK, dengan mengalikan pembilang dan penyebut dengan bilangan yang sama',
+								'Bandingkan pembilangnya',
 							),
 							heading(3, 'Contoh'),
-							math('\\frac{1}{3} + \\frac{1}{4}'),
+							p('Bandingkan 1/3 dan 2/5:'),
 							bulletList(
-								'KPK dari 3 dan 4 adalah 12',
-								'1/3 = 4/12 (kalikan atas dan bawah dengan 4)',
-								'1/4 = 3/12 (kalikan atas dan bawah dengan 3)',
-								'4/12 + 3/12 = 7/12',
+								'KPK dari 3 dan 5 adalah 15',
+								'1/3 = 5/15 (atas dan bawah dikali 5)',
+								'2/5 = 6/15 (atas dan bawah dikali 3)',
+								'5/15 < 6/15, jadi 1/3 < 2/5',
 							),
 							p(
-								bold('Ingat: '),
-								'Jangan langsung menjumlahkan pembilang dan penyebut. 1/3 + 1/4 bukan 2/7!',
+								bold('Hati-hati: '),
+								'Jangan langsung membandingkan pembilangnya sebelum penyebutnya sama!',
 							),
 						),
 						materialLlmContext:
-							'Materi ini mengajarkan penjumlahan pecahan berpenyebut berbeda. ' +
-							'Langkah: (1) cari KPK penyebut, (2) ubah ke penyebut yang sama dengan mengalikan pembilang dan penyebut dengan bilangan yang sama, (3) jumlahkan pembilang. ' +
-							'Contoh: 1/3 + 1/4 → KPK(3,4)=12 → 4/12 + 3/12 = 7/12. ' +
-							'Kesalahan umum: menjumlahkan pembilang dengan pembilang dan penyebut dengan penyebut (2/7).',
+							'Materi ini mengajarkan membandingkan pecahan berpenyebut berbeda. ' +
+							'Langkah: (1) cari KPK penyebut, (2) ubah pecahan ke penyebut KPK dengan mengalikan pembilang dan penyebut dengan bilangan yang sama (pecahan senilai), (3) bandingkan pembilang. ' +
+							'Contoh: 1/3 vs 2/5 → KPK=15 → 5/15 vs 6/15 → 1/3 < 2/5.',
 						questions: [],
-					},
-					{
-						title: 'Post-Test: Penjumlahan Bilangan Pecahan',
-						order: 3,
-						difficulty: 2,
-						isExerciseOnly: true,
-						content: doc(
-							heading(2, 'Post-Test: Penjumlahan Bilangan Pecahan'),
-							p(
-								'Latihan untuk menguji pemahaman siswa tentang penjumlahan pecahan berpenyebut sama maupun berbeda.',
-							),
-						),
-						materialLlmContext:
-							'Latihan ini menguji pemahaman siswa terhadap seluruh materi pada subtopik Penjumlahan Bilangan Pecahan: ' +
-							'penjumlahan berpenyebut sama (termasuk hasil > 1) dan berpenyebut berbeda (menggunakan KPK).',
-						questions: [
-							{
-								learningObjective:
-									'Siswa menerapkan penjumlahan pecahan berpenyebut sama dalam soal cerita.',
-								questionUi: doc(
-									p(
-										'Ayah minum ',
-										bold('2/5'),
-										' botol air. Lalu ia minum lagi ',
-										bold('1/5'),
-										' botol air.',
-									),
-									p(
-										bold('Pertanyaan: '),
-										'Berapa total air yang diminum Ayah?',
-									),
-								),
-								questionLlmContext: '2/5 + 1/5 = 3/5 botol.',
-								evaluationParameters: {
-									expected_answer_keywords: [
-										'3/5',
-										'tiga per lima',
-									],
-									common_misconceptions: [
-										'3/10 (ikut menjumlahkan penyebut)',
-									],
-									strictness_level: 'moderate',
-									hints: [
-										'Penyebutnya sudah sama, jadi tinggal jumlahkan pembilangnya.',
-										'2 + 1 = ? Penyebutnya tetap 5.',
-									],
-								},
-								answers: { total: '3/5 botol' },
-							},
-							{
-								learningObjective:
-									'Siswa menjumlahkan pecahan berpenyebut sama dengan hasil lebih dari 1.',
-								questionUi: doc(
-									p(
-										'Kakak membuat 2 gelas jus. Gelas pertama berisi ',
-										bold('5/8'),
-										' liter, gelas kedua berisi ',
-										bold('6/8'),
-										' liter.',
-									),
-									p(
-										bold('Pertanyaan: '),
-										'Berapa total jus yang dibuat kakak?',
-									),
-								),
-								questionLlmContext:
-									'5/8 + 6/8 = 11/8 = 1 3/8 liter. Terima 11/8 atau 1 3/8.',
-								evaluationParameters: {
-									expected_answer_keywords: ['11/8', '1 3/8'],
-									common_misconceptions: [
-										'11/16 (ikut menjumlahkan penyebut)',
-									],
-									strictness_level: 'moderate',
-								},
-								answers: {
-									total: '11/8 liter',
-									campuran: '1 3/8 liter',
-								},
-							},
-							{
-								learningObjective:
-									'Siswa menerapkan penjumlahan pecahan berpenyebut berbeda dalam soal cerita.',
-								questionUi: doc(
-									p(
-										'Ani berjalan ',
-										bold('1/4'),
-										' km ke sekolah, lalu ',
-										bold('1/3'),
-										' km ke perpustakaan.',
-									),
-									p(
-										bold('Pertanyaan: '),
-										'Berapa total jarak yang ditempuh Ani?',
-									),
-								),
-								questionLlmContext:
-									'1/4 + 1/3. KPK(4,3)=12. 3/12 + 4/12 = 7/12 km.',
-								evaluationParameters: {
-									expected_answer_keywords: [
-										'7/12',
-										'tujuh per dua belas',
-									],
-									common_misconceptions: [
-										'2/7 (menjumlahkan pembilang dan penyebut langsung)',
-									],
-									strictness_level: 'moderate',
-									hints: [
-										'Penyebutnya berbeda (4 dan 3). Samakan dulu dengan KPK.',
-										'KPK dari 4 dan 3 adalah 12.',
-										'1/4 = 3/12 dan 1/3 = 4/12. Sekarang jumlahkan.',
-									],
-								},
-								answers: { total: '7/12 km' },
-							},
-							{
-								learningObjective:
-									'Siswa dapat menemukan kesalahan dalam penjumlahan pecahan.',
-								questionUi: doc(
-									p('Dani mengerjakan soal berikut:'),
-									math(
-										'\\frac{1}{3} + \\frac{1}{3} = \\frac{2}{6}',
-									),
-									p(
-										bold('Pertanyaan: '),
-										'Apakah jawaban Dani benar? Jelaskan, lalu tuliskan jawaban yang benar!',
-									),
-								),
-								questionLlmContext:
-									'Dani salah karena ikut menjumlahkan penyebut (3+3=6). Seharusnya penyebut tetap: 1/3 + 1/3 = 2/3. ' +
-									'Siswa harus menyatakan jawaban salah, menjelaskan bahwa penyebut tidak dijumlahkan, dan menulis 2/3.',
-								evaluationParameters: {
-									expected_answer_keywords: [
-										'salah',
-										'2/3',
-										'penyebut',
-										'tetap',
-									],
-									common_misconceptions: [
-										'Menjawab benar karena 3 + 3 = 6',
-										'Menjawab salah tanpa alasan atau jawaban benar',
-									],
-									strictness_level: 'lenient',
-								},
-								answers: {
-									benar: false,
-									jawaban_benar: '2/3',
-									alasan: 'Penyebut tidak dijumlahkan, hanya pembilang',
-								},
-							},
-						],
 					},
 				],
 			},
 
-			// ═══════════════════ SUB-TOPIK 4.2 ═══════════════════
+			// ═══════════════════ SUB-TOPIK 3.2 ═══════════════════
 			{
-				name: 'Pengurangan Bilangan Pecahan',
-				slug: 'pengurangan-bilangan-pecahan',
+				name: 'Mengurutkan Pecahan',
+				slug: 'mengurutkan-pecahan',
 				description:
-					'Mengurangkan pecahan yang berpenyebut sama maupun berbeda.',
+					'Mengurutkan tiga pecahan atau lebih dari yang terkecil ke terbesar, atau sebaliknya.',
 				order: 2,
 				materials: [
 					{
-						title: 'Pengurangan Bilangan Pecahan Berpenyebut Sama',
+						title: 'Pengertian Mengurutkan Pecahan',
 						order: 1,
 						difficulty: 1,
 						isExerciseOnly: false,
 						content: doc(
-							heading(2, 'Pengurangan Pecahan Berpenyebut Sama'),
+							heading(2, 'Apa Itu Mengurutkan Pecahan?'),
 							p(
-								'Sama seperti penjumlahan, jika penyebutnya sama kita cukup ',
-								bold('mengurangkan pembilangnya'),
-								'. Penyebutnya tetap.',
+								'Mengurutkan pecahan artinya menyusun ',
+								bold('tiga pecahan atau lebih'),
+								' berdasarkan nilainya. Ada dua jenis urutan:',
 							),
-							math(
-								'\\frac{a}{c} - \\frac{b}{c} = \\frac{a - b}{c}',
+							bulletList(
+								'Dari terkecil ke terbesar (urutan naik)',
+								'Dari terbesar ke terkecil (urutan turun)',
 							),
 							heading(3, 'Contoh'),
-							p(
-								'Ada 5 dari 9 bagian cokelat. Lalu 2 bagian dimakan:',
-							),
-							p('🟫🟫🟫🟫🟫⬜⬜⬜⬜ → 🟫🟫🟫⬜⬜⬜⬜⬜⬜'),
-							math(
-								'\\frac{5}{9} - \\frac{2}{9} = \\frac{5 - 2}{9} = \\frac{3}{9}',
-							),
+							p('Urutan dari terkecil ke terbesar:'),
+							math('\\frac{1}{4} < \\frac{2}{4} < \\frac{3}{4}'),
+							p('Urutan dari terbesar ke terkecil:'),
+							math('\\frac{3}{4} > \\frac{2}{4} > \\frac{1}{4}'),
 							p(
 								bold('Ingat: '),
-								'Penyebutnya tidak dikurangkan. Hasilnya bukan 3/0!',
+								'Membandingkan pecahan adalah dasar untuk mengurutkan pecahan.',
 							),
 						),
 						materialLlmContext:
-							'Materi ini mengajarkan pengurangan pecahan berpenyebut sama. ' +
-							'Rumus: a/c - b/c = (a-b)/c. Penyebut tetap, pembilang dikurangkan. Contoh: 5/9 - 2/9 = 3/9. ' +
-							'Kesalahan umum: ikut mengurangkan penyebut (menghasilkan penyebut 0). ' +
-							'Hasil seperti 3/9 sudah benar; tidak wajib disederhanakan.',
+							'Materi ini memperkenalkan pengertian mengurutkan pecahan: menyusun tiga pecahan atau lebih berdasarkan nilainya. ' +
+							'Urutan naik: dari terkecil ke terbesar. Urutan turun: dari terbesar ke terkecil. ' +
+							'Contoh: 1/4 < 2/4 < 3/4.',
 						questions: [],
 					},
 					{
-						title: 'Pengurangan Bilangan Pecahan Berpenyebut Berbeda',
+						title: 'Mengurutkan Pecahan dengan Penyebut Sama',
 						order: 2,
+						difficulty: 1,
+						isExerciseOnly: false,
+						content: doc(
+							heading(2, 'Mengurutkan Pecahan Berpenyebut Sama'),
+							p(
+								'Jika penyebutnya sama, cukup urutkan ',
+								bold('pembilangnya'),
+								'. Penyebutnya tetap.',
+							),
+							heading(3, 'Contoh'),
+							p(
+								'Urutkan dari terkecil ke terbesar: 5/8, 2/8, 7/8',
+							),
+							bulletList(
+								'Penyebut sama (8), lihat pembilangnya: 5, 2, 7',
+								'Urutan pembilang dari kecil ke besar: 2, 5, 7',
+								'Jadi: 2/8, 5/8, 7/8',
+							),
+						),
+						materialLlmContext:
+							'Materi ini mengajarkan mengurutkan pecahan berpenyebut sama. ' +
+							'Cukup urutkan pembilang, penyebut tetap. Contoh: 5/8, 2/8, 7/8 dari terkecil → 2/8, 5/8, 7/8.',
+						questions: [],
+					},
+					{
+						title: 'Mengurutkan Pecahan dengan Penyebut Berbeda',
+						order: 3,
 						difficulty: 2,
 						isExerciseOnly: false,
 						content: doc(
 							heading(
 								2,
-								'Pengurangan Pecahan Berpenyebut Berbeda',
+								'Mengurutkan Pecahan Berpenyebut Berbeda',
 							),
 							p(
-								'Langkahnya sama seperti penjumlahan: ',
-								bold('samakan penyebut dulu'),
-								' menggunakan KPK, baru kurangkan pembilangnya.',
+								'Samakan dulu semua penyebutnya menggunakan ',
+								bold('KPK'),
+								', lalu urutkan pembilangnya.',
 							),
 							heading(3, 'Langkah-langkah'),
 							orderedList(
-								'Cari KPK dari kedua penyebut',
-								'Ubah kedua pecahan agar penyebutnya sama dengan KPK',
-								'Kurangkan pembilangnya, penyebut tetap',
+								'Cari KPK dari semua penyebut',
+								'Ubah semua pecahan agar penyebutnya sama dengan KPK',
+								'Urutkan pembilangnya sesuai permintaan soal',
+								'Tulis kembali dalam bentuk pecahan semula',
 							),
 							heading(3, 'Contoh'),
-							math('\\frac{3}{4} - \\frac{1}{3}'),
+							p(
+								'Urutkan 1/2, 1/3, 1/4 dari terkecil ke terbesar:',
+							),
 							bulletList(
-								'KPK dari 4 dan 3 adalah 12',
-								'3/4 = 9/12',
-								'1/3 = 4/12',
-								'9/12 - 4/12 = 5/12',
+								'KPK dari 2, 3, dan 4 adalah 12',
+								'1/2 = 6/12, 1/3 = 4/12, 1/4 = 3/12',
+								'Urutan pembilang: 3, 4, 6',
+								'Jadi: 1/4, 1/3, 1/2',
+							),
+							p(
+								bold('Jalan pintas: '),
+								'Jika pembilangnya sama, pecahan dengan penyebut lebih besar nilainya lebih kecil.',
 							),
 						),
 						materialLlmContext:
-							'Materi ini mengajarkan pengurangan pecahan berpenyebut berbeda. ' +
-							'Langkah: cari KPK, samakan penyebut, kurangkan pembilang. ' +
-							'Contoh: 3/4 - 1/3 → KPK(4,3)=12 → 9/12 - 4/12 = 5/12. ' +
-							'Kesalahan umum: mengurangkan pembilang dengan pembilang dan penyebut dengan penyebut tanpa menyamakan penyebut.',
+							'Materi ini mengajarkan mengurutkan pecahan berpenyebut berbeda. ' +
+							'Langkah: cari KPK semua penyebut, ubah semua pecahan ke penyebut tersebut, urutkan pembilang, tulis kembali pecahan semula. ' +
+							'Contoh: 1/2, 1/3, 1/4 → KPK=12 → 6/12, 4/12, 3/12 → urutan naik: 1/4, 1/3, 1/2.',
 						questions: [],
 					},
+					// ───────────────────────── POST-TEST AKHIR (isExerciseOnly) ─────────────────────────
 					{
-						title: 'Post-Test: Pengurangan Bilangan Pecahan',
-						order: 3,
+						title: 'Post-Test: Pecahan Senilai dan Membandingkan Pecahan',
+						order: 4,
 						difficulty: 2,
 						isExerciseOnly: true,
 						content: doc(
-							heading(2, 'Post-Test: Pengurangan Bilangan Pecahan'),
+							heading(
+								2,
+								'Post-Test: Pecahan Senilai dan Membandingkan Pecahan',
+							),
 							p(
-								'Latihan untuk menguji pemahaman siswa tentang pengurangan pecahan berpenyebut sama maupun berbeda.',
+								'Latihan ini menguji pemahaman kamu tentang pecahan senilai, simbol perbandingan (>, <, =), dan cara membandingkan pecahan.',
 							),
 						),
 						materialLlmContext:
-							'Latihan ini menguji pemahaman siswa terhadap seluruh materi pada subtopik Pengurangan Bilangan Pecahan: ' +
-							'pengurangan berpenyebut sama dan berpenyebut berbeda (menggunakan KPK).',
+							'Post-test akhir yang mencakup: pecahan senilai (equivalent fractions), ' +
+							'simbol perbandingan > < =, membandingkan pecahan berpenyebut sama, ' +
+							'membandingkan pecahan berpembilang sama, dan membandingkan pecahan berpenyebut berbeda. ' +
+							'Diadaptasi dari Aktivitas 2.1–2.10 buku Pecahan Senilai dan Membandingkan Pecahan.',
 						questions: [
+							// ─── Q1: Notasi matematika "lebih besar dari" (Akt. 2.2) ───
 							{
 								learningObjective:
-									'Siswa menerapkan pengurangan pecahan berpenyebut sama dalam soal cerita.',
+									'Siswa dapat menuliskan perbandingan pecahan dalam notasi matematika menggunakan simbol >.',
+								questionType: 'fraction_comparison',
 								questionUi: doc(
 									p(
-										'Ibu memiliki ',
-										bold('5/6'),
-										' kg gula. Untuk membuat kue, ibu menggunakan ',
-										bold('2/6'),
-										' kg gula.',
-									),
-									p(
-										bold('Pertanyaan: '),
-										'Berapa sisa gula ibu?',
+										'Tuliskan dalam bentuk notasi matematika singkat. Pilih simbol yang tepat ',
+										bold('( > , < , = )'),
+										' untuk setiap pasangan pecahan berikut:',
 									),
 								),
-								questionLlmContext:
-									'5/6 - 2/6 = 3/6 kg (boleh 1/2 kg).',
-								evaluationParameters: {
-									expected_answer_keywords: ['3/6', '1/2'],
-									common_misconceptions: [
-										'3/0 (ikut mengurangkan penyebut)',
-									],
-									strictness_level: 'moderate',
-									hints: [
-										'Kata "sisa" berarti dikurangi.',
-										'Penyebutnya sama, kurangkan saja pembilangnya: 5 - 2.',
+								answerConfig: {
+									items: [
+										{
+											prompt: '3/6 menggambarkan bagian yang lebih besar daripada 3/8',
+											leftFraction: '3/6',
+											rightFraction: '3/8',
+										},
+										{
+											prompt: '3/4 menggambarkan bagian yang lebih besar daripada 1/4',
+											leftFraction: '3/4',
+											rightFraction: '1/4',
+										},
+										{
+											prompt: '1/2 menggambarkan bagian yang lebih besar daripada 1/4',
+											leftFraction: '1/2',
+											rightFraction: '1/4',
+										},
+										{
+											prompt: '4/6 menggambarkan bagian yang lebih besar daripada 1/6',
+											leftFraction: '4/6',
+											rightFraction: '1/6',
+										},
 									],
 								},
-								answers: { sisa: '3/6 kg' },
-							},
-							{
-								learningObjective:
-									'Siswa dapat mengurangkan pecahan berpenyebut sama.',
-								questionUi: doc(
-									p('Hitunglah:'),
-									math(
-										'\\frac{7}{8} - \\frac{3}{8} = \\ldots',
-									),
-								),
 								questionLlmContext:
-									'7/8 - 3/8 = 4/8 (boleh 1/2).',
-								evaluationParameters: {
-									expected_answer_keywords: ['4/8', '1/2'],
-									common_misconceptions: [
-										'4/0 (ikut mengurangkan penyebut)',
-									],
-									strictness_level: 'moderate',
-								},
-								answers: { hasil: '4/8' },
-							},
-							{
-								learningObjective:
-									'Siswa menerapkan pengurangan pecahan berpenyebut berbeda dalam soal cerita.',
-								questionUi: doc(
-									p(
-										'Kakak memiliki tali sepanjang ',
-										bold('2/3'),
-										' meter. Ia memotong ',
-										bold('1/4'),
-										' meter untuk membuat gelang.',
-									),
-									p(
-										bold('Pertanyaan: '),
-										'Berapa sisa tali kakak?',
-									),
-								),
-								questionLlmContext:
-									'2/3 - 1/4. KPK(3,4)=12. 8/12 - 3/12 = 5/12 meter.',
+									'Siswa menuliskan notasi matematika dari perbandingan verbal "lebih besar dari". ' +
+									'Semua jawaban menggunakan simbol >: ' +
+									'3/6 > 3/8, 3/4 > 1/4, 1/2 > 1/4, 4/6 > 1/6.',
 								evaluationParameters: {
 									expected_answer_keywords: [
-										'5/12',
-										'lima per dua belas',
+										'>',
+										'3/6 > 3/8',
+										'3/4 > 1/4',
+										'1/2 > 1/4',
+										'4/6 > 1/6',
 									],
+									expected_operators: ['>', '>', '>', '>'],
 									common_misconceptions: [
-										'1/1 (mengurangkan pembilang dan penyebut langsung)',
+										'Menggunakan < padahal soal mengatakan "lebih besar"',
+										'Menukar posisi pecahan',
 									],
-									strictness_level: 'moderate',
+									strictness_level: 'strict',
 									hints: [
-										'Penyebutnya berbeda (3 dan 4). Samakan dulu dengan KPK.',
-										'KPK dari 3 dan 4 adalah 12. 2/3 = 8/12 dan 1/4 = 3/12.',
+										'Perhatikan kata "lebih besar daripada". Simbol apa yang digunakan untuk "lebih besar"?',
+										'Simbol > artinya "lebih besar dari".',
 									],
-								},
-								answers: { sisa: '5/12 meter' },
-							},
-							{
-								learningObjective:
-									'Siswa dapat menemukan kesalahan dalam pengurangan pecahan.',
-								questionUi: doc(
-									p('Eko mengerjakan soal berikut:'),
-									math(
-										'\\frac{5}{7} - \\frac{2}{7} = \\frac{3}{0}',
-									),
-									p(
-										bold('Pertanyaan: '),
-										'Apakah jawaban Eko benar? Jelaskan, lalu tuliskan jawaban yang benar!',
-									),
-								),
-								questionLlmContext:
-									'Eko salah karena ikut mengurangkan penyebut (7-7=0). Penyebut tetap, jawaban benar 3/7.',
-								evaluationParameters: {
-									expected_answer_keywords: [
-										'salah',
-										'3/7',
-										'penyebut',
-										'tetap',
-									],
-									common_misconceptions: [
-										'Menjawab benar',
-										'Menjawab salah tanpa alasan atau jawaban benar',
-									],
-									strictness_level: 'lenient',
 								},
 								answers: {
-									benar: false,
-									jawaban_benar: '3/7',
-									alasan: 'Penyebut tidak dikurangkan, hanya pembilang',
+									operators: ['>', '>', '>', '>'],
+								},
+							},
+
+							// ─── Q2: Notasi matematika "lebih kecil dari" (Akt. 2.3) ───
+							{
+								learningObjective:
+									'Siswa dapat menuliskan perbandingan pecahan dalam notasi matematika menggunakan simbol <.',
+								questionType: 'fraction_comparison',
+								questionUi: doc(
+									p(
+										'Tuliskan dalam bentuk notasi singkat matematika. Pilih simbol yang tepat ',
+										bold('( > , < , = )'),
+										' untuk setiap pasangan pecahan berikut:',
+									),
+								),
+								answerConfig: {
+									items: [
+										{
+											prompt: '3/6 menggambarkan bagian yang lebih kecil daripada 5/6',
+											leftFraction: '3/6',
+											rightFraction: '5/6',
+										},
+										{
+											prompt: '2/4 menggambarkan bagian yang lebih kecil daripada 3/4',
+											leftFraction: '2/4',
+											rightFraction: '3/4',
+										},
+										{
+											prompt: '1/2 menggambarkan bagian yang lebih kecil daripada 3/4',
+											leftFraction: '1/2',
+											rightFraction: '3/4',
+										},
+										{
+											prompt: '4/6 menggambarkan bagian yang lebih kecil daripada 5/6',
+											leftFraction: '4/6',
+											rightFraction: '5/6',
+										},
+									],
+								},
+								questionLlmContext:
+									'Siswa menuliskan notasi matematika dari perbandingan verbal "lebih kecil dari". ' +
+									'Semua jawaban menggunakan simbol <: ' +
+									'3/6 < 5/6, 2/4 < 3/4, 1/2 < 3/4, 4/6 < 5/6.',
+								evaluationParameters: {
+									expected_answer_keywords: [
+										'<',
+										'3/6 < 5/6',
+										'2/4 < 3/4',
+										'1/2 < 3/4',
+										'4/6 < 5/6',
+									],
+									expected_operators: ['<', '<', '<', '<'],
+									common_misconceptions: [
+										'Menggunakan > padahal soal mengatakan "lebih kecil"',
+										'Bingung antara > dan <',
+									],
+									strictness_level: 'strict',
+									hints: [
+										'Perhatikan kata "lebih kecil daripada". Simbol apa yang digunakan untuk "lebih kecil"?',
+										'Simbol < artinya "lebih kecil dari". Bentuknya menunjuk ke yang lebih kecil.',
+									],
+								},
+								answers: {
+									operators: ['<', '<', '<', '<'],
+								},
+							},
+
+							// ─── Q3: Pecahan senilai — isi pembilang (Akt. 2.4) ────────
+							{
+								learningObjective:
+									'Siswa dapat menentukan pecahan senilai dengan melengkapi pembilang yang hilang.',
+								questionType: 'fraction_input',
+								questionUi: doc(
+									p(
+										'Pada gambar berikut, sebuah bidang dibagi menjadi 12 bagian yang sama besar. Setiap 2 kotak mewakili 1/6 dari bidang tersebut.',
+									),
+									diagram({
+										diagramType: 'rectangle',
+										totalParts: 12,
+										shadedParts: [0, 1],
+										rows: 3,
+										cols: 4,
+									}),
+									p(
+										'Lengkapilah pecahan senilai: ',
+										bold('1/6 = □/12'),
+									),
+								),
+								answerConfig: {
+									fields: [
+										{
+											prompt: '1/6 = □/12',
+											prefilled: { denominator: 12 },
+										},
+									],
+								},
+								questionLlmContext:
+									'Pecahan senilai: 1/6 = 2/12. Bidang 3×4 = 12 kotak. 1/6 artinya 2 kotak dari 12. ' +
+									'Pembilang yang dicari: 2.',
+								evaluationParameters: {
+									expected_answer_keywords: ['2', '2/12'],
+									common_misconceptions: [
+										'Menjawab 1 karena 1/6 hanya melihat pembilang asli',
+										'Menjawab 6 karena bingung pembilang dan penyebut',
+									],
+									strictness_level: 'strict',
+									hints: [
+										'Dari 1/6 ke ?/12, penyebut dikali berapa? 6 × ? = 12.',
+										'Jika penyebut dikali 2, pembilang juga harus dikali 2.',
+									],
+								},
+								answers: { numerator: 2 },
+							},
+
+							// ─── Q4: Tabel Benar/Salah — perbandingan pecahan (Akt. 2.6) ──
+							{
+								learningObjective:
+									'Siswa dapat menentukan kebenaran pernyataan perbandingan pecahan.',
+								questionType: 'true_false_table',
+								questionUi: doc(
+									p(
+										bold('Berilah tanda centang!'),
+										' Tentukan apakah pernyataan berikut ',
+										bold('Benar'),
+										' atau ',
+										bold('Salah'),
+										':',
+									),
+								),
+								answerConfig: {
+									statements: [
+										'3/6 lebih besar dari 3/8',
+										'1/3 lebih besar dari 1/4',
+										'1/2 lebih besar dari 1/3',
+										'1/2 sama dengan 2/4',
+										'3/5 lebih besar dari 3/4',
+										'7/8 lebih besar dari 8/9',
+									],
+								},
+								questionLlmContext:
+									'Tabel Benar/Salah untuk 6 pernyataan perbandingan pecahan: ' +
+									'(a) 3/6 > 3/8 → BENAR (pembilang sama, penyebut 6 < 8 → potongan lebih besar). ' +
+									'(b) 1/3 > 1/4 → BENAR (pembilang sama, penyebut 3 < 4 → potongan lebih besar). ' +
+									'(c) 1/2 > 1/3 → BENAR (pembilang sama, penyebut 2 < 3). ' +
+									'(d) 1/2 = 2/4 → BENAR (pecahan senilai: 1/2 = 2/4). ' +
+									'(e) 3/5 > 3/4 → SALAH (pembilang sama, penyebut 5 > 4 → potongan lebih kecil, jadi 3/5 < 3/4). ' +
+									'(f) 7/8 > 8/9 → SALAH (7/8 = 63/72, 8/9 = 64/72, jadi 7/8 < 8/9).',
+								evaluationParameters: {
+									expected_answer_keywords: [
+										'Benar',
+										'Benar',
+										'Benar',
+										'Benar',
+										'Salah',
+										'Salah',
+									],
+									expected_row_answers: [
+										true,
+										true,
+										true,
+										true,
+										false,
+										false,
+									],
+									common_misconceptions: [
+										'Menganggap 3/5 > 3/4 karena 5 > 4 (salah, penyebut lebih besar = potongan lebih kecil)',
+										'Menganggap 7/8 > 8/9 tanpa menyamakan penyebut',
+									],
+									strictness_level: 'strict',
+									hints: [
+										'Untuk pecahan dengan pembilang sama, semakin besar penyebut berarti potongannya semakin kecil.',
+										'Pecahan senilai berarti memiliki nilai yang sama, misalnya 1/2 = 2/4.',
+									],
+								},
+								answers: {
+									row_answers: [
+										true,
+										true,
+										true,
+										true,
+										false,
+										false,
+									],
+								},
+							},
+
+							// ─── Q5: Penalaran terbuka — Elsa vs Irfan (Akt. 2.5) ─────
+							{
+								learningObjective:
+									'Siswa dapat bernalar tentang informasi yang dibutuhkan untuk menentukan bagian pecahan.',
+								questionType: 'short_answer',
+								questionUi: doc(
+									p(
+										bold('Elsa'),
+										' berkata: "Jika saya mengetahui berapa banyak potong pizza yang dimakan oleh seseorang, maka saya juga dapat menentukan seberapa besar bagiannya."',
+									),
+									p(
+										bold('Irfan'),
+										' berkata: "Saya tidak percaya itu. Untuk melakukan hal tersebut, kamu membutuhkan informasi tentang menjadi berapa banyak potongan pizza yang telah dipotong."',
+									),
+									p(
+										bold('Pertanyaan: '),
+										'Siapa yang benar? Jelaskan jawabanmu!',
+									),
+								),
+								questionLlmContext:
+									'Irfan yang benar. Untuk menentukan pecahan (bagian dari keseluruhan), ' +
+									'kita perlu mengetahui DUA hal: (1) berapa potong yang dimakan (pembilang), dan ' +
+									'(2) menjadi berapa bagian pizza dipotong (penyebut). ' +
+									'Contoh: makan 2 potong dari pizza yang dipotong 4 = 2/4 = 1/2, ' +
+									'tetapi 2 potong dari pizza yang dipotong 8 = 2/8 = 1/4. ' +
+									'Tanpa tahu total potongan, kita tidak bisa tentukan besarnya bagian.',
+								evaluationParameters: {
+									expected_answer_keywords: [
+										'Irfan',
+										'benar',
+										'berapa bagian',
+										'penyebut',
+										'total potongan',
+										'dipotong',
+									],
+									common_misconceptions: [
+										'Menjawab Elsa karena hanya fokus pada jumlah yang dimakan',
+										'Tidak bisa menjelaskan mengapa jumlah potongan total penting',
+									],
+									strictness_level: 'lenient',
+									hints: [
+										'Bayangkan kamu makan 2 potong. Apakah 2 potong dari pizza yang dipotong 4 sama besarnya dengan 2 potong dari pizza yang dipotong 8?',
+										'Pecahan membutuhkan pembilang (yang dimakan) DAN penyebut (total potongan).',
+									],
+								},
+								answers: {
+									jawaban: 'Irfan',
+									alasan: 'Kita perlu tahu berapa total potongan (penyebut) untuk menentukan besar bagian pecahan.',
+								},
+							},
+
+							// ─── Q6: Bandingkan pasangan pecahan — penyebut sama (Akt. 2.8) ──
+							{
+								learningObjective:
+									'Siswa dapat membandingkan pecahan berpenyebut sama menggunakan simbol matematika.',
+								questionType: 'fraction_comparison',
+								questionUi: doc(
+									p(
+										'Urutkan pecahan-pecahan tersebut sesuai dengan besar nilainya. Pilih simbol yang tepat ',
+										bold('( > , < , = )'),
+										':',
+									),
+								),
+								answerConfig: {
+									items: [
+										{
+											prompt: 'Bandingkan 3/17 dan 15/17 (penyebut sama)',
+											leftFraction: '3/17',
+											rightFraction: '15/17',
+										},
+										{
+											prompt: 'Bandingkan 10/12 dan 6/12 (penyebut sama)',
+											leftFraction: '10/12',
+											rightFraction: '6/12',
+										},
+										{
+											prompt: 'Bandingkan 13/25 dan 15/25 (penyebut sama)',
+											leftFraction: '13/25',
+											rightFraction: '15/25',
+										},
+									],
+								},
+								questionLlmContext:
+									'Membandingkan pecahan berpenyebut sama: cukup bandingkan pembilang. ' +
+									'3/17 < 15/17 (3 < 15). 10/12 > 6/12 (10 > 6). 13/25 < 15/25 (13 < 15). ' +
+									'Catatan: soal asli menulis 15/257 tetapi diperbaiki ke 15/25 agar penyebut sama.',
+								evaluationParameters: {
+									expected_answer_keywords: [
+										'3/17 < 15/17',
+										'10/12 > 6/12',
+										'13/25 < 15/25',
+									],
+									expected_operators: ['<', '>', '<'],
+									common_misconceptions: [
+										'Membandingkan penyebut padahal penyebutnya sudah sama',
+									],
+									strictness_level: 'strict',
+									hints: [
+										'Jika penyebutnya sama, cukup bandingkan pembilangnya.',
+										'Pecahan dengan pembilang lebih besar adalah pecahan yang lebih besar.',
+									],
+								},
+								answers: { operators: ['<', '>', '<'] },
+							},
+
+							// ─── Q7: Bandingkan pasangan — pembilang sama (Akt. 2.10 pilihan) ──
+							{
+								learningObjective:
+									'Siswa dapat membandingkan pecahan berpembilang sama dengan memperhatikan penyebut.',
+								questionType: 'fraction_comparison',
+								questionUi: doc(
+									p(
+										'Bandingkan dan tentukan mana yang lebih besar. Pilih simbol yang tepat ',
+										bold('( > , < , = )'),
+										':',
+									),
+								),
+								answerConfig: {
+									items: [
+										{
+											prompt: 'Bandingkan 2/4 dan 2/8',
+											leftFraction: '2/4',
+											rightFraction: '2/8',
+										},
+										{
+											prompt: 'Bandingkan 4/6 dan 4/11',
+											leftFraction: '4/6',
+											rightFraction: '4/11',
+										},
+										{
+											prompt: 'Bandingkan 5/9 dan 5/12',
+											leftFraction: '5/9',
+											rightFraction: '5/12',
+										},
+										{
+											prompt: 'Bandingkan 6/8 dan 6/10',
+											leftFraction: '6/8',
+											rightFraction: '6/10',
+										},
+										{
+											prompt: 'Bandingkan 7/12 dan 7/15',
+											leftFraction: '7/12',
+											rightFraction: '7/15',
+										},
+										{
+											prompt: 'Bandingkan 3/7 dan 3/10',
+											leftFraction: '3/7',
+											rightFraction: '3/10',
+										},
+									],
+								},
+								questionLlmContext:
+									'Membandingkan pecahan berpembilang sama: penyebut lebih besar = potongan lebih kecil. ' +
+									'2/4 > 2/8. 4/6 > 4/11. 5/9 > 5/12. 6/8 > 6/10. 7/12 > 7/15.',
+								evaluationParameters: {
+									expected_answer_keywords: [
+										'2/4 > 2/8',
+										'4/6 > 4/11',
+										'5/9 > 5/12',
+										'6/8 > 6/10',
+										'7/12 > 7/15',
+										'3/7 > 3/10',
+									],
+									expected_operators: [
+										'>',
+										'>',
+										'>',
+										'>',
+										'>',
+										'>',
+									],
+									common_misconceptions: [
+										'Menjawab < karena mengira penyebut besar berarti pecahan besar',
+									],
+									strictness_level: 'strict',
+									hints: [
+										'Pembilangnya sama. Perhatikan penyebutnya.',
+										'Semakin besar penyebut, semakin banyak potongan, semakin kecil setiap potongannya.',
+									],
+								},
+								answers: {
+									operators: ['>', '>', '>', '>', '>', '>'],
+								},
+							},
+
+							// ─── Q8: Urutkan pecahan /100 (Akt. 2.7c) ──────────────────
+							{
+								learningObjective:
+									'Siswa dapat mengurutkan pecahan berpenyebut sama dari yang terkecil hingga terbesar.',
+								questionType: 'fraction_ordering',
+								questionUi: doc(
+									p(
+										'Aktivitas 2.7c: Urutkan pecahan-pecahan tersebut dari yang ',
+										bold('terkecil hingga terbesar'),
+										'. Gunakan simbol matematika yang sesuai.',
+									),
+								),
+								answerConfig: {
+									items: ['17/100', '65/100', '15/100', '39/100'],
+									separator: '<',
+									instruction:
+										'Urutkan kartu pecahan berikut dari yang terkecil hingga terbesar:',
+								},
+								questionLlmContext:
+									'Aktivitas 2.7c: Siswa mengurutkan pecahan berpenyebut sama (100) dari terkecil ke terbesar. ' +
+									'Pecahan awal yang ditampilkan: 17/100, 65/100, 15/100, 39/100. ' +
+									'Urutan pembilang dari terkecil: 15 < 17 < 39 < 65. ' +
+									'Jawaban benar: 15/100 < 17/100 < 39/100 < 65/100.',
+								evaluationParameters: {
+									expected_answer_keywords: [
+										'15/100 < 17/100 < 39/100 < 65/100',
+										'15/100',
+										'17/100',
+										'39/100',
+										'65/100',
+										'<',
+									],
+									common_misconceptions: [
+										'Mengurutkan dari besar ke kecil (terbalik)',
+										'Salah membandingkan pembilang',
+									],
+									strictness_level: 'strict',
+									hints: [
+										'Penyebut semua pecahan adalah 100 (sama). Bandingkan pembilangnya: 17, 65, 15, 39.',
+										'Urutan pembilang dari yang paling kecil adalah 15, 17, 39, 65.',
+										'Gunakan simbol < (lebih kecil dari), contoh: 15/100 < 17/100 < ...',
+									],
+								},
+								answers: {
+									urutan: '15/100 < 17/100 < 39/100 < 65/100',
+									expected_order: ['15/100', '17/100', '39/100', '65/100'],
 								},
 							},
 						],

@@ -75,10 +75,12 @@ model Question {
   id                   String    @id @default(uuid())
   materialId           Int
   learningObjective    String?
-  questionUi           Json?     // <rich text version for student view>
-  questionLlmContext   String?   // The student is asked to divide...
-  evaluationParameters Json?     // JSON object for keywords, misconceptions, strictness_level
-  answers              Json?     // Array of answer objects { answer_ui, answer_llm_context, is_correct }
+  questionType         String    @default("short_answer") // short_answer | true_false_table | fraction_input | fraction_identify | grid_coloring | numeric | multiple_choice
+  questionUi           Json?     // TipTap AST for the visual question display
+  answerConfig         Json?     // Widget configuration JSON — drives the interactive answer UI
+  questionLlmContext   String?   // Plain text context the tutor LLM uses to understand the question
+  evaluationParameters Json?     // JSON object for keywords, misconceptions, strictness_level, hints
+  answers              Json?     // Canonical correct answer (never exposed to students)
   
   createdAt            DateTime  @default(now())
   updatedAt            DateTime  @default(now())

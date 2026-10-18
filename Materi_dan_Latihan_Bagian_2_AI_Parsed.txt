@@ -1,0 +1,348 @@
+DOCUMENT_TYPE: AI-readable source transcription with image descriptions and interaction metadata
+SOURCE_FILE: Materi dan Latihan_bagian 2_06-10-2026.docx
+SOURCE_LANGUAGE: Indonesian, with the source heading "Aufgabe 2.8" retained as written
+IMAGE_DESCRIPTION_LANGUAGE: English
+SOURCE_CONTENT_POLICY: Preserve source wording, sequence, labels, punctuation, spelling, and apparent mistakes. Do not correct or reconcile the source. Fractions shown with stacked formatting in the document are represented as numerator/denominator text (for example, 3/8) for plain-text parsing; this is a formatting conversion, not a mathematical correction. Empty areas in the original remain response blanks. No answers have been filled in.
+PAGINATION_NOTE: The source content is grouped below by activity and source order. Page breaks may differ when the DOCX is rendered by another office suite.
+
+============================================================
+DOCUMENT TITLE
+============================================================
+SOURCE_TEXT_VERBATIM:
+Tema: Bilangan Pecahan
+Topik 2 : Pecahan Senilai, Membandingkan Pecahan
+
+============================================================
+AKTIVITAS 2.1
+============================================================
+SOURCE_TEXT_VERBATIM:
+Sebuah keluarga memesan dua buah pizza. Orang tua membagi satu pizza untuk mereka berdua, ayah mengambil 5 potong, sedangkan ibu mengambil 3 potong.
+
+[image: A color photograph of two whole round pizzas placed side by side in open cardboard pizza boxes. Both pizzas have visible cut lines and assorted toppings. The image is a real food photograph, not a diagram. Keep both pizzas and both boxes visible; do not add labels, fractions, or text to the image.]
+
+SOURCE_TEXT_VERBATIM:
+Jelaskan bagian pizza yang dimakan oleh orang tua.
+Ibu memakan 3/8 bagian dari sebuah pizza, sedangkan ayah memakan 5/8 bagian dari sebuah pizza.
+Karena 5 potong lebih banyak daripada 3 potong, maka 5/8 bagian juga lebih besar daripada 3/8 bagian.
+Pizza kedua dibagi oleh 3 anak. Mereka bernama Tari, Dude, dan Reza. Tari makan 4 potong, Dude makan 1 potong, dan Reza makan 3 potong. Jelaskan bagian dari masing-masing pizza yang dimakan ketiganya dan urutkan berdasarkan ukurannya dari yang terbesar hingga terkecil. Tari memakan__________ dari sebuah Pizza, Dude memakan__________dari sebuah Pizza dan Reza memakan__________dari sebuiah Pizza.
+Bagian pizza _____ lebih besar dari bagian _____ dan bagian ____ lebih besar dari bagian _____.
+
+SOURCE_EXPLANATION_TEXT_VERBATIM:
+Daripada menulis kalimat panjang seperti “pecahan 5/8 lebih besar daripada 3/8”, para ahli matematika menggunakan simbol yang lebih singkat. Mereka menulisnya menjadi 5/8 > 3/8. Dengan cara ini, penulisan menjadi lebih cepat dan sederhana.
+
+QUESTION_METADATA:
+- SOURCE_ANSWERING_TYPE: Explain a fraction model; complete fraction blanks; compare and order the three children's fractions from largest to smallest.
+- SUGGESTED_DIGITAL_INTERACTION: Short text/fraction inputs for Tari, Dude, and Reza; a sortable ordering interaction for the three fractions; text/fraction inputs for the two comparison sentences.
+- IMAGE_ASSET_ROLE: Context photograph of two pizzas. The fraction values and slice counts stated by the source must be taken from the text, not guessed from the photograph.
+
+============================================================
+AKTIVITAS 2.2
+============================================================
+SOURCE_TEXT_VERBATIM:
+Aktivitas 2.2
+Tuliskan dalam bentuk notasi matematika singkat.
+
+3/6 menggambarkan bagian yang lebih besar daripada 3/8
+___________________________________________
+
+3/4 menggambarkan bagian yang lebih besar daripada 1/4
+___________________________________________
+
+1/2 menggambarkan bagian yang lebih besar daripada 1/4
+___________________________________________
+
+4/6 menggambarkan bagian yang lebih besar daripada 1/6
+___________________________________________
+
+SOURCE_EXPLANATION_TEXT_VERBATIM:
+Jika ingin menulis bahwa suatu bagian lebih kecil daripada bagian lainnya, yaitu mengganti pernyataan 5/8 lebih besar daripada 3/8 menjadi “3/8 lebih kecil daripada 5/8”, maka tanda > dibalik sehingga menjadi tanda <. Kemudian ditulis 3/8 < 5/8. Hal ini sama seperti membaca pernyataan 5/8 > 3/8 dari arah belakang, yaitu dari kanan ke kiri.
+
+QUESTION_METADATA:
+- SOURCE_ANSWERING_TYPE: Convert each verbal fraction comparison into concise mathematical notation.
+- SUGGESTED_DIGITAL_INTERACTION: One math-text input per line; accept inequality-symbol notation without changing the prompt.
+- EXPECTED_RESPONSE_STRUCTURE: Four separate comparison expressions, each on its own line.
+- IMAGE_ASSETS: No image is present for these four items.
+
+============================================================
+AKTIVITAS 2.3
+============================================================
+SOURCE_TEXT_VERBATIM:
+Aktivitas 2.3
+Tuliskan dalam bentuk notasi singkat matematika.
+
+3/6 menggambarkan bagian yang lebih kecil daripada 5/6
+__________________________________________
+
+2/4 menggambarkan bagian yang lebih kecil daripada 3/4
+___________________________________________
+
+1/2 menggambarkan bagian yang lebih kecil daripada 3/4
+__________________________________________
+
+4/6 menggambarkan bagian yang lebih kecil daripada 5/6
+__________________________________________
+
+SOURCE_EXPLANATION_TEXT_VERBATIM:
+Jika seseorang ingin menyatakan dalam bentuk singkat matematis bahwa dua bagian memiliki ukuran yang sama, maka digunakan tanda =.
+
+QUESTION_METADATA:
+- SOURCE_ANSWERING_TYPE: Convert each verbal comparison into concise mathematical notation using the less-than relationship.
+- SUGGESTED_DIGITAL_INTERACTION: One math-text input per line.
+- EXPECTED_RESPONSE_STRUCTURE: Four separate comparison expressions, each on its own line.
+- IMAGE_ASSETS: No image is present for these four items.
+
+============================================================
+AKTIVITAS 2.4
+============================================================
+SOURCE_TEXT_VERBATIM:
+AKTIVITAS 2.4
+Pada gambar berikut, kita mencoba memperkirakan berapa besar 1/6 dari luas bidang tersebut.
+
+[image: A horizontal rectangle divided into 12 equal square cells arranged in 3 rows and 4 columns. The cells are colored in six distinct two-cell groups: the top row has two orange cells followed by two blue cells; the middle row has two gray cells followed by two bright cyan cells; the bottom row has two green cells followed by two yellow cells. Thin dark grid lines separate all cells.]
+
+SOURCE_TEXT_VERBATIM:
+Lengkapilah: 1/6 = □/12
+
+QUESTION_METADATA:
+- SOURCE_ANSWERING_TYPE: Complete an equivalent-fraction equation by supplying a missing numerator.
+- SUGGESTED_DIGITAL_INTERACTION: A single numeric input in the empty numerator box.
+- VISUAL_REQUIREMENTS: Preserve all 12 equal cells, their 3-by-4 layout, and the six pairs of colors described above.
+
+============================================================
+AKTIVITAS 2.5
+============================================================
+SOURCE_TEXT_VERBATIM:
+AKTIVITAS 2.5
+Elsa : “Jika saya mengetahui berapa banyak potong pizza yang dimakan oleh seseorang, maka saya juga dapat menentukan seberapa besar bagiannya”
+Irfan : "Saya tidak percaya itu. Untuk melakukan hal tersebut, kamu membutuhkan informasi tentang menjadi berapa banyak potongan pizza yang telah dipotong."
+Siapa yang benar?
+Jelaskan jawabanmu dengan sebuah gambar.
+
+[image: Two separate, whole round pizzas with assorted toppings, displayed side by side on a plain white background. Neither pizza is visibly divided by drawn slice lines. These are visual spaces for the learner's explanation; do not add labels, cut lines, or answer markings to the source image itself.]
+
+QUESTION_METADATA:
+- SOURCE_ANSWERING_TYPE: Open-ended reasoning about the two statements, with a learner-created drawing required by the prompt.
+- SUGGESTED_DIGITAL_INTERACTION: Text response identifying who is correct and a drawing canvas where the learner can divide or annotate the pizzas to explain the answer.
+- IMPORTANT: The source asks "Siapa yang benar?" and "Jelaskan jawabanmu dengan sebuah gambar." Do not replace this with a multiple-choice-only question; the drawing and explanation are part of the stated task.
+
+============================================================
+AKTIVITAS 2.6
+============================================================
+SOURCE_TEXT_VERBATIM:
+AKTIVITAS 2.6
+Berilah tanda centang! Gambarkan bagian pizza yang sesuai:
+
+TABLE_HEADERS:
+- Pernyataan
+- Benar
+- Salah
+
+TABLE_ROWS_SOURCE_TEXT_VERBATIM:
+a. 3/6 lebih besar dari 3/8
+b. 1/3 lebih besar dari 1/4
+c. 1/2 lebih besar dari 1/3
+d. 1/2 sama dengan 2/4
+e. 3/5 lebih besar dari 3/4
+f. 7/8 lebih besar dari 8/9
+
+[image: A response table with six lettered rows (a-f). Each row contains a fraction-comparison statement, two small whole-pizza illustrations side by side for drawing or showing the corresponding fractional parts, and two empty response columns headed "Benar" and "Salah". The pizza illustrations are repeated across rows. No pizza is pre-shaded to indicate an answer.]
+
+QUESTION_METADATA:
+- SOURCE_ANSWERING_TYPE_1: True/false classification for each of six statements, using the source's "Benar" and "Salah" columns.
+- SOURCE_ANSWERING_TYPE_2: Draw or represent the corresponding fraction parts on the two pizza illustrations.
+- SUGGESTED_DIGITAL_INTERACTION: For each row, use one checkbox/radio selection between Benar and Salah, plus an editable pizza diagram with two pizzas. The interface should allow the learner to mark fraction divisions/shading on the pizza images.
+- RESPONSE_CARDINALITY: Six independent statement rows; each row has a truth classification and accompanying pizza representation.
+
+SOURCE_TEXT_VERBATIM:
+Bagaimana cara membandingkan dua pecahan yang tidak dapat dibayangkan sebagai bagian dari pizza?
+Kita mengambil 3/100 dan 70/100. Di sini kita dapat membayangkan kotak-kotak pada tabel seratusan. 3/100 menggambarkan _____ kotak-kotak pada tabel seratusan, 70/100 menggambarkan______ Petak-petak pada tabel seratusan. Jadi, ________ lebih besar daripada ________.
+
+IMAGE_NOTE:
+[image: No hundred-cell grid illustration is visibly supplied next to this text in the source. The text refers to a "tabel seratusan" (a hundred-cell table), but this transcription does not invent or insert a missing grid image.]
+
+QUESTION_METADATA:
+- SOURCE_ANSWERING_TYPE: Fill-in-the-blank counting/interpretation task followed by a fraction comparison.
+- SUGGESTED_DIGITAL_INTERACTION: Four text or numeric blanks: number of cells represented by 3/100; number of cells represented by 70/100; the larger fraction; the smaller fraction.
+
+============================================================
+AKTIVITAS 2.7
+============================================================
+SOURCE_TEXT_VERBATIM:
+AKTIVITAS 2.7
+Urutkan pecahan-pecahan tersebut dari yang terkecil hingga terbesar. Gunakan simbol matematika yang sesuai.
+
+a. 27/100    15/100
+
+b. 35/100    1/100
+
+c. 17/100    65/100    15/100    39/100
+
+___________________________________________________________________________
+___________________________________________________________________________
+___________________________________________________________________________
+___________________________________________________________________________
+___________________________________________________________________________
+
+SOURCE_EXPLANATION_TEXT_VERBATIM:
+Hal itu mudah, karena penyebut dari pecahan-pecahan tersebut selalu 100. Jika kita harus membandingkan dua pecahan dengan penyebut yang sama, maka cukup dengan membandingkan pembilangnya. Pecahan dengan pembilang yang lebih kecil adalah pecahan yang lebih kecil.
+
+QUESTION_METADATA:
+- SOURCE_ANSWERING_TYPE: Sort/order fractions from smallest to largest and express their order with mathematical symbols.
+- SUGGESTED_DIGITAL_INTERACTION: Three separate ordering tasks. Items a and b may use two draggable fraction cards each, or allow the learner to enter the ordered fraction sequence with mathematical comparison symbols. Item c must use the detailed drag-and-drop interaction specification below.
+- ITEM_COUNTS: Item a has 2 fractions; item b has 2 fractions; item c has 4 fractions.
+
+INTERACTIVE_QUESTION_SPEC (ITEM c — LAST SORTING ITEM):
+- SOURCE_ITEM_TEXT_VERBATIM: c. 17/100    65/100    15/100    39/100
+- SOURCE_INSTRUCTION_APPLIES: "Urutkan pecahan-pecahan tersebut dari yang terkecil hingga terbesar. Gunakan simbol matematika yang sesuai."
+- INTERACTION_TYPE: Drag-and-drop fraction ordering (sortable cards).
+- INITIAL_STATE: Show four separate draggable fraction cards in the source's displayed order: [17/100], [65/100], [15/100], [39/100]. Do not pre-sort the cards.
+- ANSWER_AREA: Provide four ordered slots arranged from left to right. The learner drags the four fraction cards into the slots from smallest to largest.
+- MATHEMATICAL_NOTATION: Show a less-than symbol (<) between adjacent slots, so the completed response is represented as a single ascending mathematical expression. The learner's task is to arrange the fraction cards; the < symbols may be fixed separators because the source instruction already specifies smallest-to-largest order.
+- USER_ACTIONS: Allow drag-and-drop with mouse, touch, or stylus. Also provide accessible keyboard/tap controls to move a selected fraction card earlier or later in the sequence.
+- SUBMISSION_AND_FEEDBACK: Keep the initial card order unchanged until the learner interacts. Check the final order only after submission. Do not reveal or pre-fill the correct order before submission.
+- SOURCE_FIDELITY: This is interaction metadata only. Preserve the four fraction values, the original instruction, the activity label, and the source order exactly as transcribed above. Do not add hints or alter the source question.
+
+============================================================
+AKTIVITAS 2.8
+============================================================
+SOURCE_TEXT_VERBATIM:
+AKTIVITAS 2.8
+Urutkan pecahan-pecahan tersebut sesuai dengan besar nilainya. Gunakan simbol matematika singkat.
+
+a. 3/17 dan 15/17,
+
+b. 10/12 dan 6/12,
+
+c. 13/25 dan 15/257
+
+SOURCE_NOTE:
+The source renders the last fraction as 15/257. It is reproduced exactly as shown and has not been changed to another denominator.
+
+QUESTION_METADATA:
+- SOURCE_ANSWERING_TYPE: Compare two fractions in each item using concise mathematical notation.
+- SUGGESTED_DIGITAL_INTERACTION: One math-text input for each pair, using the appropriate comparison symbol.
+- ITEM_COUNT: Three pairwise-comparison items.
+
+SOURCE_EXPLANATION_TEXT_VERBATIM:
+Sekarang kita akan membandingkan pecahan-pecahan yang memiliki pembilang yang sama. Untuk itu, kita kembali membayangkan dua buah pizza. Satu pizza dibagi menjadi delapan bagian yang sama besar, sedangkan pizza lainnya dibagi menjadi empat bagian yang sama besar.
+
+============================================================
+AKTIVITAS 2.9
+============================================================
+SOURCE_TEXT_VERBATIM:
+AKTIVITAS 2.9
+Gambarkan bagian yang sesuai pada gambar
+
+[image: Two whole round pizzas with assorted toppings, positioned side by side. Both are initially unmarked, with no visible slice divisions or shading. The left pizza is intended to be divided into 8 equal parts and the right pizza into 4 equal parts by the learner, following the surrounding source text.]
+
+SOURCE_TEXT_VERBATIM:
+Sekarang kita memperhatikan bagian dengan jumlah yang sama dari masing-masing kedua pizza: pertama, satu potong dari setiap pizza.
+Jika sebuah pizza dibagi menjadi 8 bagian yang sama besar, maka satu potongnya lebih kecil dibandingkan jika sebuah pizza dibagi menjadi 4 bagian yang sama besar. Jadi, 1/8 lebih kecil daripada 1/4.
+Jika sekarang kita membandingkan jumlah potongan yang sama dari kedua pizza, maka berlaku: 2/8 lebih kecil daripada 2/4.
+Pembilang (jumlah potongan) memiliki nilai yang sama, tetapi penyebut menunjukkan menjadi berapa banyak bagian pizza tersebut dipotong. Semakin besar penyebutnya, semakin banyak jumlah potongan dan semakin kecil ukuran setiap potongannya.
+Bandingkan:
+- 3/8 dan 3/4
+- 4/8 dan 4/4
+
+SOURCE_EXPLANATION_TEXT_VERBATIM:
+Jika membandingkan dua pecahan dengan pembilang yang sama dan penyebut yang berbeda, maka cukup membandingkan penyebutnya saja. Pecahan dengan penyebut yang lebih besar lebih kecil daripada pecahan dengan penyebut yang lebih kecil.
+
+QUESTION_METADATA:
+- SOURCE_ANSWERING_TYPE_1: Draw a fraction model on each pizza, with the pizza on the left divided into 8 equal parts and the pizza on the right divided into 4 equal parts.
+- SOURCE_ANSWERING_TYPE_2: Compare fraction pairs with the same numerator but different denominators.
+- SUGGESTED_DIGITAL_INTERACTION: Interactive pizza-slicing/drawing canvas, followed by math comparison inputs for 3/8 vs 3/4 and 4/8 vs 4/4.
+- IMPORTANT: The description of the intended 8-part and 4-part divisions is supported by the surrounding source text; the original pizza images themselves are initially unmarked.
+
+============================================================
+AKTIVITAS 2.10
+============================================================
+SOURCE_TEXT_VERBATIM:
+AKTIVITAS 2.10
+Bandingkan dan urutkan berdasarkan ukurannya
+
+a. 2/4 dan 2/8    _____lebih besar dari _____
+
+b. 4/6 dan 4/11    _____lebih besar dari _____
+
+c. 5/9 dan 5/12    _____lebih besar dari _____
+
+d. 3/8 dan 6/8    _____lebih besar dari _____
+
+e. 2/9 dan 7/9    _____lebih besar dari _____
+
+f. 4/10 dan 8/10    _____lebih besar dari _____
+
+g. 6/8 dan 6/10    _____lebih besar dari _____
+
+h. 7/12 dan 7/15    _____lebih besar dari _____
+
+i. 3/7 dan 3/10    _____lebih besar dari _____
+
+QUESTION_METADATA:
+- SOURCE_ANSWERING_TYPE: Compare each pair and complete the "lebih besar dari" sentence by placing the fractions in the correct order.
+- SUGGESTED_DIGITAL_INTERACTION: Nine separate comparison rows; each row has two fraction blanks surrounding the fixed phrase "lebih besar dari". A drag-to-order pair can be an alternative UI, but the source is printed as fill-in-the-blank comparisons.
+- ITEM_COUNT: Nine comparison items, a-i.
+- IMAGE_ASSETS: No additional image is present for these nine items.
+
+============================================================
+SOURCE HEADING: "Aufgabe 2.8" (retained exactly)
+============================================================
+SOURCE_TEXT_VERBATIM:
+Aufgabe 2.8
+Perhatikan gambar lingkaran beikut:
+Apakah bagian yang berwarna abu-abu masih dapat dibagi menjadi dua bagian yang sama besar? Sehingga kita dapat melihat 1/2, 1/4, dan dua kali 1/8
+
+[image: A circular diagram divided into three colored sectors: a gray quarter-circle in the upper-left, a blue quarter-circle in the upper-right, and an orange lower half-circle. The circle has a white vertical dividing line from the top to the center and a white horizontal dividing line through the center; no labels are printed inside the colored sectors.]
+
+SOURCE_TEXT_VERBATIM:
+Kita dapat membandingkan 1/2 dengan 1/4 dan 1/8. Kita juga dapat membandingkan pecahan yang tidak memiliki penyebut atau pembilang yang sama. Dari gambar tersebut dapat dilihat bahwa dua perdelapan sama besar dengan satu perempat dan dua perempat sama besar dengan setengah pizza.
+Bagilah pizza sebelah kiri menjadi 3 bagian dan pizza sebelah kanan menjadi 6 bagian."
+
+[image: Two whole round pizzas with assorted toppings placed side by side. Neither pizza has visible drawn slice divisions or shading. The source instruction immediately before this image says to divide the left pizza into 3 parts and the right pizza into 6 parts.]
+
+SOURCE_TEXT_VERBATIM:
+Bagian manakah yang lebih besar,1/3 atau 2/6?
+Jika pizza-pizza tersebut diletakkan satu di atas yang lainnya, maka terlihat bahwa 1/3 dan 2/6 menggambarkan bagian pizza yang sama besar. Perbedaannya hanya bahwa pizza sebelah kanan dipotong lebih banyak (menjadi beberapa bagian yang lebih kecil).
+Jadi, 1/3 dan 2/6 menunjukkan bagian pizza yang sama besar.
+Dalam notasi singkat matematika:
+1/3 = 2/6
+
+QUESTION_METADATA:
+- SOURCE_ANSWERING_TYPE_1: Visual reasoning about whether the gray sector can be split into two equal parts.
+- SOURCE_ANSWERING_TYPE_2: Draw/split the left pizza into 3 parts and the right pizza into 6 parts.
+- SOURCE_ANSWERING_TYPE_3: Respond to the comparison question about 1/3 and 2/6; the source then presents the equivalence notation.
+- SUGGESTED_DIGITAL_INTERACTION: A drawing canvas for dividing the pizzas into equal slices, plus an open-ended response or mathematical-expression input. Do not replace the source's drawing instruction with a selection-only interaction.
+- SOURCE_LABEL_NOTE: The heading is "Aufgabe 2.8" (German) even though the surrounding material is Indonesian. This label is kept as written and has not been renumbered.
+
+============================================================
+FINAL SELF-ASSESSMENT
+============================================================
+SOURCE_TEXT_VERBATIM:
+Berilah tanda silang!
+
+TABLE_HEADERS:
+Pernyataan | Saya dapat melakukannya dengan baik | Saya masih perlu berlatih lagi
+
+TABLE_ROWS_SOURCE_TEXT_VERBATIM:
+1. Saya dapat menulis dan membaca pecahan.
+2. Saya dapat menyebutkan pembilang dan penyebut dari suatu pecahan
+3. aya dapat menggambarkan pecahan sebagai bagian dari pizza
+4. Saya dapat menggambarkan pecahan sebagai bagian dari suatu bidang.
+5. Saya dapat membandingkan dua pecahan dengan penyebut yang sama.
+6. Saya dapat membandingkan dua pecahan dengan pembilang yang sama.
+7. Saya dapat membandingkan pecahan dalam notasi singkat matematika
+
+QUESTION_METADATA:
+- SOURCE_ANSWERING_TYPE: Learner self-assessment; the learner marks one of two columns for each statement.
+- SUGGESTED_DIGITAL_INTERACTION: A two-choice selection (radio/checkbox per row), with choices labeled exactly "Saya dapat melakukannya dengan baik" and "Saya masih perlu berlatih lagi". A table/grid layout most closely reflects the source.
+- RESPONSE_CARDINALITY: Seven independent self-assessment statements; one selected confidence/learning-status column per row.
+
+============================================================
+END OF TRANSCRIPTION
+============================================================
+QUALITY_AND_FIDELITY_NOTES:
+- Indonesian prompts, explanations, names, labels, and source spellings have been retained; image descriptions and AI interaction metadata are in English.
+- The apparent source forms "sebuiah", "15/257", "beikut", "aya", and "Aufgabe 2.8" are intentionally preserved.
+- When a visual fraction is transcribed as a/b, this replaces stacked visual typesetting only. It does not assert that the source has been mathematically checked.
+- Suggested digital controls are implementation suggestions, not additional source instructions.
+- No answer key has been generated and no learner responses have been supplied.

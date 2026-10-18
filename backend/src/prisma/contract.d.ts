@@ -34,7 +34,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'edbbe71767195f5e15fb54bbea9f7b536c6fefeb5d7e31114c96405fa26bfea5'>;
+  StorageHashBase<'b162b891845825660af4b3aab40e672a8064141b404b45aaa0b6296313e7d124'>;
 export type ExecutionHash =
   ExecutionHashBase<'2b1395939910b584cedeb560d2bb57798be75ff051a44accb846e5531514c809'>;
 export type ProfileHash =
@@ -307,6 +307,7 @@ export type FieldOutputTypes = {
       readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
     };
     readonly Question: {
+      readonly answerConfig: CodecTypes['pg/json@1']['output'] | null;
       readonly answers: CodecTypes['pg/json@1']['output'] | null;
       readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
       readonly evaluationParameters: CodecTypes['pg/json@1']['output'] | null;
@@ -314,6 +315,7 @@ export type FieldOutputTypes = {
       readonly learningObjective: CodecTypes['pg/text@1']['output'] | null;
       readonly materialId: CodecTypes['pg/int4@1']['output'];
       readonly questionLlmContext: CodecTypes['pg/text@1']['output'] | null;
+      readonly questionType: CodecTypes['pg/text@1']['output'];
       readonly questionUi: CodecTypes['pg/json@1']['output'] | null;
       readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
     };
@@ -440,6 +442,7 @@ export type FieldInputTypes = {
       readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
     };
     readonly Question: {
+      readonly answerConfig: CodecTypes['pg/json@1']['input'] | null;
       readonly answers: CodecTypes['pg/json@1']['input'] | null;
       readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
       readonly evaluationParameters: CodecTypes['pg/json@1']['input'] | null;
@@ -447,6 +450,7 @@ export type FieldInputTypes = {
       readonly learningObjective: CodecTypes['pg/text@1']['input'] | null;
       readonly materialId: CodecTypes['pg/int4@1']['input'];
       readonly questionLlmContext: CodecTypes['pg/text@1']['input'] | null;
+      readonly questionType: CodecTypes['pg/text@1']['input'];
       readonly questionUi: CodecTypes['pg/json@1']['input'] | null;
       readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
     };
@@ -573,6 +577,7 @@ export type StorageColumnTypes = {
       readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
     };
     readonly Question: {
+      readonly answerConfig: CodecTypes['pg/json@1']['output'] | null;
       readonly answers: CodecTypes['pg/json@1']['output'] | null;
       readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
       readonly evaluationParameters: CodecTypes['pg/json@1']['output'] | null;
@@ -580,6 +585,7 @@ export type StorageColumnTypes = {
       readonly learningObjective: CodecTypes['pg/text@1']['output'] | null;
       readonly materialId: CodecTypes['pg/int4@1']['output'];
       readonly questionLlmContext: CodecTypes['pg/text@1']['output'] | null;
+      readonly questionType: CodecTypes['pg/text@1']['output'];
       readonly questionUi: CodecTypes['pg/json@1']['output'] | null;
       readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
     };
@@ -706,6 +712,7 @@ export type StorageColumnInputTypes = {
       readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
     };
     readonly Question: {
+      readonly answerConfig: CodecTypes['pg/json@1']['input'] | null;
       readonly answers: CodecTypes['pg/json@1']['input'] | null;
       readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
       readonly evaluationParameters: CodecTypes['pg/json@1']['input'] | null;
@@ -713,6 +720,7 @@ export type StorageColumnInputTypes = {
       readonly learningObjective: CodecTypes['pg/text@1']['input'] | null;
       readonly materialId: CodecTypes['pg/int4@1']['input'];
       readonly questionLlmContext: CodecTypes['pg/text@1']['input'] | null;
+      readonly questionType: CodecTypes['pg/text@1']['input'];
       readonly questionUi: CodecTypes['pg/json@1']['input'] | null;
       readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
     };
@@ -860,6 +868,7 @@ export namespace Models {
     readonly [RelationKeys]?: 'material' | 'student';
   };
   export type public_Question = {
+    answerConfig: CodecTypes['pg/json@1']['output'] | null;
     answers: CodecTypes['pg/json@1']['output'] | null;
     createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
     evaluationParameters: CodecTypes['pg/json@1']['output'] | null;
@@ -867,6 +876,7 @@ export namespace Models {
     learningObjective: CodecTypes['pg/text@1']['output'] | null;
     materialId: CodecTypes['pg/int4@1']['output'];
     questionLlmContext: CodecTypes['pg/text@1']['output'] | null;
+    questionType: CodecTypes['pg/text@1']['output'];
     questionUi: CodecTypes['pg/json@1']['output'] | null;
     updatedAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
     chatLogs: public_ChatLog[];
@@ -1510,6 +1520,11 @@ type ContractBase = Omit<
             };
             readonly Question: {
               columns: {
+                readonly answerConfig: {
+                  readonly nativeType: 'json';
+                  readonly codecId: 'pg/json@1';
+                  readonly nullable: true;
+                };
                 readonly answers: {
                   readonly nativeType: 'json';
                   readonly codecId: 'pg/json@1';
@@ -1545,6 +1560,15 @@ type ContractBase = Omit<
                   readonly nativeType: 'text';
                   readonly codecId: 'pg/text@1';
                   readonly nullable: true;
+                };
+                readonly questionType: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'literal';
+                    readonly value: DefaultLiteralValue<'pg/text@1', 'short_answer'>;
+                  };
                 };
                 readonly questionUi: {
                   readonly nativeType: 'json';
@@ -2582,6 +2606,10 @@ type ContractBase = Omit<
           };
           readonly Question: {
             readonly fields: {
+              readonly answerConfig: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/json@1' };
+              };
               readonly answers: {
                 readonly nullable: true;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/json@1' };
@@ -2611,6 +2639,10 @@ type ContractBase = Omit<
               };
               readonly questionLlmContext: {
                 readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly questionType: {
+                readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
               readonly questionUi: {
@@ -2676,6 +2708,7 @@ type ContractBase = Omit<
               readonly table: 'Question';
               readonly namespaceId: 'public';
               readonly fields: {
+                readonly answerConfig: { readonly column: 'answerConfig' };
                 readonly answers: { readonly column: 'answers' };
                 readonly createdAt: { readonly column: 'createdAt' };
                 readonly evaluationParameters: { readonly column: 'evaluationParameters' };
@@ -2683,6 +2716,7 @@ type ContractBase = Omit<
                 readonly learningObjective: { readonly column: 'learningObjective' };
                 readonly materialId: { readonly column: 'materialId' };
                 readonly questionLlmContext: { readonly column: 'questionLlmContext' };
+                readonly questionType: { readonly column: 'questionType' };
                 readonly questionUi: { readonly column: 'questionUi' };
                 readonly updatedAt: { readonly column: 'updatedAt' };
               };

@@ -748,6 +748,13 @@
 					},
 					"Question": {
 						"fields": {
+							"answerConfig": {
+								"nullable": true,
+								"type": {
+									"codecId": "pg/json@1",
+									"kind": "scalar"
+								}
+							},
 							"answers": {
 								"nullable": true,
 								"type": {
@@ -792,6 +799,13 @@
 							},
 							"questionLlmContext": {
 								"nullable": true,
+								"type": {
+									"codecId": "pg/text@1",
+									"kind": "scalar"
+								}
+							},
+							"questionType": {
+								"nullable": false,
 								"type": {
 									"codecId": "pg/text@1",
 									"kind": "scalar"
@@ -861,6 +875,9 @@
 						},
 						"storage": {
 							"fields": {
+								"answerConfig": {
+									"column": "answerConfig"
+								},
 								"answers": {
 									"column": "answers"
 								},
@@ -881,6 +898,9 @@
 								},
 								"questionLlmContext": {
 									"column": "questionLlmContext"
+								},
+								"questionType": {
+									"column": "questionType"
 								},
 								"questionUi": {
 									"column": "questionUi"
@@ -2195,6 +2215,11 @@
 						},
 						"Question": {
 							"columns": {
+								"answerConfig": {
+									"codecId": "pg/json@1",
+									"nativeType": "json",
+									"nullable": true
+								},
 								"answers": {
 									"codecId": "pg/json@1",
 									"nativeType": "json",
@@ -2233,6 +2258,15 @@
 									"codecId": "pg/text@1",
 									"nativeType": "text",
 									"nullable": true
+								},
+								"questionType": {
+									"codecId": "pg/text@1",
+									"default": {
+										"kind": "literal",
+										"value": "short_answer"
+									},
+									"nativeType": "text",
+									"nullable": false
 								},
 								"questionUi": {
 									"codecId": "pg/json@1",
@@ -2810,7 +2844,7 @@
 				"kind": "postgres-schema"
 			}
 		},
-		"storageHash": "edbbe71767195f5e15fb54bbea9f7b536c6fefeb5d7e31114c96405fa26bfea5"
+		"storageHash": "b162b891845825660af4b3aab40e672a8064141b404b45aaa0b6296313e7d124"
 	},
 	"execution": {
 		"executionHash": "2b1395939910b584cedeb560d2bb57798be75ff051a44accb846e5531514c809",

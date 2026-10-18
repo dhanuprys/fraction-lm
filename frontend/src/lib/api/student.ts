@@ -92,7 +92,9 @@ export interface StudentDashboardData {
 export interface SessionQuestion {
   id: string;
   learningObjective: string;
+  questionType: string;
   questionUi: any;
+  answerConfig: any;
   isPassed: boolean;
   masteryScore: number;
 }

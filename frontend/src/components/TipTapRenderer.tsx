@@ -2,6 +2,7 @@ import { BlockMath, InlineMath } from "react-katex";
 import "katex/dist/katex.min.css";
 import React from "react";
 import { Heading } from "@/components/pouf/text";
+import { RectangleDiagram, CircleDiagram, DiagonalRectangleDiagram } from "@/components/diagrams/FractionDiagrams";
 
 export function renderTipTapNode(node: any, index: number = 0): React.ReactNode {
   if (!node) return null;
@@ -80,6 +81,37 @@ export function renderTipTapNode(node: any, index: number = 0): React.ReactNode 
       >
         <InlineMath math={mathCode} />
       </span>
+    );
+  }
+
+  if (node.type === "diagram") {
+    const { diagramType, totalParts, shadedParts, rows, cols } = node.attrs || {};
+    return (
+      <div key={index} className="my-6 flex justify-center">
+        {diagramType === "circle" ? (
+          <CircleDiagram
+            totalParts={totalParts || 4}
+            shadedParts={shadedParts || []}
+            size={140}
+          />
+        ) : diagramType === "diagonal_rectangle" ? (
+          <DiagonalRectangleDiagram
+            rows={rows || 2}
+            cols={cols || 3}
+            totalParts={totalParts || 12}
+            shadedParts={shadedParts || []}
+            width={180}
+          />
+        ) : (
+          <RectangleDiagram
+            rows={rows || 1}
+            cols={cols || totalParts || 4}
+            totalParts={totalParts || 4}
+            shadedParts={shadedParts || []}
+            width={180}
+          />
+        )}
+      </div>
     );
   }
 

@@ -60,3 +60,17 @@ export function orderedList(...items: string[]) {
 		})),
 	};
 }
+
+/** SVG fraction diagram node (rendered by TipTapRenderer). */
+export function diagram(opts: {
+	diagramType: 'rectangle' | 'circle';
+	totalParts: number;
+	shadedParts: number[];
+	rows?: number;
+	cols?: number;
+}) {
+	return {
+		type: 'diagram',
+		attrs: opts,
+	};
+}

@@ -1,0 +1,242 @@
+DOCUMENT_ID: MATERI_DAN_LATIHAN_BAGIAN_1
+SOURCE_FILE: Materi dan Latihan _bagian 1.docx
+SOURCE_PAGE_COUNT: 8
+SOURCE_LANGUAGE: Indonesian (with the phrase "Wer hat Recht?" appearing in the source on page 7)
+OUTPUT_FORMAT: Plain text with explicit structural labels
+
+PARSING_RULES:
+- SOURCE_TEXT_VERBATIM contains the original source wording. Do not translate, rewrite, correct, simplify, or silently normalize the source wording.
+- Mathematical symbols that were displayed visually (for example, stacked fractions) are written in inline form (for example, 1/3) only to make the plain text readable. The mathematical value is preserved.
+- Preserve apparent spelling, punctuation, capitalization, and spacing issues in SOURCE_TEXT_VERBATIM, including "bagina" on page 8 and "pizza.Wer hat Recht?" on page 7.
+- IMAGE descriptions are written in English. They describe visible content and visual relationships, not translated replacements for the source text.
+- If an image itself contains Indonesian text, retain that embedded text in Indonesian in any future recreation. Do not translate or rewrite it.
+- QUESTION_TYPE and DIGITAL_INTERACTION are implementation metadata inferred from the worksheet layout. They are not additional text printed by the author.
+- Do not add answers to the exercises.
+- Where the relationship between printed wording and a nearby fraction template is visually unclear, preserve both source elements and report the layout ambiguity separately without resolving it.
+
+DOCUMENT_TITLE_SOURCE_TEXT: Topik 1: Bilangan Pecahan
+
+PAGE 1
+
+SOURCE_TEXT_VERBATIM:
+Topik 1: Bilangan Pecahan
+
+A. Tujuan Pembelajaran:
+Setelah pembelajaran ini, siswa diharapkan dapat:
+1. Menjelaskan konsep pecahan sebagai bagian dari suatu keseluruhan.
+2. Menyebutkan pembilang dan penyebut dari suatu pecahan serta menjelaskan makna dari garis pecahan.
+3. Menentukan pecahan yang senilai dengan menggunakan gambar, model konkret, dan operasi perhitungan.
+4. Membandingkan dua pecahan sembarang berdasarkan besar nilainya.
+5. Menyelesaikan permasalahan sehari-hari yang berkaitan dengan pecahan.
+6. Menjelaskan strategi penyelesaian dan menguraikan alasan pemilihan langkah atau prosedur tertentu.
+7. Memeriksa hasil perhitungan dan menemukan kesalahan dalam suatu penyelesaian.
+8. Menyajikan berbagai bentuk representasi pecahan dalam bentuk gambar, diagram, dan konsep matematika.
+
+B. Mengembangkan Pemahaman Dasar Yang Kuat tentang Bagian Pecahan
+
+AKTIVITAS 1.1
+
+a. Rini memiliki dua anak kucing bernama Ketty dan Ochan. Ketty dan Ochan suka makan pizza.  Perhatikan gambar di bawah ini!
+
+Berapa potong pizza yang sudah dimakan Ketty?
+
+Gambar di bawah ini juga menunjukkan bahwa Ochan telah memakan tiga potong pizza, seperti yang terlihat pada gambar.
+
+QUESTION_TYPE: Count objects / short written response
+DIGITAL_INTERACTION: Provide a short-text or numeric answer field for the number of pizza pieces. This interaction suggestion is inferred; it is not printed source text.
+
+IMAGE_ASSETS:
+[image: A color photograph showing a tabby kitten beside a round pizza on a round wooden serving board against a light background. The pizza has wedge divisions; several wedges remain topped with cheese and tomato, while a large section on the right side of the board appears bare with cut lines marking removed wedges. The kitten is leaning toward a separate pizza slice. Two additional slices are placed to the right of the board. Preserve the visible arrangement and the counting context; do not add labels or text.]
+
+[image: A pair of side-by-side color photographs on a wooden surface. The left photograph shows a whole round pizza divided into six wedge-shaped portions. The right photograph shows the same style of pizza with only about half of the circular pizza remaining as wedges on the right side of the board; the left side is bare, with crumbs and removed-food remnants. A tabby kitten is near a loose slice on the left. These images visually compare a whole pizza with a partially eaten pizza. Preserve the depicted slice layout and do not add labels or text.]
+
+PAGE 2
+
+SOURCE_TEXT_VERBATIM:
+b. Pernyataan mana yang benar, berilah tanda ☑ untuk pernyataan benar dan ☒ untuk pernyataan salah.
+
+Ketty dan Ochan masing-masing memakan 3 potong pizza
+Keduanya memakan bagian pizza yang sama banyak
+Ketty memakan bagian pizza yang lebih banyak daripada Ochan
+Ochan memakan bagian pizza yang lebih banyak daripada Ketty.
+
+Kedua kucing tersebut telah memakan 3 potong pizza, tetapi kucing manakah yang memakan bagian pizza lebih banyak? Pertanyaan ini dapat dijawab dengan paling baik jika kita menggambarkan bagian pizza yang dimakan oleh masing-masing kucing.
+
+Mari kita lihat pizza yang dimakan oleh Ketty. Sebuah pizza dibagi menjadi delapan potong yang sama besar. Ketty telah memakan tiga potong di antaranya.
+
+c. Pernyataan mana yang benar? Ochan telah memakan sebagian pizza. Berilah tanda centang (✓) pada pernyataan yang menurutmu benar dan X pada pernyataan yang salah!
+
+QUESTION_TYPE: True/false classification for four statements in part b; explanatory reading prompt; true/false classification for part c
+DIGITAL_INTERACTION: For part b, provide one True/False choice per statement while mapping the selected choice to the source symbols ☑ and ☒. For part c, provide one Benar/Salah choice per statement, reflecting the response table continued on page 3.
+
+IMAGE_ASSETS:
+[image: An educational fraction infographic in a portrait layout, with a pale blue background and rounded colored text panels. At the top is a yellow rounded banner; the fraction 3/8 is shown prominently in the center, with a red 3 above a dark fraction bar and a blue 8 below it. Arrows connect the numbers to labels naming the pembilang and penyebut. A round pizza diagram is divided into eight equal wedge-shaped sectors; three sectors are colored to stand out while the others are pale. Two colored explanatory panels describe the meanings of 8 and 3, and a green rounded banner at the bottom states what 3/8 represents. All text inside this graphic is Indonesian in the source. Preserve the original Indonesian wording, spelling, labels, colors, ordering, fraction notation, and visual hierarchy; do not translate or rewrite the embedded text.]
+
+SOURCE_TEXT_VISIBLE_INSIDE_IMAGE (retain in Indonesian in future image recreations; line breaks may differ):
+- Kita mengatakannya: “3 per delapan”
+- dan menulisnya secara singkat:
+- 3 disebut sebagai “Pembilang”
+- 8 disebut sebagai “Penyebut”
+- Dalam notasi baru 3/8, terdapat dua angka dengan arti yang berbeda:
+- Angka delapan menunjukkan berapa banyak bagian yang sama besar yang digunakan untuk membagi pizza.
+- Angka tiga menunjukkan berapa banyak bagian dari jumlah tersebut yang diambil.
+- Jadi, 3/8 berarti kita mengambil 3 dari 8 bagian yang sama besar dari sebuah pizza.
+
+PAGE 3
+
+SOURCE_TEXT_VERBATIM:
+Pernyataan | Benar | Salah
+Ochan telah memakan 3/6 bagian dari sebuah pizza. | | 
+Ochan telah memakan 6/3 bagian dari sebuah pizza. | | 
+Kedua pizza tersebut memiliki ukuran yang sama | | 
+Pecahan 3/6 menggambarkan porsi yang lebih besar daripada 3/8. | | 
+
+AKTIVITAS 1.2
+Tuliskan pecahan-pecahan berikut:
+
+Pembilang adalah 7, penyebutnya adalah 12.
+Pembilang adalah 6, penyebutnya adalah 8.
+Pembilang adalah ____, penyebut adalah ____.
+Pembilang adalah 8, penyebut adalah ____.
+pembilang adalah____, penyebut adalah 10.
+
+AKTIVITAS 1.3
+Pius membeli sebuah pizza untuk dirinya dan dua saudaranya.
+Ibunya berkata: “Potonglah pizza itu sedemikian rupa sehingga setiap orang mendapatkan sepertiga bagian”
+
+QUESTION_TYPE: Part 1.1(c) is a true/false table; Activity 1.2 is fraction construction and fill-in-the-blank; Activity 1.3 begins a word problem about dividing a pizza
+DIGITAL_INTERACTION: In part 1.1(c), choose Benar or Salah for each table row. In Activity 1.2, provide fraction input or text fields matching each printed prompt. Activity 1.3 continues on page 4; do not create a separate response control for the introduction alone.
+
+IMAGE_ASSETS:
+[image: A four-row table with three columns. The first column is headed “Pernyataan”; the second and third columns are headed “Benar” and “Salah”. Each row contains one printed statement and two empty response cells. The table has thin blue lines and a blue horizontal accent near the header. Preserve the original Indonesian statements and headings exactly; do not fill any cells.]
+
+[image: Five small mathematical fraction templates appear alongside the five prompts in Activity 1.2. From top to bottom: (1) a blank numerator box over a blank denominator box; (2) another blank numerator box over a blank denominator box; (3) the fraction 5/11; (4) a blank numerator box above the denominator 9; (5) the numerator 1 above a blank denominator box. Keep each template paired with its corresponding source prompt and preserve this visual order.]
+
+SOURCE_LAYOUT_NOTE:
+The visible fraction templates and the adjacent written prompts in Activity 1.2 do not appear fully aligned in every case. In particular, the fourth visual template appears to be a blank numerator over 9, while its adjacent wording says “Pembilang adalah 8, penyebut adalah ____.” The fifth template appears to be 1 over a blank denominator, while its adjacent wording says “pembilang adalah____, penyebut adalah 10.” Preserve both the printed wording and the visible templates; do not reconcile or correct this layout.
+
+PAGE 4
+
+SOURCE_TEXT_VERBATIM:
+Pius mengambil sebuah pisau dan memotong:
+
+Pius berkata: “Saya mengambil potongan yang di tengah. Potongan itu adalah salah satu dari tiga potongan, jadi merupakan sepertiga dari pizza.”
+Apa pendapatmu tentang hal itu? Beri tanda centang.
+
+Pernyataan | Benar | Salah
+Pius telah memotong pizza tersebut menjadi tiga bagian. | | 
+Ketiga bagian tersebut memiliki ukuran yang berbeda-beda. | | 
+Setiap potongan merupakan 1/3 bagian dari pizza | | 
+Hanya jika pizza dipotong menjadi 3 bagian yang sama besar, maka satu potong merupakan 1/3 bagian dari pizza. | | 
+
+QUESTION_TYPE: True/false table with one response for each statement
+DIGITAL_INTERACTION: Provide a Benar/Salah selection in each table row. This is inferred from the source table and instruction “Beri tanda centang.”
+
+IMAGE_ASSETS:
+[image: A top-down photograph of a round pizza with two thick, nearly parallel black diagonal cut lines crossing the pizza. The lines form three slices/regions, with a broad central diagonal strip and smaller outer regions, so the three areas are visibly unequal. The unequal divisions are central to the visual question. Do not replace them with three equal wedges or add labels/text.]
+
+PAGE 5
+
+SOURCE_TEXT_VERBATIM:
+AKTIVITAS 1.4
+Kotak-kotak berikut dibagi menjadi 100 persegi yang sama besar.
+
+Warnailah pada bidang pertama:
+50/100 dengan pensil merah.
+10/100 dengan pensil biru.
+2/100 dengan pensil hijau.
+1/100 dengan pensil hitam.
+
+Warnailah pada bidang kedua:
+25/100 dengan pensil merah.
+12/100 dengan pensil biru.
+8/100 dengan pensil hijau.
+11/100 dengan pensil hitam.
+
+QUESTION_TYPE: Grid coloring / represent specified fractions with colors
+DIGITAL_INTERACTION: Show two separate 10-by-10 grids. Let the learner select a color and tap/click cells to color them. The required fractions and colors must remain exactly as stated in SOURCE_TEXT_VERBATIM.
+
+IMAGE_ASSETS:
+[image: Two separate empty square grids displayed side by side. Each grid has 10 columns and 10 rows, for 100 equal square cells. The cells have white interiors and thin light-gray grid lines. The left grid is associated with the instruction “Warnailah pada bidang pertama”; the right grid is associated with “Warnailah pada bidang kedua”. Neither grid is pre-colored and no numbers appear inside the cells.]
+
+PAGE 6
+
+SOURCE_TEXT_VERBATIM:
+AKTIVITAS 1.5
+Tulislah berapa bagian yang diarsir dari keseluruhan bidang yang berbentuk persegi panjang maupun lingkaran
+
+QUESTION_TYPE: Identify the shaded fraction in each diagram; short numeric/fraction response
+DIGITAL_INTERACTION: Provide one answer field beside each of the ten diagrams. The source shows blank answer lines; no answers are filled in.
+
+IMAGE_ASSETS:
+[image: A worksheet containing five horizontal rows of diagrams. Each row has a rectangular partition diagram on the left and a circular partition diagram on the right. An empty horizontal answer line appears after each diagram. Shaded regions are gray and unshaded regions are white. Preserve the diagram order, part boundaries, shading, and blank answer lines.]
+
+DIAGRAM_1_LEFT:
+[image: A horizontal rectangle divided into 2 rows and 3 columns, making 6 equal rectangular cells. The two rightmost cells in the top row are shaded gray. The other four cells are white.]
+
+DIAGRAM_1_RIGHT:
+[image: A circle divided into 8 equal wedge-shaped sectors by radial lines. Two sectors are shaded gray: one in the upper-right area and one in the lower-left area. The other six sectors are white.]
+
+DIAGRAM_2_LEFT:
+[image: A horizontal rectangle divided into 2 rows and 6 columns, making 12 equal rectangular cells. In the top row, columns 2, 4, and 6 are gray. In the bottom row, columns 3 and 5 are gray. All other cells are white.]
+
+DIAGRAM_2_RIGHT:
+[image: A circle divided into 8 equal wedge-shaped sectors. Three adjacent sectors on the left side of the circle are shaded gray, forming a continuous region from upper-left through the left side to lower-left. The remaining five sectors are white.]
+
+DIAGRAM_3_LEFT:
+[image: A horizontal rectangle divided into 2 rows and 3 columns. Each of its 6 rectangular cells is split diagonally from the upper-left corner to the lower-right corner, forming 12 triangular regions. All three cells in the top row have their upper/right triangles shaded gray. In the bottom row, the right/lower triangle of the middle cell is gray. The other triangles are white. Preserve the diagonals and shaded-triangle positions exactly.]
+
+DIAGRAM_3_RIGHT:
+[image: A circle divided into 8 equal wedge-shaped sectors. Four gray sectors alternate with four white sectors around the circle.]
+
+DIAGRAM_4_LEFT:
+[image: A rectangle divided into two equal horizontal halves. The upper half is gray and the lower half is white.]
+
+DIAGRAM_4_RIGHT:
+[image: A circle divided into four equal quadrants by one vertical diameter and one horizontal diameter. Both quadrants on the left are gray; both quadrants on the right are white.]
+
+DIAGRAM_5_LEFT:
+[image: A vertical rectangle divided into 5 equal horizontal strips. The top two strips are gray and the bottom three strips are white.]
+
+DIAGRAM_5_RIGHT:
+[image: A vertical rectangle divided into 6 equal horizontal strips. The top three strips are gray and the bottom three strips are white.]
+
+PAGE 7
+
+SOURCE_TEXT_VERBATIM:
+AKTIVITAS 1.6
+Warnailah 1/6 bagian dari kotak di bawah ini!
+
+Siapa yang benar?
+
+Elsa:    Soal ini sulit, tidak bisa diselesaikan karena bukan 6, melainkan 12 kotak.
+
+Ivon:    Aku membayangkan persegi panjang itu seperti pizza.Wer hat Recht?
+
+Sekarang saya harus mencari tahu berapa banyak potongannya jika pizza untuk 6 orang dibagi menjadi 6 bagian yang sama besar. Saya akan menggambarkannya.
+
+Sekarang saya dapat melihat berapa banyak bagian yang bernilai 1/6
+
+QUESTION_TYPE: Grid coloring; reasoning / select or explain which speaker is correct; interpret a completed colored grid
+DIGITAL_INTERACTION: First prompt: let the learner color cells in the 3-by-4 grid. “Siapa yang benar?” may be implemented as a selection of Elsa or Ivon or a short written explanation, but the source does not specify fixed answer controls. The later colored diagram is source material to inspect, not an unanswered drag-and-drop task.
+
+IMAGE_ASSETS:
+[image: An empty horizontal rectangle divided into 3 rows and 4 columns, making 12 equal rectangular cells. All cells are white with thin dark outlines.]
+
+[image: A rectangular cheese pizza photographed from directly above. It is roughly square in shape, with a browned crust around the edges and melted cheese plus scattered browned toppings across the surface. There are no visible cut lines dividing it into portions. Do not add text or labels.]
+
+[image: A 3-row by 4-column rectangular grid containing 12 equal cells. The cells are colored in six pairs, with each pair occupying two horizontally adjacent cells in one row: top row is orange, orange, blue, blue; middle row is gray, gray, cyan, cyan; bottom row is green, green, yellow, yellow. Thin dark grid lines separate all cells. Preserve this exact arrangement and colors.]
+
+PAGE 8
+
+SOURCE_TEXT_VERBATIM:
+Aktivitas 1.7
+Arsirlah 5/8 bagina dari bidang di bawah ini
+
+QUESTION_TYPE: Shade a specified fraction of a grid
+DIGITAL_INTERACTION: Provide a selectable-cell grid and a shading action. The source instruction specifies 5/8; do not add an answer pattern to the source. The visible grid has 24 equal cells, arranged as 4 rows by 6 columns.
+
+IMAGE_ASSETS:
+[image: An empty horizontal rectangle divided into 4 rows and 6 columns, making 24 equal square/rectangular cells. It has a simple black outer border and thin black internal grid lines. All cells are white and unshaded. There are no labels, numbers, or decorative elements.]
+
+END_OF_DOCUMENT
