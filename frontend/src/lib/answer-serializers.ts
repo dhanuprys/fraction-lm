@@ -25,7 +25,9 @@ export function serializeTrueFalseTable(
 // ─── Fraction Input ─────────────────────────────────────────────────────────
 
 export interface FractionFieldValue {
-  prompt: string;
+  prompt?: string;
+  mode?: "fraction" | "identify";
+  displayFraction?: { numerator: number; denominator: number };
   numerator: number | null;
   denominator: number | null;
 }
@@ -35,12 +37,18 @@ export function serializeFractionInput(fields: FractionFieldValue[]): string {
     const f = fields[0];
     const n = f.numerator ?? "?";
     const d = f.denominator ?? "?";
+    if (f.mode === "identify" && f.displayFraction) {
+      return `Jawaban pecahan saya untuk $\\frac{${f.displayFraction.numerator}}{${f.displayFraction.denominator}}$: Pembilang = ${n}, Penyebut = ${d}`;
+    }
     const promptStr = f.prompt ? `${f.prompt} → ` : "";
     return `Jawaban pecahan saya: ${promptStr}$\\frac{${n}}{${d}}$`;
   }
   const lines = fields.map((f, i) => {
     const n = f.numerator ?? "?";
     const d = f.denominator ?? "?";
+    if (f.mode === "identify" && f.displayFraction) {
+      return `- Soal ${i + 1} (${f.prompt || `Pecahan $\\frac{${f.displayFraction.numerator}}{${f.displayFraction.denominator}}$`}): Pembilang = **${n}**, Penyebut = **${d}**`;
+    }
     const promptStr = f.prompt ? `${f.prompt} → ` : "";
     return `- Soal ${i + 1}: ${promptStr}$\\frac{${n}}{${d}}$`;
   });
@@ -165,8 +173,17 @@ export function serializeAnswer(
     case "true_false_table":
       return serializeTrueFalseTable(answerConfig?.statements || [], widgetValue || {});
 
-    case "fraction_input":
-      return serializeFractionInput(widgetValue || []);
+    case "fraction_input": {
+      const configFields = answerConfig?.fields || [];
+      const mergedFields = configFields.map((f: any, i: number) => ({
+        prompt: f.prompt || "",
+        mode: f.mode,
+        displayFraction: f.displayFraction,
+        numerator: widgetValue?.[i]?.numerator ?? null,
+        denominator: widgetValue?.[i]?.denominator ?? null,
+      }));
+      return serializeFractionInput(mergedFields.length > 0 ? mergedFields : (widgetValue || []));
+    }
 
     case "grid_coloring":
       return serializeGridColoring(widgetValue || [[]], answerConfig?.instructions || []);

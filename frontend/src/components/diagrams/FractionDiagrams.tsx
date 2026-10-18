@@ -6,6 +6,8 @@
  *  FractionIdentify widget.
  * ───────────────────────────────────────────────────────────────────────── */
 
+import clsx from "clsx";
+
 // ─── Rectangle Diagram ──────────────────────────────────────────────────────
 
 interface RectangleDiagramProps {
@@ -13,8 +15,10 @@ interface RectangleDiagramProps {
   cols: number;
   totalParts: number;
   shadedParts: number[];
-  /** Width in px — height scales proportionally */
+  /** Optional fixed width in px */
   width?: number;
+  /** Optional fixed height in px */
+  height?: number;
   className?: string;
 }
 
@@ -22,20 +26,44 @@ export function RectangleDiagram({
   rows,
   cols,
   shadedParts,
-  width = 200,
+  width,
+  height,
   className,
 }: RectangleDiagramProps) {
-  const cellW = 1;
+  // When cols === 1, it's a vertical strip diagram (e.g. 5 strips for 2/5, 6 strips for 3/6).
+  // Each strip should have generous height (loose vertical space!) and a proper vertical column aspect ratio.
+  const cellW = cols === 1 ? (rows <= 2 ? 2.8 : 3.0) : (cols <= 3 ? 1.05 : 1);
   const cellH = 1;
   const totalW = cols * cellW;
   const totalH = rows * cellH;
   const pad = 0.05;
 
+  const computedW =
+    width ??
+    (cols === 1
+      ? rows <= 2
+        ? 110
+        : 85
+      : cols <= 3
+        ? 135
+        : 170);
+
+  const computedH =
+    height ??
+    (cols === 1
+      ? rows <= 2
+        ? 80
+        : rows * 28 // 5 rows = 140px, 6 rows = 168px (28px height per strip!)
+      : cols <= 3
+        ? 85
+        : 65);
+
   return (
     <svg
       viewBox={`${-pad} ${-pad} ${totalW + pad * 2} ${totalH + pad * 2}`}
-      width={width}
-      className={className}
+      width={computedW}
+      height={computedH}
+      className={clsx("max-w-full object-contain", className)}
       role="img"
       aria-label={`Persegi panjang dibagi ${rows * cols} bagian, ${shadedParts.length} bagian diarsir`}
     >
@@ -87,7 +115,7 @@ function sectorPath(cx: number, cy: number, r: number, startAngle: number, endAn
 export function CircleDiagram({
   totalParts,
   shadedParts,
-  size = 160,
+  size = 96,
   className,
 }: CircleDiagramProps) {
   const cx = 50;
@@ -100,7 +128,7 @@ export function CircleDiagram({
       viewBox="0 0 100 100"
       width={size}
       height={size}
-      className={className}
+      className={clsx("max-w-full object-contain", className)}
       role="img"
       aria-label={`Lingkaran dibagi ${totalParts} bagian, ${shadedParts.length} bagian diarsir`}
     >
@@ -136,7 +164,10 @@ interface DiagonalRectangleDiagramProps {
   cols: number;
   totalParts: number;
   shadedParts: number[];
+  /** Optional fixed width in px */
   width?: number;
+  /** Optional fixed height in px */
+  height?: number;
   className?: string;
 }
 
@@ -144,7 +175,8 @@ export function DiagonalRectangleDiagram({
   rows,
   cols,
   shadedParts,
-  width = 200,
+  width,
+  height,
   className,
 }: DiagonalRectangleDiagramProps) {
   const cellW = 1;
@@ -153,11 +185,15 @@ export function DiagonalRectangleDiagram({
   const totalH = rows * cellH;
   const pad = 0.05;
 
+  const computedW = width ?? (cols <= 3 ? 135 : 170);
+  const computedH = height ?? (rows <= 2 ? 85 : 120);
+
   return (
     <svg
       viewBox={`${-pad} ${-pad} ${totalW + pad * 2} ${totalH + pad * 2}`}
-      width={width}
-      className={className}
+      width={computedW}
+      height={computedH}
+      className={clsx("max-w-full object-contain", className)}
       role="img"
       aria-label={`Persegi panjang dibagi diagonal, ${shadedParts.length} segitiga diarsir`}
     >

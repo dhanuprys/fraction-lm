@@ -1,9 +1,9 @@
 import {
 	bold,
 	bulletList,
-	diagram,
 	doc,
 	heading,
+	image,
 	math,
 	orderedList,
 	p,
@@ -182,9 +182,25 @@ export const topic1 =
 							),
 						),
 						materialLlmContext:
-							'Latihan ini menguji pemahaman siswa terhadap seluruh materi pada subtopik Konsep dan Makna Pecahan: ' +
-							'(1) pengertian pecahan dan gambar bagiannya, (2) bentuk penulisan pecahan (pembilang, penyebut, garis pecahan), ' +
-							'(3) membaca dan menuliskan pecahan. Soal menggabungkan konsep-konsep tersebut.',
+							'Rangkuman Materi & Konsep Bab "Konsep dan Makna Pecahan" (Kelas 3–4 SD):\n' +
+							'1. Konsep Dasar Pecahan: Pecahan menyatakan bagian dari keseluruhan yang dibagi menjadi bagian-bagian yang SAMA BESAR. Syarat mutlak: jika potongan tidak sama besar, maka itu bukan pecahan.\n' +
+							'2. Bentuk Penulisan \\frac{a}{b}: Bilangan di atas garis adalah "pembilang" (menunjukkan berapa bagian yang diambil/dimakan/diarsir). Bilangan di bawah garis adalah "penyebut" (menunjukkan jumlah seluruh bagian yang sama besar). Garis di tengah disebut garis pecahan. Nilai \\frac{a}{b} berbeda dengan \\frac{b}{a}.\n' +
+							'3. Cara Membaca & Menulis Pecahan: Dibaca "[pembilang] per [penyebut]" (misal 2/5 dibaca "dua per lima"). Nama khusus: 1/2 = "setengah", 1/3 = "sepertiga", 1/4 = "seperempat", 3/4 = "tiga perempat".\n' +
+							'4. Konteks Cerita Soal (Kucing Rini: Ketty & Ochan):\n' +
+							'   - Pizza Ketty dipotong menjadi 8 bagian sama besar. Ketty memakan 3 potong (pecahannya \\frac{3}{8}).\n' +
+							'   - Pizza Ochan dipotong menjadi 6 bagian sama besar. Ochan memakan 3 potong (pecahannya \\frac{3}{6}).\n' +
+							'   - Keduanya sama-sama memakan 3 potong, TETAPI bagian pizza yang dimakan TIDAK sama banyak, karena ukuran 1 potong pizza Ochan (1 dari 6) lebih besar daripada 1 potong pizza Ketty (1 dari 8). Jadi \\frac{3}{6} > \\frac{3}{8}.\n' +
+							'5. Peran Tutor Socratic: Bimbing siswa mengaitkan jumlah potongan yang dimakan sebagai pembilang dan total potongan keseluruhan sebagai penyebut, serta menyadari pentingnya ukuran potongan yang sama besar.\n' +
+							'6. Referensi Visual & Media yang Tersedia di Post-Test:\n' +
+							'   - Soal 1 & 2: Gambar SVG "pizza_ketty_ochan.svg" (Pizza Ketty 8 potong vs Pizza Ochan 6 potong di nampan kayu).\n' +
+							'   - Soal 3: Infografis SVG "infografis_pecahan_3_8.svg" (Pembilang merah 3, penyebut biru 8, juring pizza 8 bagian).\n' +
+							'   - Soal 4: Form input pecahan 5 butir dengan template kosong, badge identifikasi terbalik 5/11, dan template parsial 8/9 serta 1/10.\n' +
+							'   - Soal 5: Gambar SVG "pizza_pius_unequal.svg" (Pizza Pius dipotong 2 garis paralel menjadi 3 bagian tidak sama besar; potongan tengah sangat lebar).\n' +
+							'   - Soal 6 & 7: Grid interaktif 10x10 (100 kotak) dengan palet pensil merah, biru, hijau, hitam.\n' +
+							'   - Soal 8: 10 diagram arsir geometris (persegi panjang, lingkaran 8 juring, persegi panjang diagonal 12 segitiga, bilah horizontal 5 & 6).\n' +
+							'   - Soal 9: Gambar SVG "grid_12_pairs_ivon.svg" (Dialog Elsa vs Ivon & grid 3x4 dibagi 6 pasangan warna) + grid interaktif 3x4.\n' +
+							'   - Soal 10: Grid interaktif 4x6 (24 kotak) untuk mewarnai 5/8 bagian (15 kotak).\n' +
+							'Tutor AI memiliki pengetahuan visual lengkap mengenai apa yang sedang dilihat oleh siswa di layar, sehingga dapat merujuk ke elemen gambar (warna, posisi, bentuk) secara langsung saat berinteraksi.',
 						questions: [
 							// ── Aktivitas 1.1a: Count objects (numeric) ──────────────────
 							{
@@ -193,14 +209,18 @@ export const topic1 =
 								questionType: 'numeric',
 								questionUi: doc(
 									p(
-										'Rini memiliki dua anak kucing bernama Ketty dan Ochan. Mereka suka makan pizza.',
+										'Rini memiliki dua anak kucing bernama Ketty dan Ochan. Mereka suka makan pizza. Perhatikan gambar pizza Ketty dan Ochan di bawah ini!',
+									),
+									image(
+										'/images/topic1/pizza_ketty_ochan.svg',
+										'Pizza Ketty dan Pizza Ochan',
 									),
 									p(
 										bold('Pertanyaan: '),
 										'Berapa potong pizza yang sudah dimakan Ketty?',
 									),
 									p(
-										'(Petunjuk: Pizza Ketty dipotong menjadi 8 bagian. Ketty memakan beberapa potong.)',
+										'(Petunjuk: Perhatikan pizza Ketty yang dipotong menjadi 8 bagian sama besar. Hitung berapa potong yang sudah hilang/dimakan!)',
 									),
 								),
 								answerConfig: {
@@ -208,9 +228,13 @@ export const topic1 =
 									unit: 'potong',
 								},
 								questionLlmContext:
-									'Siswa menghitung berapa potong pizza yang dimakan Ketty. ' +
-									'Pizza Ketty dibagi menjadi 8 potong dan Ketty memakan 3 potong. ' +
-									'Jawaban benar: 3 potong.',
+									'Konteks Visual & Soal:\n' +
+									'Siswa melihat gambar SVG "pizza_ketty_ochan.svg" yang menampilkan dua pizza di atas nampan kayu:\n' +
+									'- Kiri: Pizza Ketty dipotong menjadi 8 bagian sama besar. Ada 5 potong utuh bertabur keju dan pepperoni, serta 3 potong kosong (hanya tersisa remahan dan garis putus-putus berlabel "Bagian Dimakan 🍽️").\n' +
+									'- Kanan: Pizza Ochan dipotong menjadi 6 bagian sama besar. Ada 3 potong utuh dan 3 potong kosong berlabel "Bagian Dimakan 🍽️".\n' +
+									'Tugas siswa: Menghitung berapa potong pizza yang sudah dimakan Ketty.\n' +
+									'Jawaban benar: 3 potong.\n' +
+									'Jika siswa bertanya tentang gambar: Jelaskan bahwa pizza Ketty dipotong menjadi 8 bagian sama besar, 5 masih ada di piring dan 3 potong sudah kosong/dimakan.',
 								evaluationParameters: {
 									expected_answer_keywords: ['3'],
 									common_misconceptions: [
@@ -254,9 +278,15 @@ export const topic1 =
 									labels: ['Benar', 'Salah'],
 								},
 								questionLlmContext:
-									'Siswa menentukan Benar/Salah untuk 4 pernyataan tentang pizza Ketty dan Ochan. ' +
-									'Ketty memakan 3/8, Ochan memakan 3/6. Keduanya memang 3 potong, tapi ukuran potongan berbeda. ' +
-									'Jawaban: 1=Benar, 2=Salah, 3=Salah, 4=Benar (3/6 > 3/8 karena potongan Ochan lebih besar).',
+									'Konteks Visual & Soal:\n' +
+									'Melanjutkan konteks visual gambar dua pizza (Pizza Ketty 8 potong vs Pizza Ochan 6 potong).\n' +
+									'Kedua loyang pizza utuh memiliki ukuran yang sama besar. Namun karena pizza Ochan dipotong menjadi lebih sedikit bagian (6 potong) dibanding pizza Ketty (8 potong), maka setiap 1 potong pizza Ochan (1/6) berukuran lebih besar daripada 1 potong pizza Ketty (1/8).\n' +
+									'Siswa mengevaluasi 4 pernyataan pada tabel Benar/Salah:\n' +
+									'1. "Ketty dan Ochan masing-masing memakan 3 potong pizza" → Benar (keduanya memang memakan 3 potong).\n' +
+									'2. "Keduanya memakan bagian pizza yang sama banyak" → Salah (karena ukuran 1 potong pizza Ochan lebih besar dari potongan Ketty).\n' +
+									'3. "Ketty memakan bagian pizza yang lebih banyak daripada Ochan" → Salah (3/8 lebih sedikit porsinya daripada 3/6).\n' +
+									'4. "Ochan memakan bagian pizza yang lebih banyak daripada Ketty" → Benar (3/6 > 3/8 karena potongan Ochan lebih besar).\n' +
+									'Jika siswa bingung: Ajak siswa membayangkan jika sebuah pizza dibagi untuk 6 orang vs 8 orang, mana yang dapat potongan lebih besar.',
 								evaluationParameters: {
 									expected_answer_keywords: [
 										'1:Benar',
@@ -291,15 +321,22 @@ export const topic1 =
 							// ── Aktivitas 1.1c: True/False table (Ochan) ────────────────
 							{
 								learningObjective:
-									'Siswa dapat menentukan kebenaran pernyataan tentang pecahan pizza Ochan.',
+									'Siswa dapat memahami notasi pecahan dan mengevaluasi kebenaran pernyataan tentang pecahan pizza Ochan.',
 								questionType: 'true_false_table',
 								questionUi: doc(
 									p(
-										'Perhatikan pizza yang dimakan Ochan. Ochan memakan 3 potong dari pizza yang dibagi 6 bagian sama besar.',
+										'Mari kita pelajari cara menuliskan bagian pizza Ketty dan Ochan dalam bentuk pecahan:',
+									),
+									image(
+										'/images/topic1/infografis_pecahan_3_8.svg',
+										'Infografis Pecahan 3/8: Pembilang dan Penyebut',
+									),
+									p(
+										'Sekarang perhatikan pizza yang dimakan Ochan. Ochan memakan 3 potong dari pizza yang dibagi 6 bagian sama besar.',
 									),
 									p(
 										bold(
-											'Pernyataan mana yang benar? Berilah tanda centang pada pernyataan yang benar dan X pada yang salah!',
+											'Pernyataan mana yang benar? Berilah tanda centang pada pernyataan yang benar dan salah:',
 										),
 									),
 								),
@@ -313,9 +350,18 @@ export const topic1 =
 									labels: ['Benar', 'Salah'],
 								},
 								questionLlmContext:
-									'Siswa menentukan Benar/Salah untuk 4 pernyataan tentang pizza Ochan. ' +
-									'Ochan memakan 3 dari 6 potong = $\\frac{3}{6}$. ' +
-									'Jawaban: 1=Benar ($\\frac{3}{6}$ benar), 2=Salah ($\\frac{6}{3}$ terbalik), 3=Benar (kedua pizza sama besar), 4=Benar ($\\frac{3}{6} > \\frac{3}{8}$).',
+									'Konteks Visual & Soal:\n' +
+									'Siswa melihat infografis edukatif "infografis_pecahan_3_8.svg" yang menjelaskan konsep pembilang dan penyebut:\n' +
+									'- Banner atas: "Kita menyebutnya: 3 per delapan" dan notasi pecahan besar \\frac{3}{8}.\n' +
+									'- Panel merah (kiri atas): Menjelaskan PEMBILANG (angka 3 merah di atas garis) = jumlah bagian yang diambil/dimakan Ketty.\n' +
+									'- Panel biru (kiri bawah): Menjelaskan PENYEBUT (angka 8 biru di bawah garis) = seluruh bagian yang sama besar dari pizza.\n' +
+									'- Diagram lingkaran pizza di tengah dengan 3 juring berwarna merah dan 5 juring lainnya abu-abu terang.\n' +
+									'Pertanyaan: Siswa mengevaluasi 4 pernyataan Benar/Salah untuk pizza Ochan (memakan 3 dari 6 potong):\n' +
+									'1. "Ochan telah memakan \\frac{3}{6} bagian dari sebuah pizza." → Benar (pembilang 3, penyebut 6).\n' +
+									'2. "Ochan telah memakan \\frac{6}{3} bagian dari sebuah pizza." → Salah (terbalik; pembilang dan penyebut tertukar).\n' +
+									'3. "Kedua pizza tersebut memiliki ukuran yang sama." → Benar (kedua loyang pizza aslinya sama besar).\n' +
+									'4. "Pecahan \\frac{3}{6} menggambarkan porsi yang lebih besar daripada \\frac{3}{8}." → Benar (\\frac{3}{6} = setengah pizza, sedangkan \\frac{3}{8} kurang dari setengah).\n' +
+									'Jika siswa bertanya tentang gambar infografis: Jelaskan kaitan warna merah (pembilang/bagian dimakan) dan biru (penyebut/seluruh bagian sama besar).',
 								evaluationParameters: {
 									expected_answer_keywords: [
 										'1:Benar',
@@ -351,15 +397,15 @@ export const topic1 =
 							// ── Aktivitas 1.2: Fraction input ────────────────────────────
 							{
 								learningObjective:
-									'Siswa dapat menuliskan pecahan jika diketahui pembilang dan penyebutnya.',
+									'Siswa dapat menuliskan pecahan serta mengidentifikasi pembilang dan penyebut.',
 								questionType: 'fraction_input',
 								questionUi: doc(
 									heading(
 										3,
-										'Tuliskan pecahan-pecahan berikut:',
+										'Aktivitas 1.2 — Tuliskan Pecahan-Pecahan Berikut:',
 									),
 									p(
-										'Lengkapi pembilang dan penyebut pada kotak pecahan di bawah ini.',
+										'Perhatikan setiap butir soal di bawah ini. Tuliskan pecahan pada kotak pecahan atau sebutkan pembilang dan penyebutnya sesuai yang diminta.',
 									),
 								),
 								answerConfig: {
@@ -371,31 +417,40 @@ export const topic1 =
 											prompt: 'Pembilang adalah 6, penyebutnya adalah 8.',
 										},
 										{
-											prompt: 'Pecahan ini sudah diketahui: $\\frac{5}{11}$',
-											prefilled: {
+											mode: 'identify',
+											displayFraction: {
 												numerator: 5,
 												denominator: 11,
 											},
+											prompt: 'Tentukan pembilang dan penyebut dari pecahan ini:',
 										},
 										{
-											prompt: 'Pembilang adalah 8, penyebut adalah ...',
+											prompt: 'Pembilang adalah 8, penyebut adalah ... ($\\frac{\\square}{9}$)',
 											prefilled: { denominator: 9 },
 										},
 										{
-											prompt: 'Pembilang adalah ..., penyebut adalah 10.',
+											prompt: 'Pembilang adalah ..., penyebut adalah 10 ($\\frac{1}{\\square}$)',
 											prefilled: { numerator: 1 },
 										},
 									],
 								},
 								questionLlmContext:
-									'Siswa menuliskan pecahan dari informasi pembilang/penyebut. ' +
-									'Jawaban benar: 1) $\\frac{7}{12}$, 2) $\\frac{6}{8}$, 3) sudah terisi $\\frac{5}{11}$, 4) $\\frac{8}{9}$, 5) $\\frac{1}{10}$.',
+									'Konteks Visual & Widget Interaktif:\n' +
+									'Siswa melihat formulir interaktif 5 butir soal dengan variasi tampilan:\n' +
+									'1. Butir 1: Teks "Pembilang adalah 7, penyebutnya adalah 12." Siswa mengisi kotak atas (7) dan kotak bawah (12) → \\frac{7}{12}.\n' +
+									'2. Butir 2: Teks "Pembilang adalah 6, penyebutnya adalah 8." Siswa mengisi kotak atas (6) dan kotak bawah (8) → \\frac{6}{8}.\n' +
+									'3. Butir 3 (Mode Identifikasi Terbalik): Ditampilkan badge pecahan \\frac{5}{11}. Siswa diminta mengisi dua kolom input bertuliskan "Pembilang:" [ ] dan "Penyebut:" [ ]. Jawaban: Pembilang = 5, Penyebut = 11.\n' +
+									'4. Butir 4 (Template Parsial): Teks "Pembilang adalah 8, penyebut adalah ... (\\frac{\\square}{9})". Kotak penyebut di layar sudah terisi angka 9 terkunci. Siswa hanya perlu mengisi kotak pembilang dengan angka 8 → \\frac{8}{9}.\n' +
+									'5. Butir 5 (Template Parsial): Teks "Pembilang adalah ..., penyebut adalah 10 (\\frac{1}{\\square})". Kotak pembilang di layar sudah terisi angka 1 terkunci. Siswa hanya perlu mengisi kotak penyebut dengan angka 10 → \\frac{1}{10}.\n' +
+									'Jika siswa bingung: Ingatkan bahwa angka di atas adalah pembilang dan angka di bawah adalah penyebut.',
 								evaluationParameters: {
 									expected_answer_keywords: [
 										'\\frac{7}{12}',
 										'7/12',
 										'\\frac{6}{8}',
 										'6/8',
+										'5',
+										'11',
 										'\\frac{5}{11}',
 										'5/11',
 										'\\frac{8}{9}',
@@ -405,12 +460,14 @@ export const topic1 =
 									],
 									common_misconceptions: [
 										'Menukar posisi pembilang dan penyebut (contoh: 12/7)',
+										'Pada pecahan 5/11, keliru menyebut pembilang sebagai 11',
 									],
 									strictness_level: 'strict',
 									hints: [
 										'Pembilang ditulis di atas garis pecahan, penyebut di bawah.',
-										'Untuk soal 4, penyebutnya sudah 9. Pembilangnya berapa?',
-										'Untuk soal 5, pembilangnya sudah 1. Penyebutnya berapa?',
+										'Untuk soal 3 (5/11): angka di atas (5) adalah pembilang, angka di bawah (11) adalah penyebut.',
+										'Untuk soal 4: penyebutnya sudah 9, pembilangnya adalah 8.',
+										'Untuk soal 5: pembilangnya sudah 1, penyebutnya adalah 10.',
 									],
 								},
 								answers: {
@@ -434,14 +491,24 @@ export const topic1 =
 										'Pius membeli sebuah pizza untuk dirinya dan dua saudaranya. ' +
 											'Ibunya berkata: "Potonglah pizza itu sedemikian rupa sehingga setiap orang mendapatkan sepertiga bagian."',
 									),
-									p(
-										'Pius mengambil sebuah pisau dan memotong pizza menjadi 3 bagian, tetapi ',
-										bold(
-											'bagian-bagiannya tidak sama besar',
-										),
-										'.',
+									image(
+										'/images/topic1/pizza_pius_unequal.svg',
+										'Cara Pius Memotong Pizza Menjadi 3 Bagian',
 									),
-									p(bold('Apa pendapatmu tentang hal itu?')),
+									p(
+										'Pius mengambil sebuah pisau dan memotong pizza menjadi 3 bagian seperti pada gambar di atas.',
+									),
+									p(
+										'Pius berkata: ',
+										bold(
+											'"Saya mengambil potongan yang di tengah. Potongan itu adalah salah satu dari tiga potongan, jadi merupakan sepertiga dari pizza."',
+										),
+									),
+									p(
+										bold(
+											'Apa pendapatmu tentang hal itu? Berilah tanda centang pada pernyataan Benar atau Salah:',
+										),
+									),
 								),
 								answerConfig: {
 									statements: [
@@ -453,9 +520,19 @@ export const topic1 =
 									labels: ['Benar', 'Salah'],
 								},
 								questionLlmContext:
-									'Siswa menentukan Benar/Salah tentang pemotongan pizza Pius yang tidak sama besar. ' +
-									'Jawaban: 1=Benar (memang 3 bagian), 2=Benar (ukuran berbeda-beda), ' +
-									'3=Salah (bukan $\\frac{1}{3}$ karena tidak sama besar), 4=Benar (syarat pecahan: bagian harus sama besar).',
+									'Konteks Visual & Soal:\n' +
+									'Siswa melihat gambar SVG "pizza_pius_unequal.svg" yang menampilkan pizza bundar di atas nampan kayu yang dipotong oleh Pius menggunakan 2 garis lurus paralel:\n' +
+									'- Potongan 1 (tepi atas): potongan kecil melengkung.\n' +
+									'- Potongan 2 (tengah): pita lebar sangat besar berwarna biru berlabel "★ Potongan Pius (Sangat Besar)".\n' +
+									'- Potongan 3 (tepi bawah): potongan kecil melengkung.\n' +
+									'- Balon kata Pius: Pius mengklaim bahwa karena pizza dipotong jadi 3 bagian dan dia mengambil 1 potongan tengah, maka dia mendapatkan 1/3 bagian pizza.\n' +
+									'- Kotak pesan Ibu: Ibu berpesan "Potonglah pizza sedemikian rupa agar tiap anak dapat sepertiga (1/3) bagian."\n' +
+									'Tugas siswa: Menilai 4 pernyataan Benar/Salah:\n' +
+									'1. "Pius telah memotong pizza tersebut menjadi tiga bagian." → Benar (memang terbagi menjadi 3 potongan fisik).\n' +
+									'2. "Ketiga bagian tersebut memiliki ukuran yang berbeda-beda." → Benar (potongan tengah jauh lebih lebar daripada kedua potongan sisi).\n' +
+									'3. "Setiap potongan merupakan \\frac{1}{3} bagian dari pizza." → Salah (karena potongannya tidak sama besar, tidak bisa disebut 1/3!).\n' +
+									'4. "Hanya jika pizza dipotong menjadi 3 bagian yang sama besar, maka satu potong merupakan \\frac{1}{3} bagian dari pizza." → Benar (syarat mutlak pecahan adalah bagian harus sama besar).\n' +
+									'Bimbingan Socratic: Bimbing siswa melihat ukuran potongan tengah Pius yang jauh lebih besar dan ingatkan syarat pecahan harus SAMA BESAR.',
 								evaluationParameters: {
 									expected_answer_keywords: [
 										'1:Benar',
@@ -536,9 +613,14 @@ export const topic1 =
 									],
 								},
 								questionLlmContext:
-									'Siswa mewarnai grid 10x10 (100 kotak) dengan 4 warna. ' +
-									'Merah: 50 kotak, Biru: 10 kotak, Hijau: 2 kotak, Hitam: 1 kotak. ' +
-									'Total diwarnai = 63 kotak, sisa 37 kotak kosong.',
+									'Konteks Visual & Widget Interaktif:\n' +
+									'Siswa melihat grid interaktif 10 baris x 10 kolom (total 100 kotak kecil putih sama besar) disertai 4 palet warna dan tombol penghapus:\n' +
+									'- 50/100 dengan pensil merah (50 kotak merah, tepat setengah grid atau 5 baris/kolom penuh).\n' +
+									'- 10/100 dengan pensil biru (10 kotak biru, tepat 1 baris/kolom penuh).\n' +
+									'- 2/100 dengan pensil hijau (2 kotak hijau).\n' +
+									'- 1/100 dengan pensil hitam (1 kotak hitam).\n' +
+									'Total yang diwarnai: 63 kotak, sisa 37 kotak putih kosong.\n' +
+									'Bimbingan: Karena penyebutnya sudah 100 dan total grid ada 100 kotak, angka pembilang langsung menunjukkan berapa jumlah kotak yang harus diwarnai untuk setiap warna.',
 								evaluationParameters: {
 									expected_answer_keywords: [
 										'\\frac{50}{100}',
@@ -617,9 +699,14 @@ export const topic1 =
 									],
 								},
 								questionLlmContext:
-									'Siswa mewarnai grid 10x10 (100 kotak) dengan 4 warna. ' +
-									'Merah: 25 kotak, Biru: 12 kotak, Hijau: 8 kotak, Hitam: 11 kotak. ' +
-									'Total diwarnai = 56 kotak, sisa 44 kotak kosong.',
+									'Konteks Visual & Widget Interaktif:\n' +
+									'Siswa melihat grid interaktif 10x10 kedua (100 kotak persegi) dengan 4 palet warna:\n' +
+									'- 25/100 dengan pensil merah (25 kotak merah, seperempat grid).\n' +
+									'- 12/100 dengan pensil biru (12 kotak biru).\n' +
+									'- 8/100 dengan pensil hijau (8 kotak hijau).\n' +
+									'- 11/100 dengan pensil hitam (11 kotak hitam).\n' +
+									'Total yang diwarnai: 56 kotak, sisa 44 kotak putih kosong.\n' +
+									'Bimbingan: Jika siswa salah menghitung jumlah kotak, ingatkan bahwa 1 kolom atau 1 baris utuh bernilai 10 kotak.',
 								evaluationParameters: {
 									expected_answer_keywords: [
 										'\\frac{25}{100}',
@@ -676,7 +763,7 @@ export const topic1 =
 										{
 											type: 'rectangle',
 											totalParts: 6,
-											shadedParts: [2, 5],
+											shadedParts: [1, 2],
 											rows: 2,
 											cols: 3,
 										},
@@ -748,10 +835,19 @@ export const topic1 =
 									],
 								},
 								questionLlmContext:
-									'Siswa menentukan pecahan dari 10 gambar yang diarsir. ' +
-									'Jawaban benar: 1) $\\frac{2}{6}$, 2) $\\frac{2}{8}$, 3) $\\frac{5}{12}$, 4) $\\frac{3}{8}$, 5) $\\frac{4}{12}$, 6) $\\frac{4}{8}$, ' +
-									'7) $\\frac{1}{2}$, 8) $\\frac{2}{4}$, 9) $\\frac{2}{5}$, 10) $\\frac{3}{6}$. ' +
-									'Pembilang = bagian diarsir, penyebut = total bagian.',
+									'Konteks Visual Lengkap 10 Diagram Arsir:\n' +
+									'Siswa melihat lembar kerja 5 baris diagram (masing-masing baris terdiri dari diagram kiri dan kanan) dengan kotak input pecahan di sebelahnya:\n' +
+									'1. Baris 1 Kiri: Persegi panjang 2x3 (6 kotak sama besar). 2 kotak di baris atas sebelah kanan diarsir abu-abu → \\frac{2}{6}.\n' +
+									'2. Baris 1 Kanan: Lingkaran dibagi 8 juring sama besar. 2 juring diarsir (1 di kanan-atas, 1 di kiri-bawah) → \\frac{2}{8}.\n' +
+									'3. Baris 2 Kiri: Persegi panjang 2x6 (12 kotak). 5 kotak diarsir tersebar (baris atas kotak 2, 4, 6; baris bawah kotak 3, 5) → \\frac{5}{12}.\n' +
+									'4. Baris 2 Kanan: Lingkaran dibagi 8 juring. 3 juring berdampingan di sisi kiri diarsir → \\frac{3}{8}.\n' +
+									'5. Baris 3 Kiri: Persegi panjang 2x3 dengan garis diagonal di setiap kotak (membentuk 12 segitiga sama besar). 4 segitiga diarsir abu-abu (3 segitiga atas di baris 1, dan 1 segitiga bawah di baris 2 tengah) → \\frac{4}{12}.\n' +
+									'6. Baris 3 Kanan: Lingkaran dibagi 8 juring. 4 juring diarsir berselang-seling (selang satu putih) → \\frac{4}{8}.\n' +
+									'7. Baris 4 Kiri: Persegi panjang dibagi 2 bagian horizontal (atas dan bawah). Bagian atas diarsir → \\frac{1}{2}.\n' +
+									'8. Baris 4 Kanan: Lingkaran dibagi 4 kuadran. 2 kuadran di sisi kiri diarsir → \\frac{2}{4}.\n' +
+									'9. Baris 5 Kiri: Persegi panjang vertikal dibagi menjadi 5 bilah horizontal. 2 bilah teratas diarsir → \\frac{2}{5}.\n' +
+									'10. Baris 5 Kanan: Persegi panjang vertikal dibagi menjadi 6 bilah horizontal. 3 bilah teratas diarsir → \\frac{3}{6}.\n' +
+									'Petunjuk untuk Tutor: Jika siswa menanyakan gambar tertentu (misal: "gambar nomor 5 yang segitiga"), gunakan deskripsi visual di atas untuk membimbingnya: hitung berapa bagian/segitiga yang diarsir sebagai pembilang dan total seluruh bagian sebagai penyebut.',
 								evaluationParameters: {
 									expected_answer_keywords: [
 										'\\frac{2}{6}',
@@ -806,16 +902,23 @@ export const topic1 =
 							// ── Aktivitas 1.6: Grid coloring 3x4 (1/6) ──────────────────
 							{
 								learningObjective:
-									'Siswa dapat mewarnai bagian dari sebuah grid sesuai pecahan yang ditentukan.',
+									'Siswa dapat mewarnai bagian dari sebuah grid sesuai pecahan yang ditentukan menggunakan pemahaman pecahan senilai.',
 								questionType: 'grid_coloring',
 								questionUi: doc(
 									heading(
 										3,
-										'Warnailah $\\frac{1}{6}$ bagian dari kotak di bawah ini!',
+										'Aktivitas 1.6 — Warnailah $\\frac{1}{6}$ bagian dari kotak di bawah ini!',
 									),
 									p(
-										'Kotak di bawah terdiri dari 12 kotak kecil yang sama besar. ' +
-											'Warnailah kotak-kotak sehingga menunjukkan pecahan $\\frac{1}{6}$.',
+										'Kotak di bawah terdiri dari 12 kotak kecil yang sama besar. Perhatikan percakapan antara Elsa dan Ivon ketika melihat soal ini:',
+									),
+									image(
+										'/images/topic1/grid_12_pairs_ivon.svg',
+										'Cara Ivon Menemukan 1/6 dari 12 Kotak',
+									),
+									p(
+										bold('Tugasmu: '),
+										'Warnailah kotak-kotak pada grid di bawah sehingga tepat menunjukkan pecahan $\\frac{1}{6}$!',
 									),
 								),
 								answerConfig: {
@@ -830,8 +933,14 @@ export const topic1 =
 									],
 								},
 								questionLlmContext:
-									'Siswa mewarnai 1/6 bagian dari grid 3x4 (12 kotak). ' +
-									'1/6 dari 12 = 2 kotak. Siswa harus mewarnai tepat 2 kotak.',
+									'Konteks Visual & Soal:\n' +
+									'1. Gambar SVG "grid_12_pairs_ivon.svg" menampilkan dialog Elsa vs Ivon:\n' +
+									'   - Elsa: Bingung karena grid memiliki 12 kotak, bukan 6 kotak seperti penyebut pada pecahan 1/6.\n' +
+									'   - Ivon: Memberikan strategi penalaran yang brilian: "Bayangkan 12 kotak dibagi untuk 6 orang: 12 ÷ 6 = 2 kotak. Jadi 1/6 bagian sama dengan 2 kotak!".\n' +
+									'   - Diagram warna: Grid 3x4 (12 kotak) dikelompokkan menjadi 6 pasang warna (2 oranye, 2 biru, 2 abu-abu, 2 sian, 2 hijau, 2 kuning), menunjukkan secara nyata bahwa 1 dari 6 kelompok berisi 2 kotak (\\frac{1}{6} = \\frac{2}{12}).\n' +
+									'2. Grid Interaktif: Di bawah gambar terdapat grid 3 baris x 4 kolom (12 kotak putih) dengan instruksi mewarnai \\frac{1}{6} bagian.\n' +
+									'Tugas siswa: Mewarnai tepat 2 kotak pada grid interaktif.\n' +
+									'Bimbingan Socratic: Jika siswa hanya mewarnai 1 kotak (terkecoh angka 1), arahkan siswa untuk melihat penjelasan Ivon pada gambar: jika 12 kotak dibagi rata untuk 6 kelompok, berapa isi tiap kelompok?',
 								evaluationParameters: {
 									expected_answer_keywords: [
 										'\\frac{2}{12}',
@@ -867,7 +976,7 @@ export const topic1 =
 								questionUi: doc(
 									heading(
 										3,
-										'Arsirlah $\\frac{5}{8}$ bagian dari bidang di bawah ini!',
+										'Aktivitas 1.7 — Arsirlah $\\frac{5}{8}$ bagian dari bidang di bawah ini!',
 									),
 									p(
 										'Bidang di bawah terdiri dari 24 kotak kecil yang sama besar. ' +
@@ -886,9 +995,16 @@ export const topic1 =
 									],
 								},
 								questionLlmContext:
-									'Siswa mewarnai 5/8 bagian dari grid 4x6 (24 kotak). ' +
-									'5/8 dari 24 = 15 kotak. Siswa harus mewarnai tepat 15 kotak. ' +
-									'Kunci: 24 / 8 = 3 kotak per bagian, 5 x 3 = 15 kotak.',
+									'Konteks Visual & Soal:\n' +
+									'Siswa melihat grid interaktif berukuran 4 baris x 6 kolom (total 24 kotak kecil putih sama besar).\n' +
+									'Instruksi: "Arsirlah 5/8 bagian dari bidang di bawah ini!".\n' +
+									'Penalaran Matematika:\n' +
+									'- Total kotak dalam grid = 24 kotak.\n' +
+									'- Pecahan yang diminta = \\frac{5}{8}.\n' +
+									'- Cari ukuran 1/8 bagian: 24 dibagi 8 kelompok = 3 kotak per kelompok (1/8 = 3 kotak).\n' +
+									'- Karena diminta 5/8 bagian: 5 × 3 kotak = 15 kotak (\\frac{5}{8} senilai dengan \\frac{15}{24}).\n' +
+									'Tugas siswa: Mewarnai tepat 15 kotak (posisi bebas).\n' +
+									'Bimbingan Socratic: Jika siswa menjawab 5 kotak (hanya melihat pembilang 5 tanpa memperhatikan total 24 kotak), bimbing langkah demi langkah: "Kotak di layar ada 24 buah. Kalau kita bagi menjadi 8 kelompok sama rata, setiap kelompok ada berapa kotak? Lalu kalau kita ambil 5 kelompok, berapa kotak semuanya?"',
 								evaluationParameters: {
 									expected_answer_keywords: [
 										'\\frac{15}{24}',

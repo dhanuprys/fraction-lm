@@ -299,10 +299,23 @@ export const topic2 =
 							),
 						),
 						materialLlmContext:
-							'Post-test akhir yang mencakup: pecahan senilai (equivalent fractions), ' +
-							'simbol perbandingan > < =, membandingkan pecahan berpenyebut sama, ' +
-							'membandingkan pecahan berpembilang sama, dan membandingkan pecahan berpenyebut berbeda. ' +
-							'Diadaptasi dari Aktivitas 2.1–2.10 buku Pecahan Senilai dan Membandingkan Pecahan.',
+							'Rangkuman Materi & Konsep Bab "Pecahan Senilai dan Membandingkan Pecahan" (Kelas 3–4 SD):\n' +
+							'1. Pecahan Senilai (Equivalent Fractions): Pecahan yang nilainya sama meskipun ditulis dengan angka pembilang dan penyebut yang berbeda (contoh: \\frac{1}{6} = \\frac{2}{12}, \\frac{1}{2} = \\frac{2}{4} = \\frac{50}{100}). Nilai senilai diperoleh dengan mengalikan atau membagi pembilang dan penyebut dengan angka yang sama (faktor pengali n).\n' +
+							'2. Simbol Perbandingan Pecahan:\n' +
+							'   - Simbol > artinya "lebih besar dari".\n' +
+							'   - Simbol < artinya "lebih kecil dari".\n' +
+							'   - Simbol = artinya "sama dengan" (senilai).\n' +
+							'   - Trik visual untuk siswa: mulut simbol (> atau <) selalu membuka ke arah pecahan yang nilainya LEBIH BESAR (seperti mulut buaya yang rakus 🐊).\n' +
+							'3. Kaidah Membandingkan Pecahan:\n' +
+							'   a. Jika Penyebut Sama (misal \\frac{3}{17} vs \\frac{15}{17}): Cukup bandingkan pembilangnya. Karena ukuran tiap bagian sama, pembilang lebih banyak berarti bagian lebih besar (3 < 15, maka \\frac{3}{17} < \\frac{15}{17}).\n' +
+							'   b. Jika Pembilang Sama (misal \\frac{3}{6} vs \\frac{3}{8}): Perhatikan penyebutnya! Semakin BESAR angka penyebut, benda dibagi menjadi semakin BANYAK potongan, sehingga ukuran tiap potongan justru semakin KECIL. Jadi pecahan dengan penyebut lebih kecil nilainya LEBIH BESAR (\\frac{3}{6} > \\frac{3}{8}, \\frac{2}{4} > \\frac{2}{8}).\n' +
+							'   c. Jika Pembilang & Penyebut Berbeda: Samakan penyebut terlebih dahulu menggunakan pecahan senilai/KPK, atau amati proporsi visualnya.\n' +
+							'4. Penalaran Kritis (Elsa vs Irfan):\n' +
+							'   - Mengetahui jumlah potongan yang dimakan saja TIDAK CUKUP untuk menentukan besar bagian pecahan (argumen Elsa keliru).\n' +
+							'   - Harus mengetahui juga menjadi berapa potongan pizza itu dipotong secara keseluruhan (argumen Irfan BENAR). Pecahan membutuhkan pembilang (yang diambil) DAN penyebut (total potongan sama besar).\n' +
+							'5. Mengurutkan Pecahan (misal \\frac{15}{100} < \\frac{17}{100} < \\frac{39}{100} < \\frac{65}{100}):\n' +
+							'   - Jika semua penyebut sama (semua /100), urutan pecahan ditentukan langsung oleh urutan pembilangnya dari terkecil ke terbesar.\n' +
+							'6. Peran Tutor Socratic: Bantu siswa mengingat kaidah pembilang vs penyebut tanpa langsung memberitahu tanda >/< atau angka jawabannya. Gunakan analogi potongan pizza atau coklat.',
 						questions: [
 							// ─── Q1: Notasi matematika "lebih besar dari" (Akt. 2.2) ───
 							{
@@ -456,9 +469,7 @@ export const topic2 =
 										rows: 3,
 										cols: 4,
 									}),
-									p(
-										'Lengkapilah pecahan senilai:',
-									),
+									p('Lengkapilah pecahan senilai:'),
 									math('\\frac{1}{6} = \\frac{\\square}{12}'),
 								),
 								answerConfig: {
@@ -473,7 +484,11 @@ export const topic2 =
 									'Pecahan senilai: $\\frac{1}{6} = \\frac{2}{12}$. Bidang 3×4 = 12 kotak. $\\frac{1}{6}$ artinya 2 kotak dari 12. ' +
 									'Pembilang yang dicari: 2.',
 								evaluationParameters: {
-									expected_answer_keywords: ['2', '\\frac{2}{12}', '2/12'],
+									expected_answer_keywords: [
+										'2',
+										'\\frac{2}{12}',
+										'2/12',
+									],
 									common_misconceptions: [
 										'Menjawab 1 karena 1/6 hanya melihat pembilang asli',
 										'Menjawab 6 karena bingung pembilang dan penyebut',
@@ -769,7 +784,12 @@ export const topic2 =
 									),
 								),
 								answerConfig: {
-									items: ['17/100', '65/100', '15/100', '39/100'],
+									items: [
+										'17/100',
+										'65/100',
+										'15/100',
+										'39/100',
+									],
 									separator: '<',
 									instruction:
 										'Urutkan kartu pecahan berikut dari yang terkecil hingga terbesar:',
@@ -806,7 +826,12 @@ export const topic2 =
 								},
 								answers: {
 									urutan: '15/100 < 17/100 < 39/100 < 65/100',
-									expected_order: ['15/100', '17/100', '39/100', '65/100'],
+									expected_order: [
+										'15/100',
+										'17/100',
+										'39/100',
+										'65/100',
+									],
 								},
 							},
 						],

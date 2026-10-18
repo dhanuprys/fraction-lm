@@ -79,3 +79,14 @@ export function diagram(opts: {
 		attrs: opts,
 	};
 }
+
+/** Image node (rendered by TipTapRenderer). */
+export function image(src: string, alt?: string) {
+	return {
+		type: 'image',
+		attrs: {
+			src,
+			alt: alt || 'Visual Soal',
+		},
+	};
+}

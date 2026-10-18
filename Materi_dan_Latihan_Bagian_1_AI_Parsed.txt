@@ -104,16 +104,45 @@ AKTIVITAS 1.3
 Pius membeli sebuah pizza untuk dirinya dan dua saudaranya.
 Ibunya berkata: “Potonglah pizza itu sedemikian rupa sehingga setiap orang mendapatkan sepertiga bagian”
 
-QUESTION_TYPE: Part 1.1(c) is a true/false table; Activity 1.2 is fraction construction and fill-in-the-blank; Activity 1.3 begins a word problem about dividing a pizza
-DIGITAL_INTERACTION: In part 1.1(c), choose Benar or Salah for each table row. In Activity 1.2, provide fraction input or text fields matching each printed prompt. Activity 1.3 continues on page 4; do not create a separate response control for the introduction alone.
+QUESTION_TYPE:
+- The first table (continuation of Activity 1.1(c)): true/false classification, one choice per statement.
+- Activity 1.2 is a mixed set of fraction tasks. Do not assign one uniform question type to all five items:
+  - Item 1: construct/write a fraction from a stated numerator and denominator.
+  - Item 2: construct/write a fraction from a stated numerator and denominator.
+  - Item 3: identify the numerator and denominator of a fraction already shown (reverse-direction fraction reading; the fraction is provided, not blank).
+  - Item 4: the printed prompt and adjacent visual template conflict; preserve both and mark this item ambiguous for implementation/auto-grading.
+  - Item 5: the printed prompt and adjacent visual template conflict; preserve both and mark this item ambiguous for implementation/auto-grading.
+- Activity 1.3 starts a word problem about dividing a pizza; its cutting diagram and response table continue on page 4.
+
+DIGITAL_INTERACTION:
+- For the Activity 1.1(c) table, provide one Benar/Salah choice per row, matching the printed column labels.
+- Activity 1.2, item 1: show a two-part fraction template (numerator field above a fraction bar, denominator field below it) alongside the exact printed prompt. The learner enters the fraction in the template.
+- Activity 1.2, item 2: use the same fraction-template interaction as item 1, but keep it as a separate item and preserve its exact prompt.
+- Activity 1.2, item 3: show the already printed fraction 5/11. Provide two short numeric/text fields for the learner to name the numerator and denominator. This is the reverse direction from items 1 and 2: the fraction is given, and its parts must be identified. Do not replace 5/11 with an empty template.
+- Activity 1.2, item 4: retain the printed prompt and the visible denominator-9 template together. Do not silently choose which representation is authoritative or produce an auto-graded answer until the author resolves the mismatch.
+- Activity 1.2, item 5: retain the printed prompt and the visible numerator-1 template together. Do not silently choose which representation is authoritative or produce an auto-graded answer until the author resolves the mismatch.
+- Activity 1.3 is only an introduction on this page; do not add a separate answer control to the introductory sentence.
 
 IMAGE_ASSETS:
-[image: A four-row table with three columns. The first column is headed “Pernyataan”; the second and third columns are headed “Benar” and “Salah”. Each row contains one printed statement and two empty response cells. The table has thin blue lines and a blue horizontal accent near the header. Preserve the original Indonesian statements and headings exactly; do not fill any cells.]
+[image: A four-row response table with three columns. The column headings are “Pernyataan”, “Benar”, and “Salah”. Each row contains one statement and empty cells under Benar and Salah. Thin blue borders and blue accents are visible. Preserve the source statements and headings exactly; leave the response cells blank.]
 
-[image: Five small mathematical fraction templates appear alongside the five prompts in Activity 1.2. From top to bottom: (1) a blank numerator box over a blank denominator box; (2) another blank numerator box over a blank denominator box; (3) the fraction 5/11; (4) a blank numerator box above the denominator 9; (5) the numerator 1 above a blank denominator box. Keep each template paired with its corresponding source prompt and preserve this visual order.]
+ACTIVITY_1_2_TEMPLATE_1:
+[image: A small vertical fraction template immediately to the left of the prompt “Pembilang adalah 7, penyebutnya adalah 12.” It consists of two empty square boxes aligned vertically with a horizontal fraction bar between them: an empty numerator area above and an empty denominator area below. The source supplies the numerator and denominator in the adjacent Indonesian prompt. This is a blank fraction-construction template, not a prefilled fraction.]
+
+ACTIVITY_1_2_TEMPLATE_2:
+[image: A second small vertical fraction template immediately to the left of the prompt “Pembilang adalah 6, penyebutnya adalah 8.” It consists of two empty square boxes arranged as numerator and denominator around a horizontal fraction bar. Keep it as a separate item from the first template, even though the visual form is the same.]
+
+ACTIVITY_1_2_TEMPLATE_3:
+[image: A prefilled vertical fraction showing 5 above a fraction bar and 11 below it, immediately to the left of the prompt “Pembilang adalah ____, penyebut adalah ____.” The fraction itself is already present in the source. This is a reverse-direction identification prompt: the learner reads the given fraction and identifies its numerator and denominator. Do not redraw it as an empty template.]
+
+ACTIVITY_1_2_TEMPLATE_4:
+[image: A vertical fraction template showing an empty numerator box above a fraction bar and the number 9 as the denominator below it. It sits beside the exact prompt “Pembilang adalah 8, penyebut adalah ____.” The visible template and printed prompt do not agree on which value is missing/provided. Preserve both exactly and mark the relationship as ambiguous; do not correct either element.]
+
+ACTIVITY_1_2_TEMPLATE_5:
+[image: A vertical fraction template showing the number 1 as the numerator above a fraction bar and an empty denominator box below it. It sits beside the exact prompt “pembilang adalah____, penyebut adalah 10.” The visible template and printed prompt do not agree on which value is missing/provided. Preserve both exactly and mark the relationship as ambiguous; do not correct either element.]
 
 SOURCE_LAYOUT_NOTE:
-The visible fraction templates and the adjacent written prompts in Activity 1.2 do not appear fully aligned in every case. In particular, the fourth visual template appears to be a blank numerator over 9, while its adjacent wording says “Pembilang adalah 8, penyebut adalah ____.” The fifth template appears to be 1 over a blank denominator, while its adjacent wording says “pembilang adalah____, penyebut adalah 10.” Preserve both the printed wording and the visible templates; do not reconcile or correct this layout.
+Activity 1.2 has five prompts in top-to-bottom order. The first two show empty fraction templates and provide numerator/denominator values in text. The third shows a completed fraction, 5/11, and asks for its numerator and denominator; this is a different, reverse-direction task and must not be treated as another blank fraction template. The fourth template shows blank numerator/9 while the wording says numerator 8 and blank denominator. The fifth template shows 1/blank while the wording says blank numerator and denominator 10. These mismatches are observations of the source layout, not corrections. Do not reconcile them or alter the author's content.
 
 PAGE 4
 
@@ -169,7 +198,7 @@ QUESTION_TYPE: Identify the shaded fraction in each diagram; short numeric/fract
 DIGITAL_INTERACTION: Provide one answer field beside each of the ten diagrams. The source shows blank answer lines; no answers are filled in.
 
 IMAGE_ASSETS:
-[image: A worksheet containing five horizontal rows of diagrams. Each row has a rectangular partition diagram on the left and a circular partition diagram on the right. An empty horizontal answer line appears after each diagram. Shaded regions are gray and unshaded regions are white. Preserve the diagram order, part boundaries, shading, and blank answer lines.]
+[image: A worksheet containing five horizontal rows of diagrams, with two diagrams in each row and a blank horizontal answer line after each diagram. Rows 1 through 4 each have a rectangular diagram on the left and a circular diagram on the right. Row 5 has a vertical rectangle divided into horizontal strips on the left and another vertical rectangle divided into horizontal strips on the right. Shaded regions are gray and unshaded regions are white. Preserve each diagram’s exact shape, partition boundaries, shading pattern, order, and blank answer line. Do not assume that every right-hand diagram is a circle.]
 
 DIAGRAM_1_LEFT:
 [image: A horizontal rectangle divided into 2 rows and 3 columns, making 6 equal rectangular cells. The two rightmost cells in the top row are shaded gray. The other four cells are white.]

@@ -4,6 +4,8 @@ import { MathText } from "@/components/common/MathText";
 
 interface FractionField {
   prompt: string;
+  mode?: "fraction" | "identify";
+  displayFraction?: { numerator: number; denominator: number };
   prefilled?: { numerator?: number; denominator?: number };
 }
 
@@ -35,8 +37,9 @@ function SingleFractionInput({
 }) {
   const numRef = useRef<HTMLInputElement>(null);
   const denomRef = useRef<HTMLInputElement>(null);
-  const numLocked = field.prefilled?.numerator !== undefined;
-  const denomLocked = field.prefilled?.denominator !== undefined;
+  const isIdentify = field.mode === "identify" && field.displayFraction;
+  const numLocked = !isIdentify && field.prefilled?.numerator !== undefined;
+  const denomLocked = !isIdentify && field.prefilled?.denominator !== undefined;
 
   const handleChange = (part: "numerator" | "denominator", raw: string) => {
     const trimmed = raw.trim();
@@ -55,6 +58,74 @@ function SingleFractionInput({
       denomRef.current.focus();
     }
   };
+
+  if (isIdentify) {
+    return (
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-3.5 rounded-xl bg-white border border-slate-200/60 shadow-2xs">
+        {/* Left: Number + Given Fraction + Prompt */}
+        <div className="flex items-center gap-3 min-w-0">
+          <span className="flex-shrink-0 w-7 h-7 rounded-full bg-purple-100 text-purple-600 text-xs font-bold flex items-center justify-center">
+            {index + 1}
+          </span>
+          <div className="flex items-center gap-2.5">
+            <div className="px-3 py-1.5 rounded-lg bg-purple-50 border border-purple-200 text-purple-700 font-bold text-base flex items-center shadow-2xs">
+              <MathText text={`$\\frac{${field.displayFraction!.numerator}}{${field.displayFraction!.denominator}}$`} />
+            </div>
+            {field.prompt && (
+              <p className="text-sm font-medium text-slate-600 m-0 leading-relaxed">
+                <MathText text={field.prompt} />
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Right: Pembilang & Penyebut Inputs */}
+        <div className="flex items-center gap-3 flex-shrink-0 self-end sm:self-center">
+          <div className="flex items-center gap-1.5">
+            <span className="text-xs font-bold text-slate-500">Pembilang:</span>
+            <input
+              ref={numRef}
+              type="number"
+              inputMode="numeric"
+              disabled={disabled}
+              value={val.numerator ?? ""}
+              onChange={(e) => handleChange("numerator", e.target.value)}
+              onKeyDown={handleNumKeyDown}
+              className={clsx(
+                "w-12 h-9 text-center text-base font-bold rounded-lg border-2 transition-all",
+                "focus:outline-none focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500",
+                "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
+                "bg-white text-slate-800 border-slate-300 hover:border-purple-400",
+                disabled && "opacity-60 cursor-not-allowed",
+              )}
+              aria-label={`Pembilang ${index + 1}`}
+              placeholder="?"
+            />
+          </div>
+          <div className="flex items-center gap-1.5">
+            <span className="text-xs font-bold text-slate-500">Penyebut:</span>
+            <input
+              ref={denomRef}
+              type="number"
+              inputMode="numeric"
+              disabled={disabled}
+              value={val.denominator ?? ""}
+              onChange={(e) => handleChange("denominator", e.target.value)}
+              className={clsx(
+                "w-12 h-9 text-center text-base font-bold rounded-lg border-2 transition-all",
+                "focus:outline-none focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500",
+                "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
+                "bg-white text-slate-800 border-slate-300 hover:border-purple-400",
+                disabled && "opacity-60 cursor-not-allowed",
+              )}
+              aria-label={`Penyebut ${index + 1}`}
+              placeholder="?"
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex items-center gap-4 p-3 rounded-xl bg-white border border-slate-200/60 shadow-2xs">
@@ -129,8 +200,8 @@ export function FractionInput({ config, value, onChange, disabled }: FractionInp
       onChange(
         config.fields.map((f, i) =>
           value[i] || {
-            numerator: f.prefilled?.numerator ?? null,
-            denominator: f.prefilled?.denominator ?? null,
+            numerator: f.mode === "identify" ? null : (f.prefilled?.numerator ?? null),
+            denominator: f.mode === "identify" ? null : (f.prefilled?.denominator ?? null),
           },
         ),
       );
