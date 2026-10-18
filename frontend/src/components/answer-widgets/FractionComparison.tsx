@@ -56,23 +56,19 @@ function FractionDisplay({ fraction }: { fraction: string }) {
     );
   }
 
-  try {
-    return (
-      <span className="text-xl text-slate-800 flex items-center justify-center select-none font-semibold">
-        <InlineMath math={mathStr} />
-      </span>
-    );
-  } catch {
-    return <span className="font-bold text-lg text-slate-800">{fraction}</span>;
-  }
+  return (
+    <span className="text-xl text-slate-800 flex items-center justify-center select-none font-semibold">
+      <InlineMath
+        math={mathStr}
+        renderError={() => (
+          <span className="font-bold text-lg text-slate-800">{fraction}</span>
+        )}
+      />
+    </span>
+  );
 }
 
-export function FractionComparison({
-  config,
-  value,
-  onChange,
-  disabled,
-}: Props) {
+export function FractionComparison({ config, value, onChange, disabled }: Props) {
   const handleSelect = (idx: number, op: Operator) => {
     if (disabled) return;
     onChange({ ...value, [idx]: value[idx] === op ? null : op });
@@ -84,10 +80,7 @@ export function FractionComparison({
         const selected = value[idx] ?? null;
 
         return (
-          <div
-            key={idx}
-            className="rounded-2xl border border-slate-200/80 bg-white p-4 shadow-2xs"
-          >
+          <div key={idx} className="rounded-2xl border border-slate-200/80 bg-white p-4 shadow-2xs">
             {/* Optional text prompt above the comparison */}
             {item.prompt && (
               <p className="text-sm text-slate-600 font-medium mb-3 m-0 leading-relaxed">
@@ -128,9 +121,7 @@ export function FractionComparison({
                         disabled &&
                           isSelected &&
                           "bg-emerald-500 border-emerald-600 cursor-default",
-                        disabled &&
-                          !isSelected &&
-                          "opacity-40 cursor-default",
+                        disabled && !isSelected && "opacity-40 cursor-default",
                       )}
                     >
                       {op.symbol}

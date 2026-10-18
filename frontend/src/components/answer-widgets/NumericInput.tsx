@@ -23,9 +23,7 @@ export function NumericInput({ config, value, onChange, disabled }: NumericInput
 
   return (
     <div className="flex flex-col gap-3 p-4 rounded-2xl bg-white border border-slate-200/60 shadow-2xs">
-      {config.prompt && (
-        <p className="text-sm font-medium text-slate-600 m-0">{config.prompt}</p>
-      )}
+      {config.prompt && <p className="text-sm font-medium text-slate-600 m-0">{config.prompt}</p>}
       <div className="flex items-center gap-3">
         <input
           type="number"
@@ -43,9 +41,7 @@ export function NumericInput({ config, value, onChange, disabled }: NumericInput
           aria-label="Jawaban angka"
           placeholder="?"
         />
-        {config.unit && (
-          <span className="text-sm font-bold text-slate-500">{config.unit}</span>
-        )}
+        {config.unit && <span className="text-sm font-bold text-slate-500">{config.unit}</span>}
       </div>
     </div>
   );

@@ -29,11 +29,7 @@ function SingleFractionInput({
   field: FractionField;
   val: { numerator: number | null; denominator: number | null };
   disabled?: boolean;
-  onChangeField: (
-    index: number,
-    part: "numerator" | "denominator",
-    value: number | null,
-  ) => void;
+  onChangeField: (index: number, part: "numerator" | "denominator", value: number | null) => void;
 }) {
   const numRef = useRef<HTMLInputElement>(null);
   const denomRef = useRef<HTMLInputElement>(null);
@@ -69,7 +65,9 @@ function SingleFractionInput({
           </span>
           <div className="flex items-center gap-2.5">
             <div className="px-3 py-1.5 rounded-lg bg-purple-50 border border-purple-200 text-purple-700 font-bold text-base flex items-center shadow-2xs">
-              <MathText text={`$\\frac{${field.displayFraction!.numerator}}{${field.displayFraction!.denominator}}$`} />
+              <MathText
+                text={`$\\frac{${field.displayFraction!.numerator}}{${field.displayFraction!.denominator}}$`}
+              />
             </div>
             {field.prompt && (
               <p className="text-sm font-medium text-slate-600 m-0 leading-relaxed">
@@ -198,15 +196,16 @@ export function FractionInput({ config, value, onChange, disabled }: FractionInp
   useEffect(() => {
     if (value.length !== config.fields.length) {
       onChange(
-        config.fields.map((f, i) =>
-          value[i] || {
-            numerator: f.mode === "identify" ? null : (f.prefilled?.numerator ?? null),
-            denominator: f.mode === "identify" ? null : (f.prefilled?.denominator ?? null),
-          },
+        config.fields.map(
+          (f, i) =>
+            value[i] || {
+              numerator: f.mode === "identify" ? null : (f.prefilled?.numerator ?? null),
+              denominator: f.mode === "identify" ? null : (f.prefilled?.denominator ?? null),
+            },
         ),
       );
     }
-  }, [config.fields.length]);
+  }, [config.fields, onChange, value]);
 
   const handleFieldChange = (
     index: number,

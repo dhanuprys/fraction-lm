@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <filter id="circleShadow" x="-10%" y="-10%" width="125%" height="125%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.10"/>
+    </filter>
+  </defs>
+
+  <!-- Clean Background Card -->
+  <rect width="400" height="400" fill="#f8fafc" rx="20"/>
+
+  <!-- Main Circle Group -->
+  <g transform="translate(0, 0)" filter="url(#circleShadow)">
+    <!-- 1. Lower Half Sector: Orange (1/2 circle) -->
+    <!-- From (360, 200) clockwise through bottom (200, 360) to (40, 200) -->
+    <path d="M 200,200 L 360,200 A 160,160 0 0,1 40,200 Z"
+          fill="#f97316"/>
+
+    <!-- 2. Upper-Left Quadrant Sector: Gray (1/4 circle) -->
+    <!-- From (40, 200) clockwise to (200, 40) -->
+    <path d="M 200,200 L 40,200 A 160,160 0 0,1 200,40 Z"
+          fill="#94a3b8"/>
+
+    <!-- 3. Upper-Right Quadrant Sector: Blue (1/4 circle) -->
+    <!-- From (200, 40) clockwise to (360, 200) -->
+    <path d="M 200,200 L 200,40 A 160,160 0 0,1 360,200 Z"
+          fill="#3b82f6"/>
+
+    <!-- Outer Circle Rim -->
+    <circle cx="200" cy="200" r="160" fill="none" stroke="#334155" stroke-width="2.5"/>
+
+    <!-- White Dividing Lines as specified in source: -->
+    <!-- White horizontal dividing line through center -->
+    <line x1="40" y1="200" x2="360" y2="200" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round"/>
+    <!-- White vertical dividing line from top to center -->
+    <line x1="200" y1="40" x2="200" y2="200" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round"/>
+  </g>
+</svg>

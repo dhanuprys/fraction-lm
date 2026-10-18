@@ -1,185 +1,59 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 440" width="100%" height="100%" style="font-family: 'Nunito', 'Segoe UI', Roboto, sans-serif;">
-  <defs>
-    <!-- Shadows & Filters -->
-    <filter id="card-shadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#475569" flood-opacity="0.12" />
-    </filter>
-    <filter id="board-shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#78350f" flood-opacity="0.18" />
-    </filter>
-    <filter id="pizza-slice-shadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000" flood-opacity="0.15" />
-    </filter>
-
-    <!-- Gradients -->
-    <radialGradient id="wood-board" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#f5deb3" />
-      <stop offset="85%" stop-color="#e0bb82" />
-      <stop offset="100%" stop-color="#c99e65" />
-    </radialGradient>
-    <radialGradient id="pizza-crust" cx="50%" cy="50%" r="50%">
-      <stop offset="70%" stop-color="#f6ad55" />
-      <stop offset="92%" stop-color="#dd6b20" />
-      <stop offset="100%" stop-color="#c05621" />
-    </radialGradient>
-    <radialGradient id="pizza-cheese" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#fffbeb" />
-      <stop offset="35%" stop-color="#fef08a" />
-      <stop offset="85%" stop-color="#facc15" />
-      <stop offset="100%" stop-color="#eab308" />
-    </radialGradient>
-  </defs>
-
-  <!-- Background Canvas -->
-  <rect width="840" height="440" rx="24" fill="#ffffff" stroke="#e2e8f0" stroke-width="2" />
-  
-  <!-- Subtle header bar -->
-  <rect x="0" y="0" width="840" height="60" rx="24" fill="#f8fafc" />
-  <rect x="0" y="40" width="840" height="20" fill="#f8fafc" />
-  <line x1="0" y1="60" x2="840" y2="60" stroke="#e2e8f0" stroke-width="1.5" />
-  <text x="420" y="38" text-anchor="middle" font-size="20" font-weight="800" fill="#1e293b">
-    🍕 Pizza Ketty dan Pizza Ochan
-  </text>
-
-  <!-- ==================== LEFT: PIZZA KETTY (8 POTONG) ==================== -->
-  <g transform="translate(220, 240)">
-    <!-- Wooden Serving Board -->
-    <circle cx="0" cy="0" r="148" fill="url(#wood-board)" stroke="#b48348" stroke-width="4" filter="url(#board-shadow)" />
-    <!-- Wooden handle -->
-    <path d="M 0 148 L -18 195 C -18 202, 18 202, 18 195 L 0 148 Z" fill="#c99e65" stroke="#b48348" stroke-width="3" />
-    <circle cx="0" cy="188" r="6" fill="#fff" opacity="0.7" />
-
-    <!-- Empty slices on board (Crumbs & cut lines showing 3 slices eaten: angles 0° to 135°) -->
-    <path d="M 0 0 L 130 0 A 130 130 0 0 1 -0.01 130 Z" fill="#dfb980" opacity="0.6" />
-    <path d="M 0 0 L -0.01 130 A 130 130 0 0 1 -91.92 91.92 Z" fill="#d9b275" opacity="0.6" />
-    <!-- Cut lines for eaten slices -->
-    <line x1="0" y1="0" x2="130" y2="0" stroke="#a3763f" stroke-width="2" stroke-dasharray="4,4" />
-    <line x1="0" y1="0" x2="91.92" y2="91.92" stroke="#a3763f" stroke-width="2" stroke-dasharray="4,4" />
-    <line x1="0" y1="0" x2="0" y2="130" stroke="#a3763f" stroke-width="2" stroke-dasharray="4,4" />
-    <line x1="0" y1="0" x2="-91.92" y2="91.92" stroke="#a3763f" stroke-width="2" stroke-dasharray="4,4" />
-    <!-- Crumbs -->
-    <circle cx="50" cy="40" r="2.5" fill="#92400e" />
-    <circle cx="70" cy="65" r="3" fill="#b45309" />
-    <circle cx="35" cy="85" r="2" fill="#78350f" />
-    <circle cx="-40" cy="70" r="2.5" fill="#92400e" />
-    <circle cx="-25" cy="45" r="2" fill="#b45309" />
-    <circle cx="15" cy="25" r="1.5" fill="#78350f" />
-    <!-- Indicator on empty area -->
-    <rect x="-10" y="40" width="105" height="32" rx="10" fill="#fef2f2" stroke="#f87171" stroke-width="1.5" opacity="0.9" />
-    <text x="42.5" y="60" text-anchor="middle" font-size="11" font-weight="700" fill="#dc2626">Bagian Dimakan 🍽️</text>
-
-    <!-- 5 Remaining Slices (135° to 360°) -->
-    <!-- Slice 4 (135° to 180°) -->
-    <path d="M 0 0 L -91.92 91.92 A 130 130 0 0 1 -130 0 Z" fill="url(#pizza-crust)" stroke="#dd6b20" stroke-width="1.5" filter="url(#pizza-slice-shadow)" />
-    <path d="M 0 0 L -81.3 81.3 A 115 115 0 0 1 -115 0 Z" fill="url(#pizza-cheese)" />
-    <circle cx="-65" cy="35" r="8" fill="#ef4444" />
-    <circle cx="-85" cy="18" r="6" fill="#ef4444" />
-
-    <!-- Slice 5 (180° to 225°) -->
-    <path d="M 0 0 L -130 0 A 130 130 0 0 1 -91.92 -91.92 Z" fill="url(#pizza-crust)" stroke="#dd6b20" stroke-width="1.5" filter="url(#pizza-slice-shadow)" />
-    <path d="M 0 0 L -115 0 A 115 115 0 0 1 -81.3 -81.3 Z" fill="url(#pizza-cheese)" />
-    <circle cx="-75" cy="-35" r="7" fill="#ef4444" />
-    <circle cx="-45" cy="-20" r="5" fill="#22c55e" />
-
-    <!-- Slice 6 (225° to 270°) -->
-    <path d="M 0 0 L -91.92 -91.92 A 130 130 0 0 1 0 -130 Z" fill="url(#pizza-crust)" stroke="#dd6b20" stroke-width="1.5" filter="url(#pizza-slice-shadow)" />
-    <path d="M 0 0 L -81.3 -81.3 A 115 115 0 0 1 0 -115 Z" fill="url(#pizza-cheese)" />
-    <circle cx="-35" cy="-65" r="8" fill="#ef4444" />
-    <circle cx="-15" cy="-40" r="5" fill="#22c55e" />
-
-    <!-- Slice 7 (270° to 315°) -->
-    <path d="M 0 0 L 0 -130 A 130 130 0 0 1 91.92 -91.92 Z" fill="url(#pizza-crust)" stroke="#dd6b20" stroke-width="1.5" filter="url(#pizza-slice-shadow)" />
-    <path d="M 0 0 L 0 -115 A 115 115 0 0 1 81.3 -81.3 Z" fill="url(#pizza-cheese)" />
-    <circle cx="35" cy="-65" r="7" fill="#ef4444" />
-    <circle cx="50" cy="-30" r="5.5" fill="#22c55e" />
-
-    <!-- Slice 8 (315° to 360°) -->
-    <path d="M 0 0 L 91.92 -91.92 A 130 130 0 0 1 130 0 Z" fill="url(#pizza-crust)" stroke="#dd6b20" stroke-width="1.5" filter="url(#pizza-slice-shadow)" />
-    <path d="M 0 0 L 81.3 -81.3 A 115 115 0 0 1 115 0 Z" fill="url(#pizza-cheese)" />
-    <circle cx="75" cy="-25" r="8" fill="#ef4444" />
-    <circle cx="35" cy="-15" r="6" fill="#ef4444" />
-
-    <!-- Slice separator lines for existing slices -->
-    <line x1="0" y1="0" x2="-130" y2="0" stroke="#c05621" stroke-width="2" />
-    <line x1="0" y1="0" x2="-91.92" y2="-91.92" stroke="#c05621" stroke-width="2" />
-    <line x1="0" y1="0" x2="0" y2="-130" stroke="#c05621" stroke-width="2" />
-    <line x1="0" y1="0" x2="91.92" y2="-91.92" stroke="#c05621" stroke-width="2" />
-
-    <!-- Title Badge -->
-    <g transform="translate(0, -170)">
-      <rect x="-110" y="0" width="220" height="34" rx="17" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2" />
-      <text x="0" y="22" text-anchor="middle" font-size="14" font-weight="800" fill="#6d28d9">
-        🐱 Pizza Ketty
-      </text>
-    </g>
-
-    <!-- Subtitle info -->
-    <text x="0" y="145" text-anchor="middle" font-size="13" font-weight="700" fill="#475569">
-      Dipotong menjadi <tspan fill="#7c3aed" font-weight="800">8 bagian sama besar</tspan>
-    </text>
-  </g>
-
-  <!-- Divider -->
-  <line x1="420" y1="80" x2="420" y2="410" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="6,6" />
-
-  <!-- ==================== RIGHT: PIZZA OCHAN (6 POTONG) ==================== -->
-  <g transform="translate(620, 240)">
-    <!-- Wooden Serving Board -->
-    <circle cx="0" cy="0" r="148" fill="url(#wood-board)" stroke="#b48348" stroke-width="4" filter="url(#board-shadow)" />
-    <!-- Wooden handle -->
-    <path d="M 0 148 L -18 195 C -18 202, 18 202, 18 195 L 0 148 Z" fill="#c99e65" stroke="#b48348" stroke-width="3" />
-    <circle cx="0" cy="188" r="6" fill="#fff" opacity="0.7" />
-
-    <!-- Empty slices on board (3 slices eaten: right side 0° to 180°, angles from -90° to 90°) -->
-    <path d="M 0 -130 A 130 130 0 0 1 0 130 Z" fill="#dfb980" opacity="0.6" />
-    <!-- Cut lines for eaten slices -->
-    <line x1="0" y1="0" x2="112.58" y2="-65" stroke="#a3763f" stroke-width="2" stroke-dasharray="4,4" />
-    <line x1="0" y1="0" x2="112.58" y2="65" stroke="#a3763f" stroke-width="2" stroke-dasharray="4,4" />
-    <line x1="0" y1="0" x2="0" y2="130" stroke="#a3763f" stroke-width="2" stroke-dasharray="4,4" />
-    <line x1="0" y1="0" x2="0" y2="-130" stroke="#a3763f" stroke-width="2" stroke-dasharray="4,4" />
-    <!-- Crumbs -->
-    <circle cx="55" cy="-30" r="2.5" fill="#92400e" />
-    <circle cx="70" cy="15" r="3" fill="#b45309" />
-    <circle cx="45" cy="55" r="2" fill="#78350f" />
-    <circle cx="25" cy="-10" r="2" fill="#92400e" />
-    <!-- Indicator on empty area -->
-    <rect x="15" y="-16" width="105" height="32" rx="10" fill="#fef2f2" stroke="#f87171" stroke-width="1.5" opacity="0.9" />
-    <text x="67.5" y="4" text-anchor="middle" font-size="11" font-weight="700" fill="#dc2626">Bagian Dimakan 🍽️</text>
-
-    <!-- 3 Remaining Slices (180° of the circle on left side) -->
-    <!-- Slice 1 (90° to 150° from -y: left-bottom) -->
-    <path d="M 0 0 L 0 130 A 130 130 0 0 1 -112.58 65 Z" fill="url(#pizza-crust)" stroke="#dd6b20" stroke-width="1.5" filter="url(#pizza-slice-shadow)" />
-    <path d="M 0 0 L 0 115 A 115 115 0 0 1 -99.59 57.5 Z" fill="url(#pizza-cheese)" />
-    <circle cx="-45" cy="65" r="8" fill="#ef4444" />
-    <circle cx="-20" cy="35" r="5.5" fill="#22c55e" />
-
-    <!-- Slice 2 (150° to 210° from -y: left-middle) -->
-    <path d="M 0 0 L -112.58 65 A 130 130 0 0 1 -112.58 -65 Z" fill="url(#pizza-crust)" stroke="#dd6b20" stroke-width="1.5" filter="url(#pizza-slice-shadow)" />
-    <path d="M 0 0 L -99.59 57.5 A 115 115 0 0 1 -99.59 -57.5 Z" fill="url(#pizza-cheese)" />
-    <circle cx="-75" cy="0" r="9" fill="#ef4444" />
-    <circle cx="-40" cy="0" r="6" fill="#22c55e" />
-
-    <!-- Slice 3 (210° to 270° from -y: left-top) -->
-    <path d="M 0 0 L -112.58 -65 A 130 130 0 0 1 0 -130 Z" fill="url(#pizza-crust)" stroke="#dd6b20" stroke-width="1.5" filter="url(#pizza-slice-shadow)" />
-    <path d="M 0 0 L -99.59 -57.5 A 115 115 0 0 1 0 -115 Z" fill="url(#pizza-cheese)" />
-    <circle cx="-45" cy="-65" r="8" fill="#ef4444" />
-    <circle cx="-20" cy="-35" r="5.5" fill="#22c55e" />
-
-    <!-- Slice separator lines -->
-    <line x1="0" y1="0" x2="-112.58" y2="65" stroke="#c05621" stroke-width="2" />
-    <line x1="0" y1="0" x2="-112.58" y2="-65" stroke="#c05621" stroke-width="2" />
-
-    <!-- Title Badge -->
-    <g transform="translate(0, -170)">
-      <rect x="-110" y="0" width="220" height="34" rx="17" fill="#e0f2fe" stroke="#0284c7" stroke-width="2" />
-      <text x="0" y="22" text-anchor="middle" font-size="14" font-weight="800" fill="#0369a1">
-        🐱 Pizza Ochan
-      </text>
-    </g>
-
-    <!-- Subtitle info -->
-    <text x="0" y="145" text-anchor="middle" font-size="13" font-weight="700" fill="#475569">
-      Dipotong menjadi <tspan fill="#0284c7" font-weight="800">6 bagian sama besar</tspan>
-    </text>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 530" width="100%" height="100%" role="img" aria-labelledby="title desc" style="font-family:'Nunito', 'Aptos', 'Segoe UI', Arial, sans-serif;">
+<title id="title">Pizza Ketty dan Pizza Ochan</title><desc id="desc">Two same-size pizza diagrams compare three eaten pieces out of eight equal slices for Ketty with three eaten pieces out of six equal slices for Ochan. Eaten portions are colored pale cream.</desc>
+<rect x="1" y="1" width="898" height="528" rx="26" fill="#FFFEFB" stroke="#DCE6EF" stroke-width="2"/>
+<text x="450" y="44" font-size="28" font-weight="800" fill="#24364B" text-anchor="middle" >Pizza Ketty dan Pizza Ochan</text>
+<text x="450" y="72" font-size="15" font-weight="600" fill="#5D7185" text-anchor="middle" >Bagian berwarna krem menunjukkan bagian yang dimakan.</text>
+<rect x="28" y="91" width="410" height="388" rx="18" fill="#F4FAFF" stroke="#D4EAF8" stroke-width="1.5"/>
+<rect x="462" y="91" width="410" height="388" rx="18" fill="#FFF9EF" stroke="#F2E5C8" stroke-width="1.5"/>
+<rect x="155" y="108" width="156" height="31" rx="15.5" fill="#E4F3FF" stroke="#BBDFF5" stroke-width="1.5"/>
+<text x="233.0" y="128.94" font-size="16" font-weight="800" fill="#176CA5" text-anchor="middle" >Pizza Ketty</text>
+<rect x="589" y="108" width="156" height="31" rx="15.5" fill="#FFF0D3" stroke="#F0D6A0" stroke-width="1.5"/>
+<text x="667.0" y="128.94" font-size="16" font-weight="800" fill="#98621E" text-anchor="middle" >Pizza Ochan</text>
+<circle cx="233" cy="260" r="111" fill="#D98B3D" stroke="#BF702F" stroke-width="2"/>
+<circle cx="233" cy="260" r="105" fill="#F7C65A"/>
+<path d="M 233.00 260.00 L 336.00 260.00 A 103 103 0 0 1 305.83 332.83 Z" fill="#FFF4DF" stroke="#E7D1A7" stroke-width="1.5" stroke-linejoin="round"/>
+<path d="M 233.00 260.00 L 305.83 332.83 A 103 103 0 0 1 233.00 363.00 Z" fill="#FFF4DF" stroke="#E7D1A7" stroke-width="1.5" stroke-linejoin="round"/>
+<path d="M 233.00 260.00 L 233.00 363.00 A 103 103 0 0 1 160.17 332.83 Z" fill="#FFF4DF" stroke="#E7D1A7" stroke-width="1.5" stroke-linejoin="round"/>
+<path d="M 233.00 260.00 L 160.17 332.83 A 103 103 0 0 1 130.00 260.00 Z" fill="#FFD865" stroke="#E8B84E" stroke-width="1.5" stroke-linejoin="round"/>
+<path d="M 233.00 260.00 L 130.00 260.00 A 103 103 0 0 1 160.17 187.17 Z" fill="#FFD865" stroke="#E8B84E" stroke-width="1.5" stroke-linejoin="round"/>
+<path d="M 233.00 260.00 L 160.17 187.17 A 103 103 0 0 1 233.00 157.00 Z" fill="#FFD865" stroke="#E8B84E" stroke-width="1.5" stroke-linejoin="round"/>
+<path d="M 233.00 260.00 L 233.00 157.00 A 103 103 0 0 1 305.83 187.17 Z" fill="#FFD865" stroke="#E8B84E" stroke-width="1.5" stroke-linejoin="round"/>
+<path d="M 233.00 260.00 L 305.83 187.17 A 103 103 0 0 1 336.00 260.00 Z" fill="#FFD865" stroke="#E8B84E" stroke-width="1.5" stroke-linejoin="round"/>
+<line x1="233" y1="260" x2="336.00" y2="260.00" stroke="#C38A36" stroke-width="2" stroke-linecap="round"/>
+<line x1="233" y1="260" x2="305.83" y2="332.83" stroke="#C38A36" stroke-width="2" stroke-linecap="round"/>
+<line x1="233" y1="260" x2="233.00" y2="363.00" stroke="#C38A36" stroke-width="2" stroke-linecap="round"/>
+<line x1="233" y1="260" x2="160.17" y2="332.83" stroke="#C38A36" stroke-width="2" stroke-linecap="round"/>
+<line x1="233" y1="260" x2="130.00" y2="260.00" stroke="#C38A36" stroke-width="2" stroke-linecap="round"/>
+<line x1="233" y1="260" x2="160.17" y2="187.17" stroke="#C38A36" stroke-width="2" stroke-linecap="round"/>
+<line x1="233" y1="260" x2="233.00" y2="157.00" stroke="#C38A36" stroke-width="2" stroke-linecap="round"/>
+<line x1="233" y1="260" x2="305.83" y2="187.17" stroke="#C38A36" stroke-width="2" stroke-linecap="round"/>
+<circle cx="185" cy="228" r="7" fill="#E96F68" stroke="#C45C53" stroke-width="1"/>
+<circle cx="171" cy="272" r="6" fill="#E96F68" stroke="#C45C53" stroke-width="1"/>
+<circle cx="217" cy="199" r="6" fill="#E96F68" stroke="#C45C53" stroke-width="1"/>
+<circle cx="182" cy="308" r="5" fill="#3AAE83" stroke="#C45C53" stroke-width="1"/>
+<circle cx="255" cy="205" r="5" fill="#3AAE83" stroke="#C45C53" stroke-width="1"/>
+<circle cx="281" cy="232" r="6" fill="#E96F68" stroke="#C45C53" stroke-width="1"/>
+<circle cx="667" cy="260" r="111" fill="#D98B3D" stroke="#BF702F" stroke-width="2"/>
+<circle cx="667" cy="260" r="105" fill="#F7C65A"/>
+<path d="M 667.00 260.00 L 770.00 260.00 A 103 103 0 0 1 718.50 349.20 Z" fill="#FFF4DF" stroke="#E7D1A7" stroke-width="1.5" stroke-linejoin="round"/>
+<path d="M 667.00 260.00 L 718.50 349.20 A 103 103 0 0 1 615.50 349.20 Z" fill="#FFF4DF" stroke="#E7D1A7" stroke-width="1.5" stroke-linejoin="round"/>
+<path d="M 667.00 260.00 L 615.50 349.20 A 103 103 0 0 1 564.00 260.00 Z" fill="#FFF4DF" stroke="#E7D1A7" stroke-width="1.5" stroke-linejoin="round"/>
+<path d="M 667.00 260.00 L 564.00 260.00 A 103 103 0 0 1 615.50 170.80 Z" fill="#FFD865" stroke="#E8B84E" stroke-width="1.5" stroke-linejoin="round"/>
+<path d="M 667.00 260.00 L 615.50 170.80 A 103 103 0 0 1 718.50 170.80 Z" fill="#FFD865" stroke="#E8B84E" stroke-width="1.5" stroke-linejoin="round"/>
+<path d="M 667.00 260.00 L 718.50 170.80 A 103 103 0 0 1 770.00 260.00 Z" fill="#FFD865" stroke="#E8B84E" stroke-width="1.5" stroke-linejoin="round"/>
+<line x1="667" y1="260" x2="770.00" y2="260.00" stroke="#C38A36" stroke-width="2" stroke-linecap="round"/>
+<line x1="667" y1="260" x2="718.50" y2="349.20" stroke="#C38A36" stroke-width="2" stroke-linecap="round"/>
+<line x1="667" y1="260" x2="615.50" y2="349.20" stroke="#C38A36" stroke-width="2" stroke-linecap="round"/>
+<line x1="667" y1="260" x2="564.00" y2="260.00" stroke="#C38A36" stroke-width="2" stroke-linecap="round"/>
+<line x1="667" y1="260" x2="615.50" y2="170.80" stroke="#C38A36" stroke-width="2" stroke-linecap="round"/>
+<line x1="667" y1="260" x2="718.50" y2="170.80" stroke="#C38A36" stroke-width="2" stroke-linecap="round"/>
+<circle cx="625" cy="226" r="7" fill="#E96F68" stroke="#C45C53" stroke-width="1"/>
+<circle cx="642" cy="205" r="5" fill="#3AAE83" stroke="#C45C53" stroke-width="1"/>
+<circle cx="599" cy="233" r="5" fill="#3AAE83" stroke="#C45C53" stroke-width="1"/>
+<text x="233" y="397" font-size="16" font-weight="700" fill="#24364B" text-anchor="middle" >Dipotong menjadi 8 bagian</text>
+<text x="233" y="421" font-size="16" font-weight="700" fill="#24364B" text-anchor="middle" >sama besar</text>
+<text x="667" y="397" font-size="16" font-weight="700" fill="#24364B" text-anchor="middle" >Dipotong menjadi 6 bagian</text>
+<text x="667" y="421" font-size="16" font-weight="700" fill="#24364B" text-anchor="middle" >sama besar</text>
+<rect x="300" y="445" width="18" height="18" rx="5" fill="#FFF4DF" stroke="#E7D1A7" stroke-width="1.5"/>
+<text x="328" y="459" font-size="14" font-weight="700" fill="#5D7185" text-anchor="start" >Bagian dimakan</text>
 </svg>

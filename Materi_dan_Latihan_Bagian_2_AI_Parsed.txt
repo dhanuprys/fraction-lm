@@ -1,5 +1,5 @@
 DOCUMENT_TYPE: AI-readable source transcription with image descriptions and interaction metadata
-SOURCE_FILE: Materi dan Latihan_bagian 2_06-10-2026.docx
+SOURCE_FILE: Materi dan Latihan_bagian 2_06-10-2026(1).docx
 SOURCE_LANGUAGE: Indonesian, with the source heading "Aufgabe 2.8" retained as written
 IMAGE_DESCRIPTION_LANGUAGE: English
 SOURCE_CONTENT_POLICY: Preserve source wording, sequence, labels, punctuation, spelling, and apparent mistakes. Do not correct or reconcile the source. Fractions shown with stacked formatting in the document are represented as numerator/denominator text (for example, 3/8) for plain-text parsing; this is a formatting conversion, not a mathematical correction. Empty areas in the original remain response blanks. No answers have been filled in.
@@ -155,14 +155,23 @@ QUESTION_METADATA:
 
 SOURCE_TEXT_VERBATIM:
 Bagaimana cara membandingkan dua pecahan yang tidak dapat dibayangkan sebagai bagian dari pizza?
+
+QUESTION_METADATA_FOR_CONCEPTUAL_PROMPT:
+- SOURCE_ANSWERING_TYPE: Open-ended conceptual strategy question.
+- SOURCE_PROMPT_ROLE: This is an explicit question in the source, placed immediately before the hundred-cell-table example. Keep it as its own prompt; do not absorb it into the following fill-in task or omit it as transition text.
+- SUGGESTED_DIGITAL_INTERACTION: Optional short text response or teacher-led oral response. If rendered as a digital question, provide an open response field and do not pre-fill an answer.
+- IMAGE_ASSETS: No image is visibly supplied with this question itself.
+
+SOURCE_TEXT_VERBATIM:
 Kita mengambil 3/100 dan 70/100. Di sini kita dapat membayangkan kotak-kotak pada tabel seratusan. 3/100 menggambarkan _____ kotak-kotak pada tabel seratusan, 70/100 menggambarkan______ Petak-petak pada tabel seratusan. Jadi, ________ lebih besar daripada ________.
 
 IMAGE_NOTE:
 [image: No hundred-cell grid illustration is visibly supplied next to this text in the source. The text refers to a "tabel seratusan" (a hundred-cell table), but this transcription does not invent or insert a missing grid image.]
 
-QUESTION_METADATA:
+QUESTION_METADATA_FOR_HUNDRED_GRID_EXAMPLE:
 - SOURCE_ANSWERING_TYPE: Fill-in-the-blank counting/interpretation task followed by a fraction comparison.
-- SUGGESTED_DIGITAL_INTERACTION: Four text or numeric blanks: number of cells represented by 3/100; number of cells represented by 70/100; the larger fraction; the smaller fraction.
+- SUGGESTED_DIGITAL_INTERACTION: Four response blanks, in source order: (1) number of cells represented by 3/100; (2) number of cells represented by 70/100; (3) the fraction identified as larger; (4) the fraction identified as smaller.
+- SOURCE_FIDELITY: Keep the word "Petak-petak" with its source capitalization and preserve the original blank positions. Do not add a hundred-cell image because none is visibly supplied here.
 
 ============================================================
 AKTIVITAS 2.7
@@ -346,3 +355,39 @@ QUALITY_AND_FIDELITY_NOTES:
 - When a visual fraction is transcribed as a/b, this replaces stacked visual typesetting only. It does not assert that the source has been mathematically checked.
 - Suggested digital controls are implementation suggestions, not additional source instructions.
 - No answer key has been generated and no learner responses have been supplied.
+
+
+============================================================
+SOURCE COMPLETENESS AUDIT (FOR FUTURE AI PROCESSING)
+============================================================
+This index is implementation metadata. It does not replace, correct, or add to the Indonesian source wording. It exists to help downstream parsing verify that no question or response area has been skipped.
+
+- Aktivitas 2.1:
+  - Explain/complete the parents' pizza portions; the source visibly includes 3/8 for Ibu and 5/8 for Ayah.
+  - Complete the three children's fraction blanks for Tari, Dude, and Reza.
+  - Order the three children's portions from largest to smallest.
+  - Complete both comparison statements with four fraction slots in total.
+  - The 5/8 > 3/8 explanation is instructional source content, not a blank response.
+- Aktivitas 2.2: Four separate verbal greater-than comparisons to write in concise mathematical notation.
+- Aktivitas 2.3: Four separate verbal less-than comparisons to write in concise mathematical notation.
+- Aktivitas 2.4: The colored 3-by-4 grid (12 cells) and the completion prompt 1/6 = [blank]/12.
+- Aktivitas 2.5: Decide who is correct (Elsa or Irfan) AND explain with a learner-created drawing; do not reduce this to a choice-only item.
+- Aktivitas 2.6: Six statement rows (a-f); each row has a Benar/Salah response and a pair of pizza illustrations for drawing the corresponding fractional parts. Row f is present on the next rendered page, but is part of this same six-row activity.
+- After Aktivitas 2.6 and before Aktivitas 2.7: Preserve the separate conceptual question "Bagaimana cara membandingkan dua pecahan yang tidak dapat dibayangkan sebagai bagian dari pizza?" AND the following hundred-grid example with 3/100, 70/100, and four blanks. The source does not visibly include a hundred-cell-grid image beside this example.
+- Aktivitas 2.7: Three ordering items: a has 2 fractions, b has 2 fractions, and c has 4 fractions. Preserve each item's initial source order. Item c has an additional drag-and-drop implementation specification elsewhere in this document.
+- Aktivitas 2.8: Three pairwise items (a-c). In item c preserve 15/257 exactly as displayed; do not change the denominator.
+- Aktivitas 2.9: Draw appropriate portions on two pizza images; then keep the source comparisons 1/8 versus 1/4, 2/8 versus 2/4, 3/8 versus 3/4, and 4/8 versus 4/4 distinct. The written demonstration 1/3 = 2/6 belongs to the later "Aufgabe 2.8" section, not this activity.
+- Aktivitas 2.10: Nine comparison/order rows labeled a-i. Each row contains two source fractions and blanks around the fixed phrase "lebih besar dari".
+- "Aufgabe 2.8": Preserve this heading exactly as written. It contains the colored-circle reasoning prompt, an instruction to divide the left/right pizza images into 3 and 6 parts, the question comparing 1/3 and 2/6, the explanation of equivalence, and the displayed equality 1/3 = 2/6.
+- Final self-assessment: Seven skill statements, each requiring one mark in one of the two source columns: "Saya dapat melakukannya dengan baik" or "Saya masih perlu berlatih lagi". Preserve "aya" at the beginning of source statement 3.
+
+IMAGE ASSET INVENTORY:
+- Aktivitas 2.1: One photograph containing two pizzas in boxes.
+- Aktivitas 2.4: One colored rectangle divided into 12 equal cells (3 rows by 4 columns), using six two-cell color groups.
+- Aktivitas 2.5: Two separate whole-pizza images for a learner explanation drawing.
+- Aktivitas 2.6: A six-row table with two small pizza images per row, plus Benar/Salah columns.
+- Aktivitas 2.9: Two whole-pizza images for drawing fraction divisions.
+- Aufgabe 2.8: One circle divided into gray, blue, and orange sectors, followed by two whole-pizza images.
+- No image placeholder is to be invented for the 3/100 and 70/100 hundred-grid text example, because no grid is visibly present alongside that source passage.
+
+END OF COMPLETENESS AUDIT

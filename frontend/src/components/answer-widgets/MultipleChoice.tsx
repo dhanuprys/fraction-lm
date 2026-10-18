@@ -42,18 +42,14 @@ export function MultipleChoice({ config, value, onChange, disabled }: MultipleCh
                 isSelected ? "border-purple-500 bg-purple-500" : "border-slate-300",
               )}
             >
-              {isSelected && (
-                <span className="w-2 h-2 rounded-full bg-white" />
-              )}
+              {isSelected && <span className="w-2 h-2 rounded-full bg-white" />}
             </span>
 
             {/* Letter badge */}
             <span
               className={clsx(
                 "w-7 h-7 rounded-lg text-xs font-bold flex items-center justify-center flex-shrink-0",
-                isSelected
-                  ? "bg-purple-500 text-white"
-                  : "bg-slate-100 text-slate-500",
+                isSelected ? "bg-purple-500 text-white" : "bg-slate-100 text-slate-500",
               )}
             >
               {String.fromCharCode(65 + i)}

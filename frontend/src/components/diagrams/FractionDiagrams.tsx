@@ -32,21 +32,13 @@ export function RectangleDiagram({
 }: RectangleDiagramProps) {
   // When cols === 1, it's a vertical strip diagram (e.g. 5 strips for 2/5, 6 strips for 3/6).
   // Each strip should have generous height (loose vertical space!) and a proper vertical column aspect ratio.
-  const cellW = cols === 1 ? (rows <= 2 ? 2.8 : 3.0) : (cols <= 3 ? 1.05 : 1);
+  const cellW = cols === 1 ? (rows <= 2 ? 2.8 : 3.0) : cols <= 3 ? 1.05 : 1;
   const cellH = 1;
   const totalW = cols * cellW;
   const totalH = rows * cellH;
   const pad = 0.05;
 
-  const computedW =
-    width ??
-    (cols === 1
-      ? rows <= 2
-        ? 110
-        : 85
-      : cols <= 3
-        ? 135
-        : 170);
+  const computedW = width ?? (cols === 1 ? (rows <= 2 ? 110 : 85) : cols <= 3 ? 135 : 170);
 
   const computedH =
     height ??

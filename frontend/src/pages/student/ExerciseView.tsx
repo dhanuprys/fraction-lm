@@ -1,10 +1,6 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import {
-  studentApi,
-  type SessionQuestion,
-  type ExerciseSessionData,
-} from "@/lib/api/student";
+import { studentApi, type SessionQuestion, type ExerciseSessionData } from "@/lib/api/student";
 import { Button } from "@/components/pouf/Button";
 import { renderTipTapNode } from "@/components/TipTapRenderer";
 import { useChat } from "@ai-sdk/react";
@@ -18,10 +14,8 @@ import { config } from "@/config";
 import { Icon } from "@/components/pouf/Icon";
 import { AIAvatar } from "@/components/ui/AIAvatar";
 import { ErrorNote } from "@/components/pouf/feedback";
-import {
-  AnswerWidget,
-  hasAnswerWidget,
-} from "@/components/answer-widgets/AnswerWidget";
+import { AnswerWidget } from "@/components/answer-widgets/AnswerWidget";
+import { hasAnswerWidget } from "@/components/answer-widgets/hasAnswerWidget";
 import { serializeAnswer } from "@/lib/answer-serializers";
 import TextareaAutosize from "react-textarea-autosize";
 import clsx from "clsx";
@@ -96,8 +90,7 @@ function hasPassedToolPart(message: any): boolean {
   return message.parts.some(
     (part: any) =>
       part.type === "tool-mark_question_passed" ||
-      (part.type === "dynamic-tool" &&
-        part.toolName === "mark_question_passed"),
+      (part.type === "dynamic-tool" && part.toolName === "mark_question_passed"),
   );
 }
 
@@ -127,6 +120,18 @@ function usePrefersReducedMotion(): boolean {
 }
 
 // ─── Progress Stepper ──────────────────────────────────────────────────────────
+function getQuestionBadgeOrTitle(q: SessionQuestion): string {
+  if (q.questionUi && typeof q.questionUi === "object") {
+    const docObj = q.questionUi as {
+      content?: Array<{ type: string; content?: Array<{ text?: string }> }>;
+    };
+    const firstHeading = docObj.content?.find((c) => c.type === "heading");
+    const headingText = firstHeading?.content?.map((c) => c.text || "").join("") || "";
+    if (headingText) return headingText;
+  }
+  return q.learningObjective || "";
+}
+
 function ProgressStepper({
   questions,
   currentIdx,
@@ -147,6 +152,7 @@ function ProgressStepper({
       {questions.map((q, i) => {
         const isPassed = passedIds.has(q.id);
         const isCurrent = i === currentIdx;
+        const qTitle = getQuestionBadgeOrTitle(q);
         return (
           <div key={q.id} className="flex items-center gap-1.5" role="listitem">
             <button
@@ -164,12 +170,9 @@ function ProgressStepper({
                 // already passed — otherwise two green circles look identical
                 // and the student can't tell where they are.
                 isCurrent &&
-                  clsx(
-                    "ring-4 scale-105",
-                    isPassed ? "ring-emerald-500/25" : "ring-purple-500/20",
-                  ),
+                  clsx("ring-4 scale-105", isPassed ? "ring-emerald-500/25" : "ring-purple-500/20"),
               )}
-              title={`Soal ${i + 1}${isPassed ? " (Selesai)" : ""}`}
+              title={`Soal ${i + 1}${qTitle ? `: ${qTitle}` : ""}${isPassed ? " (Selesai)" : ""}`}
             >
               {isPassed ? "✓" : i + 1}
             </button>
@@ -223,9 +226,7 @@ function CompletedDock({
           <PartyPopper size={20} aria-hidden="true" />
         </div>
         <div className="min-w-0">
-          <p className="text-[15px] font-bold text-emerald-900 m-0 leading-tight">
-            Jawaban benar!
-          </p>
+          <p className="text-[15px] font-bold text-emerald-900 m-0 leading-tight">Jawaban benar!</p>
           <p className="text-xs text-emerald-700 m-0 mt-0.5 leading-snug">
             {allPassed
               ? "Semua soal sudah selesai. Saatnya lihat hasilmu!"
@@ -334,11 +335,7 @@ function QuestionChat({
         onStreamComplete();
       }
     }
-    if (
-      prevStatusRef.current !== "ready" &&
-      status === "ready" &&
-      messages.length > 0
-    ) {
+    if (prevStatusRef.current !== "ready" && status === "ready" && messages.length > 0) {
       if (!justTriggered) onStreamComplete();
     }
     prevStatusRef.current = status;
@@ -390,19 +387,12 @@ function QuestionChat({
       <div className="px-6 py-3.5 border-b border-slate-200/80 flex items-center justify-between bg-white flex-none shadow-2xs">
         <div className="flex items-center gap-3">
           <div className="relative">
-            <AIAvatar
-              state={isLoading ? "thinking" : isPassed ? "happy" : "standby"}
-              size="sm"
-            />
+            <AIAvatar state={isLoading ? "thinking" : isPassed ? "happy" : "standby"} size="sm" />
             <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-white rounded-full" />
           </div>
           <div>
-            <h3 className="font-bold text-slate-800 text-sm m-0 leading-tight">
-              METADIA AI
-            </h3>
-            <p className="text-[11px] text-slate-500 m-0">
-              Asisten Belajar Pecahan
-            </p>
+            <h3 className="font-bold text-slate-800 text-sm m-0 leading-tight">METADIA AI</h3>
+            <p className="text-[11px] text-slate-500 m-0">Asisten Belajar Pecahan</p>
           </div>
         </div>
 
@@ -413,11 +403,7 @@ function QuestionChat({
             onClick={toggleMute}
             aria-label={isMuted ? "Bunyikan Musik" : "Matikan Musik"}
           >
-            {isMuted ? (
-              <VolumeX className="w-5 h-5" />
-            ) : (
-              <Volume2 className="w-5 h-5" />
-            )}
+            {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
           </Button>
         </div>
       </div>
@@ -436,35 +422,29 @@ function QuestionChat({
           <div className="flex gap-3 items-start max-w-full">
             <AIAvatar state="default" size="sm" />
             <div className="max-w-[85%] px-4 py-3 rounded-2xl rounded-tl-xs text-[15px] font-medium bg-white border border-slate-200/80 text-slate-700 shadow-2xs leading-relaxed">
-              Halo! Saya{" "}
-              <span className="font-bold text-purple-700">METADIA AI</span>,
-              asisten belajarmu.{" "}
+              Halo! Saya <span className="font-bold text-purple-700">METADIA AI</span>, asisten
+              belajarmu.{" "}
               <Hand
                 size={16}
                 className="inline-block text-amber-500 mx-0.5 -mt-1"
                 aria-hidden="true"
               />{" "}
-              Silakan kerjakan soalnya, lalu ketik jawabanmu di sini. Jika ada
-              kesulitan, tanyakan saja padaku!
+              Silakan kerjakan soalnya, lalu ketik jawabanmu di sini. Jika ada kesulitan, tanyakan
+              saja padaku!
             </div>
           </div>
 
           {messages
             .filter((m: any) => {
               const textContent =
-                m.content ||
-                m.parts
-                  ?.map((p: any) => (p.type === "text" ? p.text : ""))
-                  .join("");
+                m.content || m.parts?.map((p: any) => (p.type === "text" ? p.text : "")).join("");
               return textContent && textContent.trim().length > 0;
             })
             .map((m: any) => {
               const aiState = hasPassedToolPart(m) ? "happy" : "default";
               const rawText =
                 m.content ||
-                m.parts
-                  ?.map((part: any) => (part.type === "text" ? part.text : ""))
-                  .join("") ||
+                m.parts?.map((part: any) => (part.type === "text" ? part.text : "")).join("") ||
                 "";
               const textContent = preprocessLatex(rawText);
 
@@ -643,11 +623,9 @@ function CompletionScreen({
   onRetake: () => void;
 }) {
   const totalScore =
-    sessionTotalScore ||
-    questions.reduce((acc, q) => acc + (q.masteryScore || 0), 0);
+    sessionTotalScore || questions.reduce((acc, q) => acc + (q.masteryScore || 0), 0);
   const avgScore = questions.length > 0 ? totalScore / questions.length : 0;
-  const stars =
-    avgScore >= 90 ? 3 : avgScore >= 60 ? 2 : avgScore >= 30 ? 1 : 0;
+  const stars = avgScore >= 90 ? 3 : avgScore >= 60 ? 2 : avgScore >= 30 ? 1 : 0;
   const passedCount = questions.filter((q) => q.isPassed).length;
   const copy = RESULT_COPY[stars];
   // Below full stars the most useful next step is another try; with full
@@ -692,10 +670,7 @@ function CompletionScreen({
           but never clips the top when it is taller than the viewport. */}
       <div className="my-auto mx-auto w-full max-w-xl lg:max-w-5xl grid grid-cols-1 lg:grid-cols-5 lg:items-start gap-6 py-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
         {/* ── Summary Column ── */}
-        <section
-          aria-labelledby="result-title"
-          className="lg:col-span-2 flex flex-col gap-4"
-        >
+        <section aria-labelledby="result-title" className="lg:col-span-2 flex flex-col gap-4">
           {/* Achievement Hero */}
           <div className="flex flex-col items-center text-center gap-4 bg-gradient-to-b from-white to-purple-50/40 rounded-3xl p-7 lg:p-8 border border-purple-100/70 shadow-sm relative overflow-hidden">
             <div className="absolute -top-20 -right-20 w-40 h-40 bg-amber-200/30 rounded-full blur-3xl pointer-events-none" />
@@ -715,9 +690,7 @@ function CompletionScreen({
               >
                 Latihan Selesai!
               </h1>
-              <p className="text-slate-500 text-sm font-medium mt-1 mb-0">
-                {materialTitle}
-              </p>
+              <p className="text-slate-500 text-sm font-medium mt-1 mb-0">{materialTitle}</p>
             </div>
 
             {attemptNo > 1 && (
@@ -740,9 +713,7 @@ function CompletionScreen({
                       s <= stars
                         ? "text-amber-400 drop-shadow-xs scale-110"
                         : "text-slate-200 opacity-50",
-                      !prefersReducedMotion &&
-                        s <= stars &&
-                        "animate-in zoom-in duration-500",
+                      !prefersReducedMotion && s <= stars && "animate-in zoom-in duration-500",
                     )}
                     style={{
                       animationDelay: `${200 + idx * 150}ms`,
@@ -781,10 +752,7 @@ function CompletionScreen({
         </section>
 
         {/* ── Breakdown Column + Actions ── */}
-        <section
-          aria-label="Rincian hasil"
-          className="lg:col-span-3 flex flex-col gap-5"
-        >
+        <section aria-label="Rincian hasil" className="lg:col-span-3 flex flex-col gap-5">
           {/* Learning Achievement */}
           {masteredObjectives.length > 0 && (
             <div className="bg-white rounded-3xl border border-slate-200/80 shadow-sm p-5 lg:p-6">
@@ -792,9 +760,7 @@ function CompletionScreen({
                 <span className="w-8 h-8 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center shadow-xs">
                   <BookOpenCheck size={18} />
                 </span>
-                <h2 className="text-[15px] font-bold text-slate-800 m-0">
-                  Yang kamu kuasai
-                </h2>
+                <h2 className="text-[15px] font-bold text-slate-800 m-0">Yang kamu kuasai</h2>
               </div>
               <ul className="m-0 p-0 list-none space-y-2.5">
                 {masteredObjectives.map((obj, i) => (
@@ -815,12 +781,8 @@ function CompletionScreen({
           <div className="bg-white rounded-3xl border border-slate-200/80 shadow-sm overflow-hidden">
             <div className="px-5 py-4 border-b border-slate-100 bg-slate-50/50">
               <h2 className="text-sm font-bold text-slate-800 m-0 flex items-center gap-2">
-                <ClipboardList
-                  size={18}
-                  className="text-slate-500"
-                  aria-hidden="true"
-                />{" "}
-                Rincian Soal
+                <ClipboardList size={18} className="text-slate-500" aria-hidden="true" /> Rincian
+                Soal
               </h2>
             </div>
             <ul className="m-0 p-0 list-none divide-y divide-slate-100">
@@ -863,12 +825,7 @@ function CompletionScreen({
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3 pt-1">
-            <div
-              className={clsx(
-                "flex-1",
-                retakeIsPrimary ? "order-1" : "order-2",
-              )}
-            >
+            <div className={clsx("flex-1", retakeIsPrimary ? "order-1" : "order-2")}>
               <Button
                 variant={retakeIsPrimary ? "solid" : "quiet"}
                 tone="purple"
@@ -876,16 +833,10 @@ function CompletionScreen({
                 block
                 onClick={onRetake}
               >
-                <Icon name="history" />{" "}
-                {retakeIsPrimary ? "Coba Lagi" : "Ulangi Latihan"}
+                <Icon name="history" /> {retakeIsPrimary ? "Coba Lagi" : "Ulangi Latihan"}
               </Button>
             </div>
-            <div
-              className={clsx(
-                "flex-1",
-                retakeIsPrimary ? "order-2" : "order-1",
-              )}
-            >
+            <div className={clsx("flex-1", retakeIsPrimary ? "order-2" : "order-1")}>
               <Button
                 variant={retakeIsPrimary ? "quiet" : "solid"}
                 tone="purple"
@@ -925,9 +876,7 @@ export default function ExerciseView() {
   const [loading, setLoading] = useState(true);
   const [isLocked, setIsLocked] = useState(false);
 
-  useDocumentTitle(
-    materialData?.title ? `Latihan: ${materialData.title}` : "Latihan",
-  );
+  useDocumentTitle(materialData?.title ? `Latihan: ${materialData.title}` : "Latihan");
 
   const [currentIdx, setCurrentIdx] = useState(0);
   const [passedIds, setPassedIds] = useState<Set<string>>(new Set());
@@ -1030,13 +979,10 @@ export default function ExerciseView() {
       setPassedIds((prevPassedIds) => {
         const currentQ = session.questions[currentIdx];
         const isNewlyPassed =
-          !!currentQ &&
-          newPassedIds.has(currentQ.id) &&
-          !prevPassedIds.has(currentQ.id);
+          !!currentQ && newPassedIds.has(currentQ.id) && !prevPassedIds.has(currentQ.id);
 
         if (isNewlyPassed) {
-          if (newPassedIds.size === session.questions.length)
-            playSFX("VICTORY");
+          if (newPassedIds.size === session.questions.length) playSFX("VICTORY");
           else playSFX("SUCCESS");
           setCelebrating(true);
         }
@@ -1086,6 +1032,10 @@ export default function ExerciseView() {
     setShowCompletion(true);
   }, [session, mergeResultsIntoSession]);
 
+  // ── Answer Widget State & Hooks (must be before callbacks using them) ──────
+  const [widgetValues, setWidgetValues] = useState<Record<string, any>>({});
+  const widgetSubmitRef = useRef<((text: string) => void) | null>(null);
+
   const handleRetake = useCallback(async () => {
     if (!session) return;
     setLoading(true);
@@ -1110,10 +1060,6 @@ export default function ExerciseView() {
 
   const materialPath = `/student/topics/${topicSlug}/${subTopicSlug}/${materialId}`;
 
-  // ── Answer Widget State & Hooks (must be before ALL early returns) ──────────
-  const [widgetValues, setWidgetValues] = useState<Record<string, any>>({});
-  const widgetSubmitRef = useRef<((text: string) => void) | null>(null);
-
   const questions = session?.questions ?? [];
   const currentQuestion: SessionQuestion | undefined = questions[currentIdx];
   const currentQuestionId = currentQuestion?.id;
@@ -1126,14 +1072,11 @@ export default function ExerciseView() {
       if (currentQuestionId == null) return;
       setWidgetValues((prev) => ({ ...prev, [currentQuestionId]: val }));
     },
-    [currentQuestionId],
+    [currentQuestionId, setWidgetValues],
   );
 
-  const isStructured = currentQuestion
-    ? hasAnswerWidget(currentQuestion.questionType)
-    : false;
-  const isCurrentPassed =
-    currentQuestionId != null && passedIds.has(currentQuestionId);
+  const isStructured = currentQuestion ? hasAnswerWidget(currentQuestion.questionType) : false;
+  const isCurrentPassed = currentQuestionId != null && passedIds.has(currentQuestionId);
 
   const handleWidgetSubmit = useCallback(() => {
     if (!currentQuestion || !isStructured || isCurrentPassed) return;
@@ -1150,9 +1093,7 @@ export default function ExerciseView() {
       <div className="flex-1 flex items-center justify-center min-h-[100dvh] bg-slate-50/50">
         <div className="flex flex-col items-center gap-3">
           <div className="w-8 h-8 border-3 border-purple-600 border-t-transparent rounded-full animate-spin" />
-          <p className="text-slate-500 text-sm font-medium m-0">
-            Memuat latihan soal...
-          </p>
+          <p className="text-slate-500 text-sm font-medium m-0">Memuat latihan soal...</p>
         </div>
       </div>
     );
@@ -1184,20 +1125,16 @@ export default function ExerciseView() {
           <Lock size={28} />
         </div>
         <div>
-          <h2 className="text-2xl font-bold text-slate-800 m-0">
-            Latihan Terkunci
-          </h2>
+          <h2 className="text-2xl font-bold text-slate-800 m-0">Latihan Terkunci</h2>
           <p className="text-slate-500 text-sm max-w-md mt-2 m-0 leading-relaxed">
-            Anda harus menyelesaikan materi sebelumnya terlebih dahulu sebelum
-            dapat mengakses latihan ini.
+            Anda harus menyelesaikan materi sebelumnya terlebih dahulu sebelum dapat mengakses
+            latihan ini.
           </p>
         </div>
         <Button
           variant="solid"
           tone="purple"
-          onClick={() =>
-            navigate(`/student/topics/${topicSlug}/${subTopicSlug}`)
-          }
+          onClick={() => navigate(`/student/topics/${topicSlug}/${subTopicSlug}`)}
         >
           <Icon name="prev" /> Kembali ke Subtopik
         </Button>
@@ -1208,15 +1145,11 @@ export default function ExerciseView() {
   if (!session || !materialData) {
     return (
       <div className="flex-1 flex flex-col items-center justify-center min-h-[100dvh] gap-6 text-center px-6 bg-slate-50/50">
-        <h2 className="text-2xl font-bold text-slate-800 m-0">
-          Materi tidak ditemukan
-        </h2>
+        <h2 className="text-2xl font-bold text-slate-800 m-0">Materi tidak ditemukan</h2>
         <Button
           variant="solid"
           tone="purple"
-          onClick={() =>
-            navigate(`/student/topics/${topicSlug}/${subTopicSlug}`)
-          }
+          onClick={() => navigate(`/student/topics/${topicSlug}/${subTopicSlug}`)}
         >
           <Icon name="prev" /> Kembali ke Subtopik
         </Button>
@@ -1242,14 +1175,8 @@ export default function ExerciseView() {
   if (questions.length === 0) {
     return (
       <div className="flex-1 flex flex-col items-center justify-center min-h-[100dvh] gap-6 text-center px-6 bg-slate-50/50">
-        <h2 className="text-2xl font-bold text-slate-800 m-0">
-          Tidak ada soal untuk materi ini.
-        </h2>
-        <Button
-          variant="solid"
-          tone="purple"
-          onClick={() => navigate(materialPath)}
-        >
+        <h2 className="text-2xl font-bold text-slate-800 m-0">Tidak ada soal untuk materi ini.</h2>
+        <Button variant="solid" tone="purple" onClick={() => navigate(materialPath)}>
           <Icon name="prev" /> Kembali ke Materi
         </Button>
       </div>
@@ -1268,11 +1195,7 @@ export default function ExerciseView() {
         <div className="flex flex-col flex-1 min-h-0 p-5 lg:p-8 lg:overflow-y-auto">
           {/* Top bar — kept slim so the question stays above the fold */}
           <div className="flex items-center justify-between mb-6">
-            <img
-              src={logoRectangle}
-              alt="METADIA"
-              className="h-16 w-auto object-contain -ml-1"
-            />
+            <img src={logoRectangle} alt="METADIA" className="h-16 w-auto object-contain -ml-1" />
             <Link
               to={materialPath}
               className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-purple-600 px-3 py-1.5 rounded-lg hover:bg-white border border-transparent hover:border-slate-200/60 transition-all shadow-none hover:shadow-xs focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-purple-500/20"
@@ -1339,9 +1262,7 @@ export default function ExerciseView() {
                 {currentQuestion.questionUi?.type === "doc" ? (
                   renderTipTapNode(currentQuestion.questionUi)
                 ) : (
-                  <p className="text-slate-400 m-0">
-                    Konten soal tidak dapat dimuat.
-                  </p>
+                  <p className="text-slate-400 m-0">Konten soal tidak dapat dimuat.</p>
                 )}
               </div>
             </div>

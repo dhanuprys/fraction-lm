@@ -24,7 +24,37 @@ export default function TopicDetail() {
 
   useDocumentTitle(topic?.name || "Subtopik Belajar");
 
-  const loadData = () => {
+  useEffect(() => {
+    if (!topicSlug) return;
+    let ignore = false;
+    studentApi
+      .getSubTopics(topicSlug)
+      .then((res) => {
+        if (ignore) return;
+        if (res.data) {
+          setTopic(res.data.topic);
+          const mappedSubTopics = (res.data.subTopics || []).map((st) => ({
+            ...st,
+          }));
+          setSubTopics(mappedSubTopics);
+        } else {
+          setError("Gagal memuat detail topik.");
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        if (ignore) return;
+        console.error(err);
+        setError("Koneksi jaringan bermasalah. Gagal memuat data.");
+        setLoading(false);
+      });
+
+    return () => {
+      ignore = true;
+    };
+  }, [topicSlug]);
+
+  const handleRetry = () => {
     if (!topicSlug) return;
     setLoading(true);
     setError(null);
@@ -49,10 +79,6 @@ export default function TopicDetail() {
       });
   };
 
-  useEffect(() => {
-    loadData();
-  }, [topicSlug]);
-
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center py-20 gap-3">
@@ -66,7 +92,7 @@ export default function TopicDetail() {
     return (
       <Stack gap={6} align="start">
         <ErrorNote>{error}</ErrorNote>
-        <Button onClick={loadData} tone="purple">
+        <Button onClick={handleRetry} tone="purple">
           Coba Lagi
         </Button>
       </Stack>

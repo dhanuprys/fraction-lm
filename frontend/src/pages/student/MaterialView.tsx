@@ -25,7 +25,40 @@ export default function MaterialView() {
 
   useDocumentTitle(material?.title || "Baca Materi");
 
-  const loadData = () => {
+  useEffect(() => {
+    if (!materialId) return;
+    const id = parseInt(materialId, 10);
+    if (isNaN(id)) return;
+
+    let ignore = false;
+    studentApi
+      .getMaterial(id)
+      .then((res) => {
+        if (ignore) return;
+        if (res.data) {
+          setMaterial(res.data.material);
+        } else {
+          setError("Gagal memuat materi pembelajaran.");
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        if (ignore) return;
+        console.error(err);
+        if (err.response?.status === 403) {
+          setIsLocked(true);
+        } else {
+          setError("Koneksi jaringan bermasalah. Gagal memuat materi.");
+        }
+        setLoading(false);
+      });
+
+    return () => {
+      ignore = true;
+    };
+  }, [materialId]);
+
+  const handleRetry = () => {
     if (!materialId) return;
     const id = parseInt(materialId, 10);
     if (isNaN(id)) return;
@@ -55,10 +88,6 @@ export default function MaterialView() {
       });
   };
 
-  useEffect(() => {
-    loadData();
-  }, [materialId]);
-
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center py-20 gap-3">
@@ -72,7 +101,7 @@ export default function MaterialView() {
     return (
       <Stack gap={6} align="start">
         <ErrorNote>{error}</ErrorNote>
-        <Button onClick={loadData} tone="purple">
+        <Button onClick={handleRetry} tone="purple">
           Coba Lagi
         </Button>
       </Stack>

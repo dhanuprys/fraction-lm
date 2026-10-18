@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 400" width="100%" height="100%" role="img" aria-labelledby="title desc">
+  <title id="title">Twelve equal squares arranged in six matching color pairs</title>
+  <desc id="desc">A three-row by four-column grid of twelve equal square cells. Each adjacent pair has the same color: coral and blue in the first row, gray and aqua in the second row, mint and soft yellow in the third row.</desc>
+  <defs>
+    <filter id="gridShadow" x="-8%" y="-8%" width="116%" height="120%">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#344256" flood-opacity="0.09"/>
+    </filter>
+    <clipPath id="gridClip"><rect x="40" y="35" width="440" height="330" rx="14"/></clipPath>
+  </defs>
+  <rect width="520" height="400" rx="24" fill="#FFFCF6"/>
+  <rect x="1" y="1" width="518" height="398" rx="23" fill="none" stroke="#F0E7D8" stroke-width="2"/>
+  <g filter="url(#gridShadow)">
+    <g clip-path="url(#gridClip)">
+      <!-- Row 1: two coral cells, then two sky-blue cells -->
+      <rect x="40" y="35" width="110" height="110" fill="#FFB8A8"/>
+      <rect x="150" y="35" width="110" height="110" fill="#FFB8A8"/>
+      <rect x="260" y="35" width="110" height="110" fill="#A8D5F7"/>
+      <rect x="370" y="35" width="110" height="110" fill="#A8D5F7"/>
+      <!-- Row 2: two neutral-gray cells, then two aqua cells -->
+      <rect x="40" y="145" width="110" height="110" fill="#C7CFD8"/>
+      <rect x="150" y="145" width="110" height="110" fill="#C7CFD8"/>
+      <rect x="260" y="145" width="110" height="110" fill="#9ADFE0"/>
+      <rect x="370" y="145" width="110" height="110" fill="#9ADFE0"/>
+      <!-- Row 3: two mint cells, then two soft-yellow cells -->
+      <rect x="40" y="255" width="110" height="110" fill="#A9E1C3"/>
+      <rect x="150" y="255" width="110" height="110" fill="#A9E1C3"/>
+      <rect x="260" y="255" width="110" height="110" fill="#FFE09A"/>
+      <rect x="370" y="255" width="110" height="110" fill="#FFE09A"/>
+      <!-- Fine white dividers keep every cell easy to count -->
+      <path d="M150 35V365 M260 35V365 M370 35V365 M40 145H480 M40 255H480" fill="none" stroke="#FFFFFF" stroke-width="3"/>
+    </g>
+    <rect x="40" y="35" width="440" height="330" rx="14" fill="none" stroke="#42556A" stroke-width="2.5"/>
+  </g>
+</svg>

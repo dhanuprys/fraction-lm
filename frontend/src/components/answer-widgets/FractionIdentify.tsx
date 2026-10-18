@@ -1,6 +1,10 @@
 import { useRef, useEffect } from "react";
 import clsx from "clsx";
-import { RectangleDiagram, CircleDiagram, DiagonalRectangleDiagram } from "@/components/diagrams/FractionDiagrams";
+import {
+  RectangleDiagram,
+  CircleDiagram,
+  DiagonalRectangleDiagram,
+} from "@/components/diagrams/FractionDiagrams";
 
 interface DiagramConfig {
   type: "rectangle" | "circle" | "diagonal_rectangle";
@@ -134,11 +138,9 @@ export function FractionIdentify({ config, value, onChange, disabled }: Fraction
   // Initialize value array
   useEffect(() => {
     if (value.length !== config.diagrams.length) {
-      onChange(
-        config.diagrams.map((_, i) => value[i] || { numerator: null, denominator: null }),
-      );
+      onChange(config.diagrams.map((_, i) => value[i] || { numerator: null, denominator: null }));
     }
-  }, [config.diagrams.length]);
+  }, [config.diagrams, onChange, value]);
 
   const handleFieldChange = (
     index: number,

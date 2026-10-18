@@ -2,7 +2,11 @@ import { BlockMath, InlineMath } from "react-katex";
 import "katex/dist/katex.min.css";
 import React from "react";
 import { Heading } from "@/components/pouf/text";
-import { RectangleDiagram, CircleDiagram, DiagonalRectangleDiagram } from "@/components/diagrams/FractionDiagrams";
+import {
+  RectangleDiagram,
+  CircleDiagram,
+  DiagonalRectangleDiagram,
+} from "@/components/diagrams/FractionDiagrams";
 import { MathText } from "@/components/common/MathText";
 
 export function renderTipTapNode(node: any, index: number = 0): React.ReactNode {
@@ -30,11 +34,7 @@ export function renderTipTapNode(node: any, index: number = 0): React.ReactNode 
 
   if (node.type === "text") {
     const rawText = node.text || "";
-    let el: React.ReactNode = rawText.includes("$") ? (
-      <MathText text={rawText} />
-    ) : (
-      rawText
-    );
+    let el: React.ReactNode = rawText.includes("$") ? <MathText text={rawText} /> : rawText;
     if (node.marks) {
       node.marks.forEach((mark: any, mIdx: number) => {
         if (mark.type === "bold")
@@ -95,11 +95,7 @@ export function renderTipTapNode(node: any, index: number = 0): React.ReactNode 
     return (
       <div key={index} className="my-6 flex justify-center">
         {diagramType === "circle" ? (
-          <CircleDiagram
-            totalParts={totalParts || 4}
-            shadedParts={shadedParts || []}
-            size={140}
-          />
+          <CircleDiagram totalParts={totalParts || 4} shadedParts={shadedParts || []} size={140} />
         ) : diagramType === "diagonal_rectangle" ? (
           <DiagonalRectangleDiagram
             rows={rows || 2}
@@ -123,11 +119,11 @@ export function renderTipTapNode(node: any, index: number = 0): React.ReactNode 
 
   if (node.type === "image") {
     return (
-      <div key={index} className="my-8 flex justify-center">
+      <div key={index} className="my-6 flex justify-center">
         <img
           src={node.attrs?.src}
           alt={node.attrs?.alt || "Materi Gambar"}
-          className="max-w-full rounded-[24px] shadow-[var(--pouf-blob)] border-[6px] border-white object-cover"
+          className="max-w-full max-h-[380px] rounded-[24px] shadow-sm border-[4px] border-white object-contain bg-white"
         />
       </div>
     );
@@ -136,8 +132,34 @@ export function renderTipTapNode(node: any, index: number = 0): React.ReactNode 
   if (node.type === "heading") {
     const level = (node.attrs?.level || 2) as number;
     const safeLevel = (level <= 3 ? level : 3) as 1 | 2 | 3;
+
+    // Check if heading matches standard Activity / Refleksi pattern: e.g. "Aktivitas 1.1a: Title" or "Aufgabe 2.8: Title" or "Refleksi Diri: Title"
+    const firstText = node.content?.[0]?.text;
+    if (typeof firstText === "string") {
+      const match = firstText.match(
+        /^(Aktivitas\s+[\d.]+[a-z]?(?:\s*\([^)]+\))?|Aufgabe\s+[\d.]+|Refleksi\s+Diri)[:—–-]\s*(.*)$/i,
+      );
+      if (match) {
+        const badge = match[1].trim();
+        const restOfFirstText = match[2].trim();
+        return (
+          <div key={index} className={index === 0 ? "mb-4" : "mt-8 mb-4"}>
+            <div className="flex flex-col items-start gap-1.5">
+              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-black tracking-wide uppercase bg-purple-100 text-purple-700 border border-purple-200/80 shadow-xs">
+                {badge}
+              </span>
+              <h3 className="text-xl lg:text-2xl font-black text-slate-900 tracking-tight m-0">
+                {restOfFirstText}
+                {node.content.slice(1).map((n: any, i: number) => renderTipTapNode(n, i + 1))}
+              </h3>
+            </div>
+          </div>
+        );
+      }
+    }
+
     return (
-      <div key={index} className={`mt-${level === 1 ? "10" : "8"} mb-2`}>
+      <div key={index} className={index === 0 ? "mb-2" : `mt-${level === 1 ? "10" : "8"} mb-2`}>
         <Heading level={safeLevel}>
           {node.content?.map((n: any, i: number) => renderTipTapNode(n, i))}
         </Heading>

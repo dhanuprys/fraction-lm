@@ -81,7 +81,8 @@ export function ColorableGrid({ config, value, onChange, disabled }: GridColorin
   }
 
   // Compute cell size based on grid dimensions
-  const cellSize = config.cols <= 6 ? "w-10 h-10" : config.cols <= 10 ? "w-7 h-7 sm:w-8 sm:h-8" : "w-6 h-6";
+  const cellSize =
+    config.cols <= 6 ? "w-10 h-10" : config.cols <= 10 ? "w-7 h-7 sm:w-8 sm:h-8" : "w-6 h-6";
 
   return (
     <div className="flex flex-col gap-4">
@@ -123,7 +124,9 @@ export function ColorableGrid({ config, value, onChange, disabled }: GridColorin
       {/* Grid */}
       <div
         className="rounded-2xl border border-slate-200/80 bg-white p-3 shadow-xs overflow-x-auto"
-        onMouseLeave={() => { isPaintingRef.current = false; }}
+        onMouseLeave={() => {
+          isPaintingRef.current = false;
+        }}
       >
         <div
           className="inline-grid gap-[2px]"
@@ -156,7 +159,9 @@ export function ColorableGrid({ config, value, onChange, disabled }: GridColorin
                     toggleCell(ri, ci);
                   }}
                   onMouseEnter={() => paintCell(ri, ci)}
-                  onMouseUp={() => { isPaintingRef.current = false; }}
+                  onMouseUp={() => {
+                    isPaintingRef.current = false;
+                  }}
                   onTouchStart={() => {
                     // Prevent scroll while painting on mobile
                     toggleCell(ri, ci);

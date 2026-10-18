@@ -15,13 +15,7 @@ import clsx from "clsx";
 import { InlineMath } from "react-katex";
 import "katex/dist/katex.min.css";
 import { MathText } from "@/components/common/MathText";
-import {
-  GripVertical,
-  ChevronLeft,
-  ChevronRight,
-  RotateCcw,
-  Sparkles,
-} from "lucide-react";
+import { GripVertical, ChevronLeft, ChevronRight, RotateCcw, Sparkles } from "lucide-react";
 
 export interface FractionOrderingConfig {
   items: string[];
@@ -56,24 +50,23 @@ function StackedFraction({ fraction }: { fraction: string }) {
     );
   }
 
-  try {
-    return (
-      <div className="inline-flex items-center justify-center text-xl font-semibold select-none text-slate-900">
-        <InlineMath math={mathStr} />
-      </div>
-    );
-  } catch {
-    return (
-      <span className="font-extrabold text-xl text-slate-800 tracking-tight">
-        {fraction}
-      </span>
-    );
-  }
+  return (
+    <div className="inline-flex items-center justify-center text-xl font-semibold select-none text-slate-900">
+      <InlineMath
+        math={mathStr}
+        renderError={() => (
+          <span className="font-extrabold text-xl text-slate-800 tracking-tight">{fraction}</span>
+        )}
+      />
+    </div>
+  );
 }
+
+const EMPTY_ITEMS: string[] = [];
 
 export function FractionOrdering({ config, value, onChange, disabled }: Props) {
   const separator = config.separator || "<";
-  const initialItems = config.items || [];
+  const initialItems = config.items ?? EMPTY_ITEMS;
 
   // Track drag state
   const [draggedIdx, setDraggedIdx] = useState<number | null>(null);
@@ -84,13 +77,13 @@ export function FractionOrdering({ config, value, onChange, disabled }: Props) {
 
   // Initialize value if empty or mismatched length
   useEffect(() => {
-    if (!value || value.length !== initialItems.length) {
-      onChange([...initialItems]);
+    const items = config.items ?? EMPTY_ITEMS;
+    if (!value || value.length !== items.length) {
+      onChange([...items]);
     }
-  }, [initialItems.length]);
+  }, [value, config.items, onChange]);
 
-  const items =
-    value && value.length === initialItems.length ? value : initialItems;
+  const items = value && value.length === initialItems.length ? value : initialItems;
 
   // Move item from one index to another (insert at new position)
   const moveItem = (fromIdx: number, toIdx: number) => {
@@ -171,9 +164,7 @@ export function FractionOrdering({ config, value, onChange, disabled }: Props) {
     setDragOverIdx(null);
   };
 
-  const isOrderChanged =
-    items.length > 0 &&
-    items.some((item, idx) => item !== initialItems[idx]);
+  const isOrderChanged = items.length > 0 && items.some((item, idx) => item !== initialItems[idx]);
 
   return (
     <div className="flex flex-col gap-4 rounded-3xl border border-slate-200/90 bg-linear-to-b from-white to-slate-50/50 p-5 sm:p-6 shadow-sm">
@@ -254,9 +245,15 @@ export function FractionOrdering({ config, value, onChange, disabled }: Props) {
                     "bg-white border-2",
                     // Dragging & Hover states
                     isDragging && "opacity-40 scale-95 border-purple-400 border-dashed",
-                    isDragOver && !isDragging && "border-purple-500 ring-4 ring-purple-500/20 bg-purple-50/50 scale-102",
-                    isSelected && "border-purple-600 ring-4 ring-purple-600/25 bg-purple-50/80 shadow-md scale-105",
-                    !isDragging && !isDragOver && !isSelected && "border-slate-200/90 hover:border-purple-300 shadow-2xs hover:shadow-sm",
+                    isDragOver &&
+                      !isDragging &&
+                      "border-purple-500 ring-4 ring-purple-500/20 bg-purple-50/50 scale-102",
+                    isSelected &&
+                      "border-purple-600 ring-4 ring-purple-600/25 bg-purple-50/80 shadow-md scale-105",
+                    !isDragging &&
+                      !isDragOver &&
+                      !isSelected &&
+                      "border-slate-200/90 hover:border-purple-300 shadow-2xs hover:shadow-sm",
                     disabled && "bg-slate-50/80 border-slate-200 shadow-none cursor-default",
                     !disabled && "cursor-grab active:cursor-grabbing",
                   )}

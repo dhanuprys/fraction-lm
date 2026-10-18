@@ -48,7 +48,7 @@ export function preprocessLatex(text: string): string {
 
   // 4. Trim inline math $...$ safely without touching spaces outside dollars,
   // and upgrade \frac to \dfrac for full-size numbers and vertical clearance.
-  result = result.replace(/\$([^\$\n]+?)\$/g, (_, inner) => {
+  result = result.replace(/\$([^$\n]+?)\$/g, (_, inner) => {
     const trimmed = inner.trim();
     const withDfrac = trimmed.replace(/\\frac/g, "\\dfrac");
     return `$${withDfrac}$`;
@@ -56,7 +56,7 @@ export function preprocessLatex(text: string): string {
 
   // 5. Wrap standalone \frac{...}{...} or \dfrac{...}{...} that are not already inside $ or $$
   result = result.replace(
-    /(^|[^\$])(\\d?frac\{[^{}]+\}\{[^{}]+\})([^\$]|$)/g,
+    /(^|[^$])(\\d?frac\{[^{}]+\}\{[^{}]+\})([^$]|$)/g,
     (_, before, frac, after) => `${before}$${frac.replace(/\\frac/g, "\\dfrac")}$${after}`,
   );
 

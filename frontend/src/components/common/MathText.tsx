@@ -25,7 +25,7 @@ export function MathText({ text, className }: MathTextProps) {
 
   // Regex matches $$...$$ (display math) or $...$ (inline math)
   // Non-greedy capture groups
-  const regex = /(\$\$[\s\S]+?\$\$|\$[^\$\n]+?\$)/g;
+  const regex = /(\$\$[\s\S]+?\$\$|\$[^$\n]+?\$)/g;
   const parts = text.split(regex);
 
   return (

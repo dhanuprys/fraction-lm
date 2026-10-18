@@ -1,0 +1,159 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 560" width="100%" height="100%" style="font-family: 'Nunito', 'Segoe UI', Roboto, sans-serif;">
+  <defs>
+    <!-- Drop Shadows -->
+    <filter id="info-shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0f172a" flood-opacity="0.08" />
+    </filter>
+    <filter id="badge-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000" flood-opacity="0.12" />
+    </filter>
+
+    <!-- Gradients -->
+    <linearGradient id="header-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="100%" stop-color="#fde047" />
+    </linearGradient>
+    <linearGradient id="red-panel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fee2e2" />
+      <stop offset="100%" stop-color="#fecaca" />
+    </linearGradient>
+    <linearGradient id="blue-panel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e0f2fe" />
+      <stop offset="100%" stop-color="#bae6fd" />
+    </linearGradient>
+    <linearGradient id="green-banner" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#dcfce7" />
+      <stop offset="100%" stop-color="#bbf7d0" />
+    </linearGradient>
+  </defs>
+
+  <!-- Card Background -->
+  <rect width="760" height="560" rx="24" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+
+  <!-- TOP BANNER (Yellow) -->
+  <g transform="translate(40, 25)">
+    <rect width="680" height="60" rx="18" fill="url(#header-grad)" stroke="#eab308" stroke-width="2" filter="url(#badge-shadow)" />
+    <text x="340" y="26" text-anchor="middle" font-size="15" font-weight="700" fill="#713f12">
+      Kita mengatakannya: <tspan font-weight="900" font-size="17">"Tiga per Delapan"</tspan>
+    </text>
+    <text x="340" y="48" text-anchor="middle" font-size="13" font-weight="600" fill="#854d0e">
+      dan menuliskannya secara singkat dalam bentuk pecahan:
+    </text>
+  </g>
+
+  <!-- ==================== CENTER SECTION ==================== -->
+
+  <!-- Left Explanatory Panel: PEMBILANG (Red) -->
+  <g transform="translate(40, 105)">
+    <rect width="250" height="155" rx="16" fill="url(#red-panel)" stroke="#f87171" stroke-width="2" filter="url(#info-shadow)" />
+    <rect x="16" y="14" width="130" height="28" rx="8" fill="#ef4444" />
+    <text x="81" y="33" text-anchor="middle" font-size="13" font-weight="800" fill="#ffffff">
+      🔴 PEMBILANG
+    </text>
+    <text x="16" y="68" font-size="13" font-weight="800" fill="#991b1b">
+      Angka 3 (di atas)
+    </text>
+    <text x="16" y="92" font-size="12" font-weight="600" fill="#7f1d1d">
+      Menunjukkan <tspan font-weight="800">berapa banyak</tspan>
+    </text>
+    <text x="16" y="110" font-size="12" font-weight="600" fill="#7f1d1d">
+      bagian pizza yang <tspan font-weight="800" fill="#b91c1c">diambil / dimakan</tspan>.
+    </text>
+    <text x="16" y="136" font-size="11" font-weight="700" fill="#dc2626">
+      👉 Ketty memakan 3 potong
+    </text>
+
+    <!-- Arrow from panel to number 3 -->
+    <path d="M 252 75 L 305 75" stroke="#ef4444" stroke-width="3" stroke-linecap="round" marker-end="url(#arrow-red)" />
+    <polygon points="305,75 295,70 295,80" fill="#ef4444" />
+  </g>
+
+  <!-- Left Explanatory Panel: PENYEBUT (Blue) -->
+  <g transform="translate(40, 280)">
+    <rect width="250" height="155" rx="16" fill="url(#blue-panel)" stroke="#38bdf8" stroke-width="2" filter="url(#info-shadow)" />
+    <rect x="16" y="14" width="120" height="28" rx="8" fill="#0284c7" />
+    <text x="76" y="33" text-anchor="middle" font-size="13" font-weight="800" fill="#ffffff">
+      🔵 PENYEBUT
+    </text>
+    <text x="16" y="68" font-size="13" font-weight="800" fill="#0369a1">
+      Angka 8 (di bawah)
+    </text>
+    <text x="16" y="92" font-size="12" font-weight="600" fill="#0c4a6e">
+      Menunjukkan <tspan font-weight="800">seluruh bagian</tspan>
+    </text>
+    <text x="16" y="110" font-size="12" font-weight="600" fill="#0c4a6e">
+      yang <tspan font-weight="800" fill="#0284c7">SAMA BESAR</tspan> dari pizza.
+    </text>
+    <text x="16" y="136" font-size="11" font-weight="700" fill="#0284c7">
+      👉 Pizza dipotong jadi 8
+    </text>
+
+    <!-- Arrow from panel to number 8 -->
+    <path d="M 252 75 L 305 75" stroke="#0284c7" stroke-width="3" stroke-linecap="round" />
+    <polygon points="305,75 295,70 295,80" fill="#0284c7" />
+  </g>
+
+  <!-- Big Central Fraction Display 3/8 -->
+  <g transform="translate(355, 270)">
+    <rect x="-42" y="-140" width="84" height="280" rx="20" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" filter="url(#badge-shadow)" />
+    <!-- Numerator: 3 -->
+    <text x="0" y="-45" text-anchor="middle" font-size="78" font-weight="900" fill="#ef4444">
+      3
+    </text>
+    <!-- Fraction Bar -->
+    <line x1="-30" y1="-5" x2="30" y2="-5" stroke="#1e293b" stroke-width="6" stroke-linecap="round" />
+    <!-- Denominator: 8 -->
+    <text x="0" y="80" text-anchor="middle" font-size="78" font-weight="900" fill="#0284c7">
+      8
+    </text>
+  </g>
+
+  <!-- Right Visual: Pizza Diagram (8 Parts, 3 Highlighted) -->
+  <g transform="translate(570, 270)">
+    <!-- Pizza Outer Plate -->
+    <circle cx="0" cy="0" r="135" fill="#fef3c7" stroke="#f59e0b" stroke-width="3" filter="url(#info-shadow)" />
+    
+    <!-- 8 Slices -->
+    <!-- 3 Highlighted/Taken Slices (Red/Orange slices, 0° to 135°) -->
+    <path d="M 0 0 L 115 0 A 115 115 0 0 1 81.3 81.3 Z" fill="#ef4444" stroke="#ffffff" stroke-width="2.5" />
+    <path d="M 0 0 L 81.3 81.3 A 115 115 0 0 1 0 115 Z" fill="#f87171" stroke="#ffffff" stroke-width="2.5" />
+    <path d="M 0 0 L 0 115 A 115 115 0 0 1 -81.3 81.3 Z" fill="#ef4444" stroke="#ffffff" stroke-width="2.5" />
+
+    <!-- 5 Remaining Slices (Pale yellow) -->
+    <path d="M 0 0 L -81.3 81.3 A 115 115 0 0 1 -115 0 Z" fill="#fde68a" stroke="#ffffff" stroke-width="2.5" />
+    <path d="M 0 0 L -115 0 A 115 115 0 0 1 -81.3 -81.3 Z" fill="#fef08a" stroke="#ffffff" stroke-width="2.5" />
+    <path d="M 0 0 L -81.3 -81.3 A 115 115 0 0 1 0 -115 Z" fill="#fde68a" stroke="#ffffff" stroke-width="2.5" />
+    <path d="M 0 0 L 0 -115 A 115 115 0 0 1 81.3 -81.3 Z" fill="#fef08a" stroke="#ffffff" stroke-width="2.5" />
+    <path d="M 0 0 L 81.3 -81.3 A 115 115 0 0 1 115 0 Z" fill="#fde68a" stroke="#ffffff" stroke-width="2.5" />
+
+    <!-- Slice numbers around edge -->
+    <text x="80" y="42" font-size="12" font-weight="900" fill="#ffffff">1</text>
+    <text x="42" y="80" font-size="12" font-weight="900" fill="#ffffff">2</text>
+    <text x="-42" y="80" font-size="12" font-weight="900" fill="#ffffff">3</text>
+    <text x="-80" y="42" font-size="12" font-weight="800" fill="#92400e">4</text>
+    <text x="-80" y="-38" font-size="12" font-weight="800" fill="#92400e">5</text>
+    <text x="-38" y="-80" font-size="12" font-weight="800" fill="#92400e">6</text>
+    <text x="38" y="-80" font-size="12" font-weight="800" fill="#92400e">7</text>
+    <text x="80" y="-38" font-size="12" font-weight="800" fill="#92400e">8</text>
+
+    <!-- Center pin -->
+    <circle cx="0" cy="0" r="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" />
+
+    <!-- Label above pizza -->
+    <rect x="-85" y="-160" width="170" height="28" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
+    <text x="0" y="-141" text-anchor="middle" font-size="12" font-weight="800" fill="#334155">
+      🍕 3 dari 8 Bagian Berwarna
+    </text>
+  </g>
+
+  <!-- BOTTOM SUMMARY BANNER (Green) -->
+  <g transform="translate(40, 465)">
+    <rect width="680" height="65" rx="18" fill="url(#green-banner)" stroke="#4ade80" stroke-width="2" filter="url(#badge-shadow)" />
+    <text x="340" y="28" text-anchor="middle" font-size="15" font-weight="800" fill="#14532d">
+      ✅ KESIMPULAN KONSEP:
+    </text>
+    <text x="340" y="49" text-anchor="middle" font-size="13" font-weight="700" fill="#166534">
+      Pecahan <tspan font-weight="900" font-size="15" fill="#15803d">3/8</tspan> berarti kita mengambil <tspan font-weight="900" fill="#dc2626">3</tspan> dari <tspan font-weight="900" fill="#0284c7">8 bagian yang sama besar</tspan> dari sebuah pizza.
+    </text>
+  </g>
+</svg>

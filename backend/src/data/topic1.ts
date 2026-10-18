@@ -208,6 +208,10 @@ export const topic1 =
 									'Siswa dapat menghitung jumlah bagian yang dimakan dari gambar.',
 								questionType: 'numeric',
 								questionUi: doc(
+									heading(
+										3,
+										'Aktivitas 1.1a: Menghitung Bagian Pizza Ketty',
+									),
 									p(
 										'Rini memiliki dua anak kucing bernama Ketty dan Ochan. Mereka suka makan pizza. Perhatikan gambar pizza Ketty dan Ochan di bawah ini!',
 									),
@@ -257,6 +261,10 @@ export const topic1 =
 									'Siswa dapat mengevaluasi pernyataan tentang pecahan berdasarkan konteks cerita pizza.',
 								questionType: 'true_false_table',
 								questionUi: doc(
+									heading(
+										3,
+										'Aktivitas 1.1b: Evaluasi Perbandingan Porsi Pizza Ketty dan Ochan',
+									),
 									p(
 										'Ketty dan Ochan masing-masing memakan pizza. ',
 										'Ketty memakan 3 potong dari 8 potong pizza. ',
@@ -324,6 +332,10 @@ export const topic1 =
 									'Siswa dapat memahami notasi pecahan dan mengevaluasi kebenaran pernyataan tentang pecahan pizza Ochan.',
 								questionType: 'true_false_table',
 								questionUi: doc(
+									heading(
+										3,
+										'Aktivitas 1.1c: Notasi Pecahan dan Porsi Pizza Ochan',
+									),
 									p(
 										'Mari kita pelajari cara menuliskan bagian pizza Ketty dan Ochan dalam bentuk pecahan:',
 									),
@@ -402,7 +414,7 @@ export const topic1 =
 								questionUi: doc(
 									heading(
 										3,
-										'Aktivitas 1.2 — Tuliskan Pecahan-Pecahan Berikut:',
+										'Aktivitas 1.2: Membaca dan Menuliskan Lambang Pecahan',
 									),
 									p(
 										'Perhatikan setiap butir soal di bawah ini. Tuliskan pecahan pada kotak pecahan atau sebutkan pembilang dan penyebutnya sesuai yang diminta.',
@@ -487,6 +499,10 @@ export const topic1 =
 									'Siswa dapat menentukan apakah potongan yang tidak sama besar bisa disebut pecahan.',
 								questionType: 'true_false_table',
 								questionUi: doc(
+									heading(
+										3,
+										'Aktivitas 1.3: Pembagian Pizza Pius (Syarat Bagian Sama Besar)',
+									),
 									p(
 										'Pius membeli sebuah pizza untuk dirinya dan dua saudaranya. ' +
 											'Ibunya berkata: "Potonglah pizza itu sedemikian rupa sehingga setiap orang mendapatkan sepertiga bagian."',
@@ -573,7 +589,7 @@ export const topic1 =
 								questionUi: doc(
 									heading(
 										3,
-										'Aktivitas 1.4 — Bidang Pertama',
+										'Aktivitas 1.4: Mewarnai Grid 100 Persegi (Bidang Pertama)',
 									),
 									p(
 										'Kotak-kotak berikut dibagi menjadi 100 persegi yang sama besar. ',
@@ -663,7 +679,10 @@ export const topic1 =
 									'Siswa dapat mewarnai bagian dari grid 100 kotak sesuai pecahan yang ditentukan (bidang kedua).',
 								questionType: 'grid_coloring',
 								questionUi: doc(
-									heading(3, 'Aktivitas 1.4 — Bidang Kedua'),
+									heading(
+										3,
+										'Aktivitas 1.4: Mewarnai Grid 100 Persegi (Bidang Kedua)',
+									),
 									p(bold('Warnailah pada bidang kedua:')),
 									bulletList(
 										'$\\frac{25}{100}$ dengan warna merah',
@@ -751,7 +770,7 @@ export const topic1 =
 								questionUi: doc(
 									heading(
 										3,
-										'Tulislah berapa bagian yang diarsir dari keseluruhan bidang!',
+										'Aktivitas 1.5: Menentukan Bagian Pecahan yang Diarsir',
 									),
 									p(
 										'Tulislah berapa bagian yang diarsir dari keseluruhan bidang yang berbentuk persegi panjang maupun lingkaran.',
@@ -907,10 +926,10 @@ export const topic1 =
 								questionUi: doc(
 									heading(
 										3,
-										'Aktivitas 1.6 — Warnailah $\\frac{1}{6}$ bagian dari kotak di bawah ini!',
+										'Aktivitas 1.6: Penalaran Pecahan Senilai pada Grid 12 Kotak',
 									),
 									p(
-										'Kotak di bawah terdiri dari 12 kotak kecil yang sama besar. Perhatikan percakapan antara Elsa dan Ivon ketika melihat soal ini:',
+										'Warnailah $\\frac{1}{6}$ bagian dari kotak di bawah ini! Perhatikan percakapan antara Elsa dan Ivon ketika melihat soal ini:',
 									),
 									image(
 										'/images/topic1/grid_12_pairs_ivon.svg',
@@ -976,11 +995,11 @@ export const topic1 =
 								questionUi: doc(
 									heading(
 										3,
-										'Aktivitas 1.7 — Arsirlah $\\frac{5}{8}$ bagian dari bidang di bawah ini!',
+										'Aktivitas 1.7: Mengarsir Pecahan pada Bidang 24 Kotak',
 									),
 									p(
 										'Bidang di bawah terdiri dari 24 kotak kecil yang sama besar. ' +
-											'Arsirlah kotak-kotak sehingga menunjukkan pecahan $\\frac{5}{8}$.',
+											'Arsirlah $\\frac{5}{8}$ bagina dari bidang di bawah ini!',
 									),
 								),
 								answerConfig: {

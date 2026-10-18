@@ -164,11 +164,7 @@ export function serializeFractionOrdering(
 // ─── Dispatcher ─────────────────────────────────────────────────────────────
 // Convenience function to serialize any widget value based on question type.
 
-export function serializeAnswer(
-  questionType: string,
-  answerConfig: any,
-  widgetValue: any,
-): string {
+export function serializeAnswer(questionType: string, answerConfig: any, widgetValue: any): string {
   switch (questionType) {
     case "true_false_table":
       return serializeTrueFalseTable(answerConfig?.statements || [], widgetValue || {});
@@ -182,7 +178,7 @@ export function serializeAnswer(
         numerator: widgetValue?.[i]?.numerator ?? null,
         denominator: widgetValue?.[i]?.denominator ?? null,
       }));
-      return serializeFractionInput(mergedFields.length > 0 ? mergedFields : (widgetValue || []));
+      return serializeFractionInput(mergedFields.length > 0 ? mergedFields : widgetValue || []);
     }
 
     case "grid_coloring":

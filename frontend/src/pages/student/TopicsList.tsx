@@ -20,7 +20,32 @@ export default function TopicsList() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const loadData = () => {
+  useEffect(() => {
+    let ignore = false;
+    studentApi
+      .getTopics()
+      .then((res) => {
+        if (ignore) return;
+        if (res.data?.topics) {
+          setTopics(res.data.topics);
+        } else {
+          setError("Gagal memuat data topik.");
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        if (ignore) return;
+        console.error(err);
+        setError("Koneksi jaringan bermasalah. Gagal memuat daftar topik.");
+        setLoading(false);
+      });
+
+    return () => {
+      ignore = true;
+    };
+  }, []);
+
+  const handleRetry = () => {
     setLoading(true);
     setError(null);
     studentApi
@@ -40,10 +65,6 @@ export default function TopicsList() {
       });
   };
 
-  useEffect(() => {
-    loadData();
-  }, []);
-
   return (
     <Stack gap={6}>
       <Stack gap={2}>
@@ -60,7 +81,7 @@ export default function TopicsList() {
       ) : error ? (
         <Stack gap={3} align="start">
           <ErrorNote>{error}</ErrorNote>
-          <Button onClick={loadData} tone="purple">
+          <Button onClick={handleRetry} tone="purple">
             Coba Lagi
           </Button>
         </Stack>

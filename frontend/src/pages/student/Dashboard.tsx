@@ -26,7 +26,33 @@ export default function Dashboard() {
   const [error, setError] = useState<string | null>(null);
   const [activeId, setActiveId] = useState("");
 
-  const loadData = () => {
+  useEffect(() => {
+    let ignore = false;
+    studentApi
+      .getDashboard()
+      .then((res) => {
+        if (ignore) return;
+        if (res.data?.dashboard) {
+          setData(res.data.dashboard);
+          setActiveId(res.data.dashboard.activeId);
+        } else {
+          setError("Gagal memuat data dashboard.");
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        if (ignore) return;
+        console.error(err);
+        setError("Koneksi jaringan bermasalah. Gagal memuat dashboard.");
+        setLoading(false);
+      });
+
+    return () => {
+      ignore = true;
+    };
+  }, []);
+
+  const handleRetry = () => {
     setLoading(true);
     setError(null);
     studentApi
@@ -46,10 +72,6 @@ export default function Dashboard() {
         setLoading(false);
       });
   };
-
-  useEffect(() => {
-    loadData();
-  }, []);
 
   const active = useMemo(() => {
     if (!data) return null;
@@ -76,7 +98,7 @@ export default function Dashboard() {
     return (
       <Stack gap={5} align="start">
         <ErrorNote>{error}</ErrorNote>
-        <Button onClick={loadData} tone="purple">
+        <Button onClick={handleRetry} tone="purple">
           Coba Lagi
         </Button>
       </Stack>

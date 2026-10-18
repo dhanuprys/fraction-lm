@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 400" width="100%" height="100%">
+  <defs>
+    <filter id="gridShadow" x="-10%" y="-10%" width="125%" height="125%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#0f172a" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <!-- Background Card -->
+  <rect width="520" height="400" fill="#f8fafc" rx="16"/>
+
+  <!-- Outer Frame -->
+  <g transform="translate(40, 30)" filter="url(#gridShadow)">
+    <rect x="0" y="0" width="440" height="330" rx="8" fill="#ffffff" stroke="#1e293b" stroke-width="3"/>
+
+    <!-- 12 Equal Square Cells: 3 Rows x 4 Columns (Each cell 110 x 110) -->
+
+    <!-- ROW 1 (Top): 2 Orange cells + 2 Blue cells -->
+    <!-- Cell (0,0): Orange -->
+    <rect x="0" y="0" width="110" height="110" fill="#f97316" stroke="#1e293b" stroke-width="2"/>
+    <!-- Cell (0,1): Orange -->
+    <rect x="110" y="0" width="110" height="110" fill="#f97316" stroke="#1e293b" stroke-width="2"/>
+    <!-- Cell (0,2): Blue -->
+    <rect x="220" y="0" width="110" height="110" fill="#3b82f6" stroke="#1e293b" stroke-width="2"/>
+    <!-- Cell (0,3): Blue -->
+    <rect x="330" y="0" width="110" height="110" fill="#3b82f6" stroke="#1e293b" stroke-width="2"/>
+
+    <!-- ROW 2 (Middle): 2 Gray cells + 2 Bright Cyan cells -->
+    <!-- Cell (1,0): Gray -->
+    <rect x="0" y="110" width="110" height="110" fill="#94a3b8" stroke="#1e293b" stroke-width="2"/>
+    <!-- Cell (1,1): Gray -->
+    <rect x="110" y="110" width="110" height="110" fill="#94a3b8" stroke="#1e293b" stroke-width="2"/>
+    <!-- Cell (1,2): Bright Cyan -->
+    <rect x="220" y="110" width="110" height="110" fill="#06b6d4" stroke="#1e293b" stroke-width="2"/>
+    <!-- Cell (1,3): Bright Cyan -->
+    <rect x="330" y="110" width="110" height="110" fill="#06b6d4" stroke="#1e293b" stroke-width="2"/>
+
+    <!-- ROW 3 (Bottom): 2 Green cells + 2 Yellow cells -->
+    <!-- Cell (2,0): Green -->
+    <rect x="0" y="220" width="110" height="110" fill="#22c55e" stroke="#1e293b" stroke-width="2"/>
+    <!-- Cell (2,1): Green -->
+    <rect x="110" y="220" width="110" height="110" fill="#22c55e" stroke="#1e293b" stroke-width="2"/>
+    <!-- Cell (2,2): Yellow -->
+    <rect x="220" y="220" width="110" height="110" fill="#facc15" stroke="#1e293b" stroke-width="2"/>
+    <!-- Cell (2,3): Yellow -->
+    <rect x="330" y="220" width="110" height="110" fill="#facc15" stroke="#1e293b" stroke-width="2"/>
+
+    <!-- Outer Border Re-emphasis -->
+    <rect x="0" y="0" width="440" height="330" fill="none" stroke="#1e293b" stroke-width="3" rx="8"/>
+  </g>
+</svg>
