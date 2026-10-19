@@ -39,6 +39,8 @@ export interface TrueFalseTableConfig {
 export interface FractionInputConfig {
 	fields: Array<{
 		prompt: string;
+		mode?: 'fraction' | 'identify';
+		displayFraction?: { numerator: number; denominator: number };
 		/** Pre-filled values (read-only); null = blank for student to fill */
 		prefilled?: { numerator?: number; denominator?: number };
 	}>;
@@ -73,7 +75,7 @@ export interface MultipleChoiceConfig {
 export interface FractionIdentifyConfig {
 	/** Each diagram the student must identify a fraction for */
 	diagrams: Array<{
-		type: 'rectangle' | 'circle';
+		type: 'rectangle' | 'circle' | 'diagonal_rectangle';
 		/** Total equal-sized divisions */
 		totalParts: number;
 		/** 0-indexed list of shaded part indices */
@@ -196,8 +198,8 @@ export type AnswerConfig =
 export interface EvaluationParameters {
 	expected_answer_keywords: string[];
 	common_misconceptions?: string[];
-	strictness_level: 'lenient' | 'medium' | 'strict';
-	hints: string[];
+	strictness_level: 'lenient' | 'medium' | 'moderate' | 'strict';
+	hints?: string[];
 	/** For true_false_table: expected truth value per row, indexed from 0 */
 	expected_row_answers?: boolean[];
 	/** For fraction_comparison: expected operator per row ('>' | '<' | '=') */
@@ -218,7 +220,7 @@ export interface EvaluationParameters {
 
 export interface QuestionSeedData {
 	learningObjective: string;
-	questionType: QuestionType;
+	questionType?: QuestionType;
 	/** TipTap AST for the visual question display */
 	questionUi: unknown;
 	/** Widget configuration — drives the interactive answer UI */
