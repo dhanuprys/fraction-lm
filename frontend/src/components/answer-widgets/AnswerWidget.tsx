@@ -12,6 +12,11 @@ import { ColorableGrid } from "./ColorableGrid";
 import { FractionIdentify } from "./FractionIdentify";
 import { FractionComparison } from "./FractionComparison";
 import { FractionOrdering } from "./FractionOrdering";
+import { FractionClassification } from "./FractionClassification";
+import { FractionExpansion } from "./FractionExpansion";
+import { PizzaSliceMarker } from "./PizzaSliceMarker";
+import { FractionEquivalence } from "./FractionEquivalence";
+import { SentenceCompletion } from "./SentenceCompletion";
 import { NumericInput } from "./NumericInput";
 import { MultipleChoice } from "./MultipleChoice";
 
@@ -93,6 +98,56 @@ export function AnswerWidget({
         <FractionOrdering
           config={answerConfig}
           value={value || []}
+          onChange={onChange}
+          disabled={disabled}
+        />
+      );
+
+    case "fraction_classification":
+      return (
+        <FractionClassification
+          config={answerConfig}
+          value={value || {}}
+          onChange={onChange}
+          disabled={disabled}
+        />
+      );
+
+    case "fraction_expansion":
+      return (
+        <FractionExpansion
+          config={answerConfig}
+          value={value || {}}
+          onChange={onChange}
+          disabled={disabled}
+        />
+      );
+
+    case "pizza_slice_marker":
+      return (
+        <PizzaSliceMarker
+          config={answerConfig}
+          value={value || {}}
+          onChange={onChange}
+          disabled={disabled}
+        />
+      );
+
+    case "fraction_equivalence":
+      return (
+        <FractionEquivalence
+          config={answerConfig}
+          value={value || {}}
+          onChange={onChange}
+          disabled={disabled}
+        />
+      );
+
+    case "sentence_completion":
+      return (
+        <SentenceCompletion
+          config={answerConfig}
+          value={value || {}}
           onChange={onChange}
           disabled={disabled}
         />

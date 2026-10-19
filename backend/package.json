@@ -9,7 +9,8 @@
 		"format": "biome format --write .",
 		"contract:emit": "prisma contract emit",
 		"create-admin": "bun run src/scripts/create-admin.ts",
-		"seed": "bun run src/scripts/seed.ts"
+		"seed": "bun run src/scripts/seed.ts",
+		"seed:validators": "bun run src/scripts/seed-validators.ts"
 	},
 	"dependencies": {
 		"@ai-sdk/deepseek": "^3.0.54",

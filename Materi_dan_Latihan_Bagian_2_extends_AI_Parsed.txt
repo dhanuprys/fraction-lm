@@ -1,0 +1,290 @@
+DOCUMENT_METADATA
+=================
+SOURCE_FILE: Bagian 3_2026-10-16_Material und Aufgaben.docx
+DOCUMENT_LANGUAGE: Indonesian
+TOPIC: Bilangan Pecahan
+TOPIC_TITLE_SOURCE: Topik 3: Pecahan Sejati Dan Tidak Sejati, Pecahan Yang Setara, Penyederhanaan, Dan Perluasan
+OUTPUT_FORMAT: AI-readable plain text
+
+CONTENT_PRESERVATION_RULES
+==========================
+- The original Indonesian instructional text and questions are retained in Indonesian.
+- English is used for image descriptions, question-type labels, and suggested digital-interaction metadata only.
+- Source spelling and phrasing irregularities are retained rather than silently corrected, including "Aktivitaas 3.1", "Tunjukanlah!", and spacing irregularities in the source.
+- Fraction notation has been restored from the rendered page images when the Word text extraction omitted embedded equation objects. The fractions below are transcriptions of what is visibly displayed, not answers added by the editor.
+- Empty response areas remain empty. No exercise answers are supplied.
+- Suggested digital interactions are implementation metadata, not original author instructions.
+- The DOCX render contains a mostly blank page numbered 3 between the content on pages 2 and 4. It shows a horizontal line and page number but no identifiable educational prompt or illustration. This layout artifact is recorded here and is not treated as a missing activity.
+- On the final page, small red printed glyphs resembling "¿" appear around the multiplier blanks and near an equality statement. Their intended function is unclear; this export flags them rather than interpreting or replacing them.
+
+
+SOURCE PAGE / ACTIVITY 3.1
+=========================
+SOURCE_PAGE_LABEL: 1
+SOURCE_HEADING_VERBATIM: Tema: Bilangan Pecahan
+SOURCE_TOPIC_TITLE_VERBATIM: Topik 3: Pecahan Sejati Dan Tidak Sejati, Pecahan Yang Setara, Penyederhanaan, Dan Perluasan
+SOURCE_ACTIVITY_HEADING_VERBATIM: Aktivitaas 3.1
+
+SOURCE_TEXT_VERBATIM:
+Tandailah 4/8 dari Pizza sebelah kiri dan 2/4 dari Pizza sebelah kanan.
+
+[image: A real-life photograph of two pizzas positioned side by side inside an open cardboard pizza box. The pizza on the left has visible cut lines dividing it into eight wedge-like pieces; the pizza on the right has visible cut lines dividing it into four larger pieces. The toppings and crust are realistic, and there is no added digital color overlay. This visual is used with the source instruction to mark 4/8 of the left pizza and 2/4 of the right pizza.]
+
+Kamu dapat melihat bahwa bagian yang ditandai pada kedua pizza memiliki ukuran yang sama.
+
+Dalam penulisan matematika secara singkat:
+2/4 = 4/8
+
+Hal ini dapat dibayangkan sebagai berikut:
+Saya memotong sebuah pizza menjadi 4 bagian yang sama besar. Dari keempat bagian tersebut, saya mengambil 2 bagian. Pada langkah berikutnya, saya membagi setiap potongan menjadi bagian yang lebih kecil. Masing-masing dari 4 bagian tadi dipotong lagi menjadi 2 bagian. Dengan demikian, pizza tersebut sekarang terbagi menjadi 8 bagian yang sama besar.
+
+Dua potong pizza yang sebelumnya merupakan 2 dari 4 bagian, kini menjadi 4 potong yang lebih kecil dari total 8 bagian.
+
+Dalam matematika, pecahan 2/4 dan 4/8 disebut pecahan senilai, yaitu dua pecahan yang memiliki nilai yang sama meskipun pembilang dan penyebutnya berbeda.
+
+QUESTION_TYPE:
+- Mark/select portions on a visual model.
+- Read or recognize an equivalence statement.
+
+SUGGESTED_DIGITAL_INTERACTION:
+- Show the two source pizza images side by side.
+- Let the learner mark/select pizza slices on the left and right images according to the original instruction.
+- Do not pre-mark the learner's selection. Keep the left/right pizza identities clear.
+- The displayed equation can be static explanatory text, not a new question.
+
+
+SOURCE PAGE / ACTIVITY 3.2
+=========================
+SOURCE_PAGE_LABEL: 2
+SOURCE_ACTIVITY_HEADING_VERBATIM: Aktivitas 3.2
+
+SOURCE_TEXT_VERBATIM:
+Dapatkah kamu menyebutkan pecahan lain yang setara dengan 2/4?
+
+Lengkapilah:
+
+2/4 dan _______ adalah pecahan senilai. Dalam penulisan matematika secara singkat::
+______________________
+
+1/3 dan _______ adalah pecahan senilai. Dalam penulisan matematika secara singkat::
+______________________
+
+1/2 dan _______ adalah pecahan senilai. Dalam penulisan matematika secara singkat::
+______________________
+
+2/2 dan _______ adalah pecahan senilai. Dalam penulisan matematika secara singkat::
+______________________
+
+QUESTION_TYPE:
+- Four fill-in-the-blank fraction-equivalence items.
+- Each item has a blank for another equivalent fraction and a separate blank for short mathematical notation.
+
+SUGGESTED_DIGITAL_INTERACTION:
+- For each of the four rows, provide one fraction input and one mathematical-expression input.
+- A fraction input may be represented as numerator and denominator fields or a single fraction field.
+- Keep the four items separate and in the original order.
+
+
+SOURCE PAGE / ACTIVITY 3.3
+=========================
+SOURCE_PAGE_LABEL: 2
+SOURCE_ACTIVITY_HEADING_VERBATIM: Aktivitas 3.3
+
+SOURCE_TEXT_VERBATIM:
+Mince: Sejauh ini, pembilang suatu pecahan selalu lebih kecil daripada penyebutnya.
+Saya tidak dapat membayangkan pecahan 1/1. Apakah pecahan seperti itu benar-benar ada? Bagaimana saya harus memotong pizza agar dapat menunjukkan bagian sebesar 1/1 tersebut?
+
+Tulislah jawaban untuk Mince dan gambarlah bagian 1/1 dari pizza berikut!
+
+[image: A single whole round pizza photographed from above, with visible toppings such as tomato, olives, vegetables, and cheese. The pizza is not visibly cut into slices and has no shaded fraction or overlay. It is placed below the prompt as the visual model on which the learner is asked to represent 1/1.]
+
+Tuliskan tiga pecahan yang senilai dengan 1/1!
+___________________________________________________________________________
+
+QUESTION_TYPE:
+- Open-ended written explanation addressed to Mince.
+- Draw or annotate a fraction model on a pizza image.
+- Generate three equivalent fractions in a written response.
+
+SUGGESTED_DIGITAL_INTERACTION:
+- Provide a short-text response for the explanation.
+- Provide a drawing canvas over the whole-pizza image, allowing the learner to add partition lines or annotations.
+- Provide three fraction-entry fields for the final prompt.
+- Leave the pizza uncut and unshaded at the start.
+
+
+SOURCE LAYOUT NOTE: BLANK PAGE NUMBERED 3
+=======================================
+The rendered Word document contains a mostly blank page numbered 3 between the page-2 content and the page-4 content. A horizontal line is visible near the top, with no identifiable educational text, question, or instructional image. Do not generate an activity from this blank page.
+
+
+SOURCE PAGE / ACTIVITY 3.4
+=========================
+SOURCE_PAGE_LABEL: 4
+SOURCE_ACTIVITY_HEADING_VERBATIM: Aktivitas  3.4
+
+SOURCE_TEXT_VERBATIM:
+Mince : Sekarang saya sudah memahaminya. Ada pecahan yang pembilangnya lebih kecil daripada penyebutnya. Ada juga pecahan yang pembilang dan penyebutnya sama besar. Namun, apakah pembilang suatu pecahan juga bisa lebih besar daripada penyebutnya? Saya dapat membayangkan 2/4 pizza, yaitu 2 potong pizza dari satu pizza yang dibagi menjadi 4 bagian sama besar. Namun, bagaimana saya harus membayangkan 4/2 pizza?
+
+Olif : Pertama, perhatikan penyebutnya. Angka 2 berarti satu pizza dipotong menjadi dua bagian yang sama besar. Pembilang menunjukkan berapa banyak bagian yang dimaksud. Dalam hal ini, jumlahnya adalah 4 bagian.
+
+Gambarlah 4/2 Pizza!
+
+[image: The source provides a large blank drawing area beneath the instruction, with no pre-drawn pizza illustration in that space. Preserve an empty canvas for the learner to draw a representation of 4/2 pizza; do not pre-fill the drawing.]
+
+Pecahan yang pembilangnya lebih kecil daripada penyebutnya disebut pecahan sejati. Pecahan sejati selalu lebih kecil daripada satu bilangan bulat utuh.
+
+Pecahan yang pembilangnya lebih besar daripada penyebutnya disebut pecahan tidak sejati. Pecahan tidak sejati selalu lebih besar daripada satu bilangan bulat utuh.
+
+QUESTION_TYPE:
+- Open-ended visual drawing task.
+- Read-and-understand conceptual dialogue.
+
+SUGGESTED_DIGITAL_INTERACTION:
+- Provide a blank drawing canvas beneath the original prompt.
+- Optionally allow the learner to add pizza outlines and partition lines with a drawing tool; do not show a completed representation before the learner responds.
+- Keep the definition paragraphs as source explanation, not as additional answer fields.
+
+
+SOURCE PAGE / ACTIVITY 3.5
+=========================
+SOURCE_PAGE_LABEL: 5
+SOURCE_ACTIVITY_HEADING_VERBATIM: Aktivitas  3.5
+
+SOURCE_TEXT_VERBATIM:
+Tandailah semua pecahan sejati dengan warna biru dan semua pecahan tidak sejati dengan warna merah.
+
+[image: Six fraction expressions are printed as standalone mathematical objects in a loose two-row arrangement. The top row contains 5/4, 0/2, and 8/5. The lower row contains 6/2, 3/2, and 10/11. There are no printed answer boxes next to the fractions in the source layout.]
+
+FRACTIONS_IN_SOURCE_ORDER:
+1. 5/4
+2. 0/2
+3. 8/5
+4. 6/2
+5. 3/2
+6. 10/11
+
+QUESTION_TYPE:
+- Six-item classification.
+- Color coding: blue for pecahan sejati and red for pecahan tidak sejati, according to the original instruction.
+
+SUGGESTED_DIGITAL_INTERACTION:
+- Make each fraction selectable and let the learner assign a blue or red color label.
+- A two-color palette or two labeled choices can be used; no answer should be preselected.
+- Preserve the six source fractions and do not reorder them.
+
+
+SOURCE PAGE / ACTIVITY 3.6
+=========================
+SOURCE_PAGE_LABEL: 5
+SOURCE_ACTIVITY_HEADING_VERBATIM: Aktivitas  3.6
+
+SOURCE_TEXT_VERBATIM:
+Bandingkan 8/9 dan 7/6. Lengkapilah!
+
+Pada bilangan pecahan 8/9, pembilang lebih ______ daripada penyebut. Jadi, pecahan tersebut merupakan pecahan ______. 8/9 selalu ______daripada satu kesatuan
+
+Pada bilangan pecahan 7/6, pembilang lebih ______ daripada penyebut. Jadi, pecahan tersebut merupakan pecahan ______. Dengan demikian, pecahan 7/6 ______ daripada satu kesatuan.
+
+Dalam notasi matematika singkat: _______ < 1 < _______
+
+Jadi, ______ < _______
+
+Kita telah mempelajari melalui contoh pecahan 4/8 dan 2/4bagaimana cara membandingkan pecahan yang memiliki pembilang dan penyebut berbeda.
+
+Untuk itu, kita membagi dua lagi setiap bagian seperempat sehingga menjadi bagian-bagian yang lebih kecil, yaitu seperdelapan. Kita menemukan bahwa:
+
+4/8 = 2/4
+
+QUESTION_TYPE:
+- Compare two fractions.
+- Complete sentence blanks about numerator versus denominator and fraction classification.
+- Complete a mathematical inequality with fraction expressions.
+- Read an explanatory equivalence statement.
+
+SUGGESTED_DIGITAL_INTERACTION:
+- Use inline text fields or choice fields for the sentence blanks.
+- Use fraction-expression fields for the inequality blanks.
+- Keep the explanatory paragraphs and displayed equation as informational content, separate from the answer inputs.
+
+SOURCE_FIDELITY_NOTE:
+- The source has no space between "2/4" and "bagaimana" in the sentence "Kita telah mempelajari melalui contoh pecahan 4/8 dan 2/4bagaimana cara membandingkan pecahan yang memiliki pembilang dan penyebut berbeda." This spacing is retained as seen in the source.
+
+
+SOURCE PAGE / ACTIVITY 3.7
+=========================
+SOURCE_PAGE_LABEL: 6
+SOURCE_ACTIVITY_HEADING_VERBATIM: Aktivitas 3.7
+
+SOURCE_TEXT_VERBATIM:
+Lakukan kegiatan di atas untuk kedua pecahan yang senilai, yaitu 1/2 dan 2/4.
+Tunjukanlah!
+
+[image: Two identical whole pizzas are shown side by side. Both are photographed from above with toppings visible and no clear slice divisions, shading, or colored overlays. They serve as two blank visual models for the learner to show the equivalent fractions 1/2 and 2/4.]
+
+Jika kita ingin menjelaskan langkah-langkah ini tanpa menggambar dan memotong pizza, kita bisa menuliskannya dengan cara berikut.
+
+Kita mulai dengan satu potong pizza yang dibagi menjadi dua bagian sama besar: 1/2.
+
+Kita membagi pecahan ini menjadi bagian yang lebih kecil dengan cara mengalikan pembilang dan penyebutnya dengan 2.
+
+Displayed mathematical expression:
+(1 × 2) / (2 × 2)
+
+Jika hasil perkaliannya dihitung, kita mendapatkan pecahan 2/4
+
+Nilai pecahannya tetap sama. Jadi, 1/2 = [red printed glyph resembling "¿" in the rendered source] 2/4
+
+Cara ini memiliki nama, yaitu Memperluas Pecahan, atau mengalikan pembilang dan penyebut dengan bilangan yang sama.
+
+QUESTION_TYPE:
+- Draw or annotate two visual fraction models.
+- Demonstrate equivalent fractions by dividing and marking portions.
+- Read a worked symbolic example of expanding a fraction.
+
+SUGGESTED_DIGITAL_INTERACTION:
+- Overlay a drawing canvas on each of the two uncut pizza images.
+- Allow the learner to add partition lines and mark the portions on each pizza.
+- Keep the written multiplication expression and explanation as instructional content.
+- Preserve the unclear red source glyph as a source-fidelity note; do not use it as a new interaction control unless the author clarifies its intended role.
+
+
+SOURCE PAGE / ACTIVITY 3.8
+=========================
+SOURCE_PAGE_LABEL: 7
+SOURCE_ACTIVITY_HEADING_VERBATIM: Aktivitas  3.8
+
+SOURCE_TEXT_VERBATIM:
+Dengan bilangan berapa pembilang dan penyebut pecahan harus dikalikan? Lengkapilah!
+
+1. 2/5 = [red printed glyph resembling "¿"] __________________ [red printed glyph resembling "¿"] 4/10
+2. 3/7 = [red printed glyph resembling "¿"] ___________________ [red printed glyph resembling "¿"] 12/28
+3. 1/3 = [red printed glyph resembling "¿"] ____________________ [red printed glyph resembling "¿"] 4/12
+
+SOURCE_VISUAL_NOTE:
+- The source renders small red glyphs resembling "¿" immediately after the equals sign and immediately before the target fraction on each line. Their intended role is unclear from the source. The export records their appearance without deciding that they are multiplication signs, question marks, or other operators.
+
+QUESTION_TYPE:
+- Three equation-completion items.
+- Numeric response: identify the multiplier used on both numerator and denominator to obtain the displayed equivalent fraction.
+
+SUGGESTED_DIGITAL_INTERACTION:
+- Provide one numeric answer field for each line, positioned in the original blank area.
+- Keep the starting and target fractions visible: 2/5 and 4/10; 3/7 and 12/28; 1/3 and 4/12.
+- Do not prefill the multiplier.
+- The red source glyphs are a fidelity issue, not a defined UI control, unless clarified by the author.
+
+
+COMPLETENESS AUDIT
+==================
+- Topic title and source heading: included.
+- Aktivitaas 3.1: both pizza fractions, photo description, equivalence notation, and all explanation paragraphs included.
+- Aktivitas 3.2: the opening question and all four equivalent-fraction rows included.
+- Aktivitas 3.3: Mince's statements, 1/1 prompt, whole-pizza image description, and three-equivalent-fractions prompt included.
+- Blank rendered page numbered 3: recorded as a layout artifact; no exercise invented.
+- Aktivitas 3.4: both Mince and Olif dialogue turns, 4/2 drawing instruction, blank drawing area, and both definitions included.
+- Aktivitas 3.5: color instruction and all six displayed fractions included in source order.
+- Aktivitas 3.6: both fractions, all text blanks, both inequality templates, the source paragraph, and 4/8 = 2/4 included.
+- Aktivitas 3.7: 1/2 and 2/4 drawing prompt, both-pizza image description, explanatory paragraphs, multiplication expression, 2/4 result, and source glyph note included.
+- Aktivitas 3.8: all three fraction pairs and the unclear red glyphs around each blank noted.
+- No answers supplied.

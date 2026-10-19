@@ -19,6 +19,11 @@ export type QuestionType =
 	| 'fraction_identify' // Look at diagram, write the fraction
 	| 'fraction_comparison' // Pick >, <, or = between fraction pairs
 	| 'fraction_ordering' // Order fractions with drag-and-drop / sortable cards
+	| 'fraction_classification' // Classify fractions into colored category badges/pills
+	| 'fraction_expansion' // Fill multiplier numbers in fraction expansion equations
+	| 'pizza_slice_marker' // Mark/select slices on interactive pizza models
+	| 'fraction_equivalence' // Complete equivalent fractions and short mathematical notation
+	| 'sentence_completion' // Fill sentence blanks and inequality reasoning
 	| 'grid_coloring' // Color cells in an N×M grid
 	| 'numeric' // Single number input
 	| 'multiple_choice'; // Select one option from choices
@@ -100,6 +105,75 @@ export interface FractionOrderingConfig {
 	instruction?: string;
 }
 
+export interface FractionClassificationConfig {
+	/** Each fraction to classify */
+	items: Array<{
+		prompt?: string;
+		/** Fraction string, e.g. "5/4" */
+		fraction: string;
+	}>;
+	/** Available categories (e.g. Sejati (Biru), Tidak Sejati (Merah)) */
+	categories: Array<{
+		key: string;
+		label: string;
+		badge?: string;
+		color?: 'blue' | 'red' | 'green' | 'purple' | 'amber';
+	}>;
+}
+
+export interface FractionExpansionConfig {
+	/** Each expansion equation with unknown multiplier */
+	items: Array<{
+		prompt?: string;
+		/** Left starting fraction, e.g. "2/5" */
+		originalFraction: string;
+		/** Right expanded fraction, e.g. "4/10" */
+		targetFraction: string;
+	}>;
+}
+
+export interface PizzaSliceMarkerConfig {
+	pizzas: Array<{
+		label: string;
+		totalSlices: number;
+		targetFraction?: string;
+		helperText?: string;
+	}>;
+	instruction?: string;
+}
+
+export interface FractionEquivalenceConfig {
+	items: Array<{
+		baseFraction: string;
+		prompt?: string;
+	}>;
+}
+
+export interface SentenceCompletionConfig {
+	sections: Array<{
+		title: string;
+		badge?: string;
+		fractionMath?: string;
+		blanks: Array<{
+			id: string;
+			prefix?: string;
+			suffix?: string;
+			options: Array<{ value: string; label: string }>;
+			placeholder?: string;
+		}>;
+	}>;
+	inequalityCard?: {
+		title: string;
+		chainPrompt: string;
+		leftSlot: { id: string; placeholder?: string; options: string[] };
+		rightSlot: { id: string; placeholder?: string; options: string[] };
+		conclusionPrompt: string;
+		conclusionLeftSlot: { id: string; options: string[] };
+		conclusionOperator?: string;
+		conclusionRightSlot: { id: string; options: string[] };
+	};
+}
+
 // ─── Union ──────────────────────────────────────────────────────────────────
 
 export type AnswerConfig =
@@ -110,7 +184,12 @@ export type AnswerConfig =
 	| MultipleChoiceConfig
 	| FractionIdentifyConfig
 	| FractionComparisonConfig
-	| FractionOrderingConfig;
+	| FractionOrderingConfig
+	| FractionClassificationConfig
+	| FractionExpansionConfig
+	| PizzaSliceMarkerConfig
+	| FractionEquivalenceConfig
+	| SentenceCompletionConfig;
 
 // ─── Evaluation Parameters ─────────────────────────────────────────────────
 
@@ -125,6 +204,14 @@ export interface EvaluationParameters {
 	expected_operators?: string[];
 	/** For grid_coloring: expected colored-cell count keyed by color */
 	expected_grid_state?: Record<string, number>;
+	/** For fraction_classification: expected category key per item index */
+	expected_classifications?: Record<number, string>;
+	/** For fraction_expansion: expected multiplier number per item index */
+	expected_multipliers?: Record<number, number>;
+	/** For pizza_slice_marker: expected slice count per pizza index */
+	expected_pizza_slices?: Record<number, number>;
+	/** For sentence_completion: expected option value per blank id */
+	expected_sentence_blanks?: Record<string, string>;
 }
 
 // ─── Question Seed Data Shape ───────────────────────────────────────────────

@@ -202,14 +202,14 @@ export const topic3 =
 						questions: [],
 					},
 					{
-						title: 'Post-Test: Pengurangan Bilangan Pecahan',
+						title: 'Lembar Kerja: Pengurangan Bilangan Pecahan',
 						order: 3,
 						difficulty: 2,
 						isExerciseOnly: true,
 						content: doc(
 							heading(
 								2,
-								'Post-Test: Pengurangan Bilangan Pecahan',
+								'Lembar Kerja: Pengurangan Bilangan Pecahan',
 							),
 							p(
 								'Latihan untuk menguji pemahaman siswa tentang pengurangan pecahan berpenyebut sama maupun berbeda.',

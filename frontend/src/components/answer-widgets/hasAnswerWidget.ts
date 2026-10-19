@@ -8,6 +8,11 @@ export function hasAnswerWidget(questionType: string): boolean {
     "fraction_identify",
     "fraction_comparison",
     "fraction_ordering",
+    "fraction_classification",
+    "fraction_expansion",
+    "pizza_slice_marker",
+    "fraction_equivalence",
+    "sentence_completion",
     "numeric",
     "multiple_choice",
   ].includes(questionType);

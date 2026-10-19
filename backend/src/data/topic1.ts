@@ -169,14 +169,14 @@ export const topic1 =
 						questions: [],
 					},
 
-					// ───────────────────────── POST-TEST (isExerciseOnly) ─────────────────────────
+					// ───────────────────────── LEMBAR KERJA (isExerciseOnly) ─────────────────────────
 					{
-						title: 'Post-Test: Konsep dan Makna Pecahan',
+						title: 'Lembar Kerja: Konsep dan Makna Pecahan',
 						order: 4,
 						difficulty: 2,
 						isExerciseOnly: true,
 						content: doc(
-							heading(2, 'Post-Test: Konsep dan Makna Pecahan'),
+							heading(2, 'Lembar Kerja: Konsep dan Makna Pecahan'),
 							p(
 								'Latihan untuk menguji pemahaman siswa tentang seluruh materi pada subtopik ini: pengertian pecahan, bentuk penulisan, serta cara membaca dan menuliskan pecahan.',
 							),
@@ -191,7 +191,7 @@ export const topic1 =
 							'   - Pizza Ochan dipotong menjadi 6 bagian sama besar. Ochan memakan 3 potong (pecahannya \\frac{3}{6}).\n' +
 							'   - Keduanya sama-sama memakan 3 potong, TETAPI bagian pizza yang dimakan TIDAK sama banyak, karena ukuran 1 potong pizza Ochan (1 dari 6) lebih besar daripada 1 potong pizza Ketty (1 dari 8). Jadi \\frac{3}{6} > \\frac{3}{8}.\n' +
 							'5. Peran Tutor Socratic: Bimbing siswa mengaitkan jumlah potongan yang dimakan sebagai pembilang dan total potongan keseluruhan sebagai penyebut, serta menyadari pentingnya ukuran potongan yang sama besar.\n' +
-							'6. Referensi Visual & Media yang Tersedia di Post-Test:\n' +
+							'6. Referensi Visual & Media yang Tersedia di Lembar Kerja:\n' +
 							'   - Soal 1 & 2: Gambar SVG "pizza_ketty_ochan.svg" (Pizza Ketty 8 potong vs Pizza Ochan 6 potong di nampan kayu).\n' +
 							'   - Soal 3: Infografis SVG "infografis_pecahan_3_8.svg" (Pembilang merah 3, penyebut biru 8, juring pizza 8 bagian).\n' +
 							'   - Soal 4: Form input pecahan 5 butir dengan template kosong, badge identifikasi terbalik 5/11, dan template parsial 8/9 serta 1/10.\n' +

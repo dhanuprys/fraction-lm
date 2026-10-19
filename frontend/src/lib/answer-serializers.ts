@@ -161,6 +161,118 @@ export function serializeFractionOrdering(
   return `Urutan pecahan saya dari yang terkecil hingga terbesar:\n\n$${expression}$`;
 }
 
+// ─── Fraction Classification ────────────────────────────────────────────────
+
+export interface ClassificationCategory {
+  key: string;
+  label: string;
+  badge?: string;
+}
+
+export interface ClassificationItem {
+  fraction: string;
+  prompt?: string;
+}
+
+export function serializeFractionClassification(
+  items: ClassificationItem[],
+  categories: ClassificationCategory[],
+  answers: Record<number, string | null>,
+): string {
+  const lines = items.map((item, i) => {
+    const key = answers[i];
+    const cat = categories.find((c) => c.key === key);
+    const fracLatex = toLatexFrac(item.fraction);
+    const label = cat ? `${cat.label}${cat.badge ? ` (${cat.badge})` : ""}` : "(belum diklasifikasikan)";
+    return `- Soal ${i + 1} ($${fracLatex}$): **${label}**`;
+  });
+  return `Jawaban klasifikasi pecahan saya:\n\n${lines.join("\n")}`;
+}
+
+// ─── Fraction Expansion ────────────────────────────────────────────────────
+
+export interface ExpansionItem {
+  originalFraction: string;
+  targetFraction: string;
+  prompt?: string;
+}
+
+export function serializeFractionExpansion(
+  items: ExpansionItem[],
+  multipliers: Record<number, number | null>,
+): string {
+  const lines = items.map((item, i) => {
+    const mult = multipliers[i];
+    const origLatex = toLatexFrac(item.originalFraction);
+    const targetLatex = toLatexFrac(item.targetFraction);
+    if (mult === null || mult === undefined) {
+      return `- Soal ${i + 1} ($${origLatex} = \\dots = ${targetLatex}$): (belum dijawab)`;
+    }
+    const [origN, origD] = item.originalFraction.split("/").map((s) => s.trim());
+    return `- Soal ${i + 1} ($${origLatex} = ${targetLatex}$): Bilangan pengali = **${mult}** ($\\frac{${origN} \\times ${mult}}{${origD} \\times ${mult}} = ${targetLatex}$)`;
+  });
+  return `Jawaban bilangan pengali perluasan pecahan saya:\n\n${lines.join("\n")}`;
+}
+
+export function serializePizzaSliceMarker(
+  pizzas: Array<{ label: string; totalSlices: number; targetFraction?: string }>,
+  value: Record<number, number[]>,
+): string {
+  const lines = pizzas.map((p, i) => {
+    const slices = value[i] || [];
+    const count = slices.length;
+    return `- ${p.label}: **${count} dari ${p.totalSlices} potong** ditandai ($\\frac{${count}}{${p.totalSlices}}$)`;
+  });
+  return `Jawaban penandaan pecahan pizza saya:\n\n${lines.join("\n")}`;
+}
+
+export function serializeFractionEquivalence(
+  items: Array<{ baseFraction: string }>,
+  value: Record<number, { numerator: number | null; denominator: number | null }>,
+): string {
+  const lines = items.map((item, i) => {
+    const val = value[i] || { numerator: null, denominator: null };
+    const baseLatex = toLatexFrac(item.baseFraction);
+    if (val.numerator === null || val.denominator === null) {
+      return `- Soal ${i + 1} ($${baseLatex}$): (belum dijawab)`;
+    }
+    return `- Soal ${i + 1}: $${baseLatex}$ dan $\\frac{${val.numerator}}{${val.denominator}}$ adalah pecahan senilai. Notasi matematika: **$${baseLatex} = \\frac{${val.numerator}}{${val.denominator}}$**`;
+  });
+  return `Jawaban pecahan senilai saya:\n\n${lines.join("\n")}`;
+}
+
+export function serializeSentenceCompletion(
+  config: any,
+  value: Record<string, string | null>,
+): string {
+  const lines: string[] = [];
+  const sections = config?.sections || [];
+  sections.forEach((sec: any) => {
+    lines.push(`**${sec.title}**:`);
+    (sec.blanks || []).forEach((b: any) => {
+      const selected = value[b.id];
+      const opt = (b.options || []).find((o: any) => o.value === selected);
+      const text = opt ? opt.label : selected || "(belum dipilih)";
+      lines.push(`  - ${b.prefix || ""} **${text}** ${b.suffix || ""}`);
+    });
+  });
+
+  if (config?.inequalityCard) {
+    const card = config.inequalityCard;
+    const leftVal = value[card.leftSlot?.id] || "?";
+    const rightVal = value[card.rightSlot?.id] || "?";
+    lines.push(`\n**${card.title}**:`);
+    lines.push(`  - Rantai perbandingan: **$${leftVal} < 1 < ${rightVal}$**`);
+
+    const concLeft = value[card.conclusionLeftSlot?.id] || "?";
+    const concRight = value[card.conclusionRightSlot?.id] || "?";
+    const op = card.conclusionOperator || "<";
+    lines.push(`  - Kesimpulan: **$${concLeft} ${op} ${concRight}$**`);
+  }
+
+  return `Jawaban penalaran perbandingan pecahan saya:\n\n${lines.join("\n")}`;
+}
+
 // ─── Dispatcher ─────────────────────────────────────────────────────────────
 // Convenience function to serialize any widget value based on question type.
 
@@ -200,6 +312,37 @@ export function serializeAnswer(questionType: string, answerConfig: any, widgetV
       return serializeFractionOrdering(
         widgetValue || answerConfig?.items || [],
         answerConfig?.separator || "<",
+      );
+
+    case "fraction_classification":
+      return serializeFractionClassification(
+        answerConfig?.items || [],
+        answerConfig?.categories || [],
+        widgetValue || {},
+      );
+
+    case "fraction_expansion":
+      return serializeFractionExpansion(
+        answerConfig?.items || [],
+        widgetValue || {},
+      );
+
+    case "pizza_slice_marker":
+      return serializePizzaSliceMarker(
+        answerConfig?.pizzas || [],
+        widgetValue || {},
+      );
+
+    case "fraction_equivalence":
+      return serializeFractionEquivalence(
+        answerConfig?.items || [],
+        widgetValue || {},
+      );
+
+    case "sentence_completion":
+      return serializeSentenceCompletion(
+        answerConfig,
+        widgetValue || {},
       );
 
     default:

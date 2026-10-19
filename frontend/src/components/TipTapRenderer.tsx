@@ -140,7 +140,7 @@ export function renderTipTapNode(node: any, index: number = 0): React.ReactNode 
         /^(Aktivitas\s+[\d.]+[a-z]?(?:\s*\([^)]+\))?|Aufgabe\s+[\d.]+|Refleksi\s+Diri)[:—–-]\s*(.*)$/i,
       );
       if (match) {
-        const badge = match[1].trim();
+        const badge = match[1].trim().replace(/\s+/g, " ");
         const restOfFirstText = match[2].trim();
         return (
           <div key={index} className={index === 0 ? "mb-4" : "mt-8 mb-4"}>
@@ -149,7 +149,7 @@ export function renderTipTapNode(node: any, index: number = 0): React.ReactNode 
                 {badge}
               </span>
               <h3 className="text-xl lg:text-2xl font-black text-slate-900 tracking-tight m-0">
-                {restOfFirstText}
+                <MathText text={restOfFirstText} />
                 {node.content.slice(1).map((n: any, i: number) => renderTipTapNode(n, i + 1))}
               </h3>
             </div>

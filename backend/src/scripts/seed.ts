@@ -16,6 +16,8 @@
  */
 
 import 'dotenv/config';
+import { copyFileSync, existsSync, mkdirSync } from 'node:fs';
+import path from 'node:path';
 import postgres from '@prisma/orm-postgres/runtime';
 import type { Contract } from '../prisma/contract.d';
 import contractJson from '../prisma/contract.json' with { type: 'json' };
@@ -27,10 +29,46 @@ const db = postgres<Contract>({
 
 import { TOPICS } from '../data';
 
+const THUMBNAILS_DIR = path.resolve(__dirname, '../data/metadia-thumbnails');
+const UPLOADS_DIR = path.resolve(__dirname, '../../uploads');
+
+function seedTopicThumbnail(slug: string): string | null {
+	const extensions = ['.webp', '.png', '.jpg', '.jpeg'];
+	for (const ext of extensions) {
+		const candidate = path.join(THUMBNAILS_DIR, 'topics', `${slug}${ext}`);
+		if (existsSync(candidate)) {
+			const destFilename = `topic-${slug}${ext}`;
+			const destPath = path.join(UPLOADS_DIR, destFilename);
+			copyFileSync(candidate, destPath);
+			return `/uploads/${destFilename}`;
+		}
+	}
+	return null;
+}
+
+function seedSubTopicThumbnail(slug: string): string | null {
+	const extensions = ['.webp', '.png', '.jpg', '.jpeg'];
+	for (const ext of extensions) {
+		const candidate = path.join(THUMBNAILS_DIR, 'subtopics', `${slug}${ext}`);
+		if (existsSync(candidate)) {
+			const destFilename = `subtopic-${slug}${ext}`;
+			const destPath = path.join(UPLOADS_DIR, destFilename);
+			copyFileSync(candidate, destPath);
+			return `/uploads/${destFilename}`;
+		}
+	}
+	return null;
+}
+
 /* ────────────────────────────── seed runner ──────────────────────────── */
 
 async function main() {
 	console.log('🌱 Starting seed...\n');
+
+	// Ensure uploads directory exists
+	if (!existsSync(UPLOADS_DIR)) {
+		mkdirSync(UPLOADS_DIR, { recursive: true });
+	}
 
 	// Clean existing data (in reverse dependency order)
 	console.log('🧹 Cleaning existing data...');
@@ -52,21 +90,33 @@ async function main() {
 
 	for (const topicData of TOPICS) {
 		const { subTopics, ...topicFields } = topicData;
+		const topicThumbnail =
+			(topicFields as any).thumbnail || seedTopicThumbnail(topicFields.slug);
+
 		const topic = await db.orm.public.Topic.create({
 			// biome-ignore lint/suspicious/noExplicitAny: prisma dynamic seed
 			...(topicFields as any),
+			thumbnail: topicThumbnail,
 		});
 		topicCount++;
-		console.log(`📚 Topic ${topicCount}: ${topic.name}`);
+		console.log(
+			`📚 Topic ${topicCount}: ${topic.name}${topicThumbnail ? ` (🖼️  ${topicThumbnail})` : ''}`,
+		);
 
 		for (const stData of subTopics) {
 			const { materials, ...stFields } = stData;
+			const subTopicThumbnail =
+				(stFields as any).thumbnail || seedSubTopicThumbnail(stFields.slug);
+
 			const subTopic = await db.orm.public.SubTopic.create({
 				...stFields,
+				thumbnail: subTopicThumbnail,
 				topicId: topic.id,
 			});
 			subTopicCount++;
-			console.log(`   📖 SubTopic ${stData.order}: ${subTopic.name}`);
+			console.log(
+				`   📖 SubTopic ${stData.order}: ${subTopic.name}${subTopicThumbnail ? ` (🖼️  ${subTopicThumbnail})` : ''}`,
+			);
 
 			for (const matData of materials) {
 				const { questions, ...matFields } = matData;

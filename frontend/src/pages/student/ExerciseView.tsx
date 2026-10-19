@@ -127,7 +127,12 @@ function getQuestionBadgeOrTitle(q: SessionQuestion): string {
     };
     const firstHeading = docObj.content?.find((c) => c.type === "heading");
     const headingText = firstHeading?.content?.map((c) => c.text || "").join("") || "";
-    if (headingText) return headingText;
+    if (headingText) {
+      return headingText
+        .replace(/\$\\d?frac\{([^{}]+)\}\{([^{}]+)\}\$/g, "$1/$2")
+        .replace(/\\frac\{([^{}]+)\}\{([^{}]+)\}/g, "$1/$2")
+        .replace(/\$/g, "");
+    }
   }
   return q.learningObjective || "";
 }
