@@ -18,6 +18,11 @@ import { Checkbox } from "@/components/pouf/checkbox";
 import { Breadcrumbs } from "@/components/admin/Breadcrumbs";
 import { toast } from "@/components/pouf/toaster";
 import { Icon } from "@/components/pouf/Icon";
+import {
+  AI_MODEL_OPTIONS,
+  getAiModelLabel,
+  getUserAiModelSelectOptions,
+} from "@/config/ai.config";
 
 // ─── User List View ─────────────────────────────────────────────────────────
 
@@ -313,6 +318,11 @@ function UserListView({
                               <span className="text-xs font-semibold px-2 py-0.5 rounded bg-[var(--surface-sunken)] border border-[var(--separator)] text-[var(--fg-muted)]">
                                 Kelas {user.grade}
                               </span>
+                            )}
+                            {user.aiModel && (
+                              <Badge tone="blue">
+                                <Icon name="sparkle" size="sm" /> {getAiModelLabel(user.aiModel)}
+                              </Badge>
                             )}
                           </Row>
                           <Text size="sm" muted className="truncate">
@@ -900,6 +910,7 @@ function UserFormView({
   const [password, setPassword] = useState("");
   const [grade, setGrade] = useState(user?.grade?.toString() || "");
   const [isAdmin, setIsAdmin] = useState(user?.isAdmin || false);
+  const [aiModel, setAiModel] = useState<string>(user?.aiModel || "");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -908,7 +919,7 @@ function UserFormView({
     setSaving(true);
     setError(null);
     try {
-      const data: any = { username, name, isAdmin };
+      const data: any = { username, name, isAdmin, aiModel: aiModel ? aiModel : null };
       if (grade) data.grade = parseInt(grade, 10);
       if (password) data.password = password;
 
@@ -1045,6 +1056,32 @@ function UserFormView({
                 )}
               </Field>
             </Grid>
+
+            <Field
+              label="Override Model AI (Opsional)"
+              hint="Pilih model AI spesifik untuk akun ini. Jika disetel ke 'Default Sistem', akun akan otomatis mengikuti pengaturan AI global."
+            >
+              {(id, desc) => (
+                <Select
+                  id={id}
+                  describedBy={desc}
+                  value={aiModel}
+                  onChange={setAiModel}
+                  options={getUserAiModelSelectOptions()}
+                />
+              )}
+            </Field>
+
+            {aiModel && (
+              <div className="p-3 rounded-xl bg-[var(--surface-sunken)] border border-[var(--separator)] text-sm">
+                <Text size="sm" muted>
+                  <strong className="text-[var(--fg)] font-semibold">
+                    {AI_MODEL_OPTIONS.find((m) => m.value === aiModel)?.label || aiModel}:
+                  </strong>{" "}
+                  {AI_MODEL_OPTIONS.find((m) => m.value === aiModel)?.description || ""}
+                </Text>
+              </div>
+            )}
 
             <div className="p-4 rounded-xl bg-[var(--surface-sunken)] border border-[var(--separator)]">
               <Row gap={3} align="center" justify="between">

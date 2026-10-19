@@ -9,6 +9,7 @@ import { Temporal } from 'temporal-polyfill';
 import { z } from 'zod';
 import type { StudentEnv } from '../../middlewares/studentAuth';
 import { db } from '../../prisma/db';
+import { getEffectiveAiModel } from '../../services/ai/modelResolver';
 import { calculateMasteryScore } from '../../services/ai/scoring';
 import { createTutorAgent } from '../../services/ai/tutor';
 import { monitorEmitter } from '../../services/monitor';
@@ -73,16 +74,8 @@ chatApp.post('/:questionId/chat', zValidator('json', chatSchema), async (c) => {
 				? `Topik pembelajaran saat ini adalah "${llmCtx.topicName}", pada sub-topik "${llmCtx.subTopicName}".\n\n`
 				: '';
 
-		// 4. Fetch the global AI model before logging
-		let aiModel = 'deepseek-v4-flash';
-		try {
-			const setting = await db.orm.public.AppSetting.where({
-				key: 'ai_model',
-			}).first();
-			if (setting) aiModel = setting.value;
-		} catch (e) {
-			console.error('Failed to fetch ai_model setting', e);
-		}
+		// 4. Resolve effective AI model (user override -> system setting -> default)
+		const aiModel = await getEffectiveAiModel(student.id);
 
 		// 5. Extract and log latest user message
 		const latestMessage = messages[messages.length - 1];
@@ -119,6 +112,7 @@ chatApp.post('/:questionId/chat', zValidator('json', chatSchema), async (c) => {
 				sender: 'STUDENT',
 				timestamp: new Date().toISOString(),
 				sessionId,
+				usedModel: aiModel,
 			});
 		}
 
@@ -391,6 +385,7 @@ chatApp.post('/:questionId/chat', zValidator('json', chatSchema), async (c) => {
 							sender: 'AI',
 							timestamp: new Date().toISOString(),
 							sessionId,
+							usedModel: aiModel,
 						});
 					}
 

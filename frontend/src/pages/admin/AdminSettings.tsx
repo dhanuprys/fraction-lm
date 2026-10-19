@@ -8,13 +8,16 @@ import { Select } from "@/components/pouf/controls";
 import { Button } from "@/components/pouf/Button";
 import { Field } from "@/components/pouf/Input";
 import { toast } from "@/components/pouf/toaster";
-
-const AVAILABLE_AI_MODELS = ["deepseek-chat", "deepseek-v4-flash", "deepseek-v4-pro"];
+import {
+  DEFAULT_AI_MODEL,
+  AI_MODEL_OPTIONS,
+  getGlobalAiModelSelectOptions,
+} from "@/config/ai.config";
 
 export default function AdminSettings() {
   useDocumentTitle("Pengaturan");
 
-  const [aiModel, setAiModel] = useState("deepseek-v4-flash");
+  const [aiModel, setAiModel] = useState<string>(DEFAULT_AI_MODEL);
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -46,6 +49,8 @@ export default function AdminSettings() {
     }
   }
 
+  const selectedModelMeta = AI_MODEL_OPTIONS.find((m) => m.value === aiModel);
+
   if (loading) {
     return <Text>Memuat...</Text>;
   }
@@ -56,27 +61,36 @@ export default function AdminSettings() {
         <Stack gap={1}>
           <Eyebrow>Portal Admin</Eyebrow>
           <Heading level={1}>Pengaturan Aplikasi</Heading>
-          <Text muted>Kelola konfigurasi sistem dan model AI.</Text>
+          <Text muted>Kelola konfigurasi sistem dan model AI global.</Text>
         </Stack>
       </Row>
 
       <Card>
         <Stack gap={4}>
-          <Heading level={3}>Model AI</Heading>
-          <Field label="Model Bahasa (LLM)">
+          <Heading level={3}>Model AI Sistem (Global)</Heading>
+          <Field
+            label="Model Bahasa (LLM) Utama"
+            hint="Model ini akan digunakan sebagai mesin tutor AI standar untuk semua siswa, kecuali akun yang memiliki pengaturan override khusus."
+          >
             {(id, describedBy) => (
               <Select
                 id={id}
                 describedBy={describedBy}
                 value={aiModel}
                 onChange={setAiModel}
-                options={AVAILABLE_AI_MODELS.map((model) => ({
-                  value: model,
-                  label: model,
-                }))}
+                options={getGlobalAiModelSelectOptions()}
               />
             )}
           </Field>
+
+          {selectedModelMeta && (
+            <div className="p-3 rounded-xl bg-[var(--surface-sunken)] border border-[var(--separator)] text-sm">
+              <Text size="sm" muted>
+                <strong className="text-[var(--fg)] font-semibold">{selectedModelMeta.label}:</strong>{" "}
+                {selectedModelMeta.description}
+              </Text>
+            </div>
+          )}
 
           <Row justify="end">
             <Button onClick={handleSave} tone="mint" disabled={saving}>
@@ -88,3 +102,4 @@ export default function AdminSettings() {
     </Stack>
   );
 }
+

@@ -14,6 +14,7 @@ import { Breadcrumbs } from "@/components/admin/Breadcrumbs";
 import { ChatSessionViewer } from "@/components/admin/ChatSessionViewer";
 import { toast } from "@/components/pouf/toaster";
 import { Icon } from "@/components/pouf/Icon";
+import { getAiModelLabel } from "@/config/ai.config";
 
 interface MonitorEvent {
   studentId: number;
@@ -25,6 +26,7 @@ interface MonitorEvent {
   timestamp: string;
   sessionId?: string;
   id?: string;
+  usedModel?: string;
 }
 
 type ConnectionState = "CONNECTING" | "CONNECTED" | "DISCONNECTED";
@@ -354,6 +356,11 @@ export default function AdminMonitor() {
                         <Badge tone={act.sender === "AI" ? "purple" : "blue"}>
                           {act.sender === "AI" ? "Tutor AI" : "Siswa"}
                         </Badge>
+                        {act.usedModel && (
+                          <Badge tone="blue">
+                            <Icon name="sparkle" size="sm" /> {getAiModelLabel(act.usedModel)}
+                          </Badge>
+                        )}
                         <Text size="xs" muted>
                           {new Date(act.timestamp).toLocaleTimeString("id-ID")}
                         </Text>

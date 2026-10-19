@@ -8,6 +8,7 @@ model User {
   name               String
   grade              Int?
   isAdmin            Boolean   @default(false)
+  aiModel            String?   // Per-user AI model override (null = fallback to global setting)
   
   // Admin-set level checkpoint (nullable = no override, use organic progress only)
   levelMaterialId    Int?      // The Material ID up to which the student is unlocked

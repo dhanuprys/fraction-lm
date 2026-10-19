@@ -6,7 +6,6 @@ import { Heading, Text } from "../text";
 import { Field, Input } from "../Input";
 import { Button } from "../Button";
 import logoRectangle from "@/assets/images/bg/logo-rectangle.webp";
-import { Badge } from "../media";
 
 export interface LoginValues {
   username: string;
@@ -37,8 +36,12 @@ export function LoginBlock({ onLogin }: LoginBlockProps) {
       // Robust fallback: If an extension or browser translation caused React Hook Form's
       // state to desync, fall back to reading directly from the real DOM input elements.
       const form = event?.target as HTMLFormElement | undefined;
-      const domUsername = (form?.elements.namedItem("username") as HTMLInputElement | null)?.value;
-      const domPassword = (form?.elements.namedItem("password") as HTMLInputElement | null)?.value;
+      const domUsername = (
+        form?.elements.namedItem("username") as HTMLInputElement | null
+      )?.value;
+      const domPassword = (
+        form?.elements.namedItem("password") as HTMLInputElement | null
+      )?.value;
 
       const finalValues: LoginValues = {
         username: values.username || domUsername || "",
@@ -78,13 +81,13 @@ export function LoginBlock({ onLogin }: LoginBlockProps) {
           <Card>
             <Stack gap={5}>
               <Stack gap={3}>
-                <div className="flex flex-col items-center pb-8">
+                <div className="flex flex-col justify-center items-center pb-8">
                   <img
                     src={logoRectangle}
                     alt="METADIA"
                     className="w-[60%] object-contain"
                   />
-                  <Badge tone="purple" className="mt-2">BETA VERSION</Badge>
+                  <span className="mt-2 inline">BETA VERSION</span>
                 </div>
                 <Stack gap={1}>
                   <Heading level={2}>Selamat datang kembali</Heading>

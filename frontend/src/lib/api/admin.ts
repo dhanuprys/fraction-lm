@@ -131,6 +131,20 @@ export const adminApi = {
   // Settings
   getSettings: () => api.get<Record<string, string>>("/admin/settings"),
 
+  getAiModels: () =>
+    api.get<{
+      models: string[];
+      defaultModel: string;
+      currentGlobalModel: string;
+      details: Array<{
+        id: string;
+        name: string;
+        tag: string;
+        description: string;
+        recommended?: boolean;
+      }>;
+    }>("/admin/settings/ai-models"),
+
   updateSetting: (data: { key: string; value: string }) =>
     api.put<{ setting: any }>("/admin/settings", data),
 

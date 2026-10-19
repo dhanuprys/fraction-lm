@@ -1654,6 +1654,13 @@
           },
           "User": {
             "fields": {
+              "aiModel": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
               "createdAt": {
                 "nullable": false,
                 "type": {
@@ -1796,6 +1803,9 @@
             },
             "storage": {
               "fields": {
+                "aiModel": {
+                  "column": "aiModel"
+                },
                 "createdAt": {
                   "column": "createdAt"
                 },
@@ -3172,6 +3182,11 @@
             },
             "User": {
               "columns": {
+                "aiModel": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
                 "createdAt": {
                   "codecId": "pg/timestamptz-temporal@1",
                   "default": {
@@ -3265,7 +3280,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "9e7004ef173664c12ec5f533b5c57564083b91cea25a23bd366ca78e8f2e8e8e"
+    "storageHash": "6596826e8e20d8f8e09fb01f46377507c5db23cf74cb9c746f3608115e176234"
   },
   "execution": {
     "executionHash": "2b1395939910b584cedeb560d2bb57798be75ff051a44accb846e5531514c809",

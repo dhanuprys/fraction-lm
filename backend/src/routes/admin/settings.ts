@@ -2,8 +2,15 @@ import { zValidator } from '@hono/zod-validator';
 import { Hono } from 'hono';
 import { Temporal } from 'temporal-polyfill';
 import { z } from 'zod';
-import { APP_SETTINGS, AVAILABLE_AI_MODELS } from '../../config/settings';
+import {
+	AI_MODEL_DETAILS,
+	APP_SETTINGS,
+	AVAILABLE_AI_MODELS,
+	DEFAULT_AI_MODEL,
+	isValidAiModel,
+} from '../../config/settings';
 import { db } from '../../prisma/db';
+import { getGlobalAiModel } from '../../services/ai/modelResolver';
 import { errorResponse, successResponse } from '../../utils/response';
 
 export const settingsRoutes = new Hono()
@@ -23,6 +30,20 @@ export const settingsRoutes = new Hono()
 			return errorResponse(c, 'Failed to fetch settings', 500);
 		}
 	})
+	.get('/ai-models', async (c) => {
+		try {
+			const currentGlobalModel = await getGlobalAiModel();
+			return successResponse(c, 'AI models retrieved successfully', {
+				models: AVAILABLE_AI_MODELS,
+				defaultModel: DEFAULT_AI_MODEL,
+				currentGlobalModel,
+				details: AI_MODEL_DETAILS,
+			});
+		} catch (error) {
+			console.error('Error fetching AI models:', error);
+			return errorResponse(c, 'Failed to fetch AI models', 500);
+		}
+	})
 	.put(
 		'/',
 		zValidator(
@@ -37,12 +58,12 @@ export const settingsRoutes = new Hono()
 
 			try {
 				if (key === APP_SETTINGS.AI_MODEL) {
-					if (
-						!(AVAILABLE_AI_MODELS as readonly string[]).includes(
-							value,
-						)
-					) {
-						return errorResponse(c, 'Invalid AI model', 400);
+					if (!isValidAiModel(value)) {
+						return errorResponse(
+							c,
+							`Invalid AI model. Must be one of: ${AVAILABLE_AI_MODELS.join(', ')}`,
+							400,
+						);
 					}
 				}
 
@@ -63,3 +84,4 @@ export const settingsRoutes = new Hono()
 			}
 		},
 	);
+

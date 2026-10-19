@@ -20,6 +20,7 @@ export interface User {
   name: string;
   grade?: number;
   isAdmin: boolean;
+  aiModel?: string | null;
   createdAt: string;
   updatedAt: string;
 }

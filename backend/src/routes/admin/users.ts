@@ -1,6 +1,7 @@
 import { zValidator } from '@hono/zod-validator';
 import { Hono } from 'hono';
 import { z } from 'zod';
+import { AVAILABLE_AI_MODELS, isValidAiModel } from '../../config/settings';
 import type { AdminEnv } from '../../middlewares/adminAuth';
 import { db } from '../../prisma/db';
 import { errorResponse, successResponse } from '../../utils/response';
@@ -11,6 +12,21 @@ const createUserSchema = z.object({
 	name: z.string().min(1),
 	grade: z.number().int().optional().nullable(),
 	isAdmin: z.boolean().optional().default(false),
+	aiModel: z
+		.string()
+		.nullable()
+		.optional()
+		.transform((val) => {
+			if (val === undefined) return undefined;
+			if (val === null || val === '') return null;
+			return val;
+		})
+		.refine(
+			(val) => val === null || val === undefined || isValidAiModel(val),
+			{
+				message: `Invalid AI model. Must be one of: ${AVAILABLE_AI_MODELS.join(', ')}`,
+			},
+		),
 });
 
 const updateUserSchema = createUserSchema.partial().extend({
