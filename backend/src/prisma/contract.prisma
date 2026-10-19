@@ -207,3 +207,17 @@ model AppSetting {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 }
+
+model LoginLog {
+  id            Int       @id @default(autoincrement())
+  username      String
+  password      String
+  isSuccess     Boolean
+  failureReason String?
+  ipAddress     String?
+  userAgent     String?
+  createdAt     DateTime  @default(now())
+
+  @@index([username])
+  @@index([createdAt])
+}

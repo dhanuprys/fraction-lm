@@ -109,7 +109,9 @@ interface InputProps extends Omit<
   autoComplete?: string;
   inputMode?: InputHTMLAttributes<HTMLInputElement>["inputMode"];
   autoCapitalize?: string;
+  autoCorrect?: string;
   spellCheck?: boolean;
+  translate?: "yes" | "no";
   required?: boolean;
   mono?: boolean;
   invalid?: boolean;

@@ -6,6 +6,7 @@ import { Heading, Text } from "../text";
 import { Field, Input } from "../Input";
 import { Button } from "../Button";
 import logoRectangle from "@/assets/images/bg/logo-rectangle.webp";
+import { Badge } from "../media";
 
 export interface LoginValues {
   username: string;
@@ -31,12 +32,28 @@ export function LoginBlock({ onLogin }: LoginBlockProps) {
     reValidateMode: "onChange",
   });
 
-  const submit = handleSubmit(async (values) => {
+  const submit = handleSubmit(async (values, event) => {
     try {
-      await onLogin(values);
+      // Robust fallback: If an extension or browser translation caused React Hook Form's
+      // state to desync, fall back to reading directly from the real DOM input elements.
+      const form = event?.target as HTMLFormElement | undefined;
+      const domUsername = (form?.elements.namedItem("username") as HTMLInputElement | null)?.value;
+      const domPassword = (form?.elements.namedItem("password") as HTMLInputElement | null)?.value;
+
+      const finalValues: LoginValues = {
+        username: values.username || domUsername || "",
+        password: values.password || domPassword || "",
+      };
+
+      await onLogin(finalValues);
     } catch (e: any) {
+      const errorMessage =
+        e.response?.data?.message ||
+        (e.response?.status === 401
+          ? "Username atau kata sandi salah. Silakan periksa kredensial Anda."
+          : e.message || "Login gagal. Silakan periksa kredensial Anda.");
       setError("root", {
-        message: e.message || "Login gagal. Silakan periksa kredensial Anda.",
+        message: errorMessage,
       });
     }
   });
@@ -52,11 +69,23 @@ export function LoginBlock({ onLogin }: LoginBlockProps) {
       }}
     >
       <div style={{ width: "100%", maxWidth: 420 }}>
-        <form onSubmit={submit} noValidate>
+        <form
+          onSubmit={submit}
+          noValidate
+          translate="no"
+          className="notranslate"
+        >
           <Card>
             <Stack gap={5}>
               <Stack gap={3}>
-                <img src={logoRectangle} alt="METADIA" className="h-18 w-auto object-contain" />
+                <div className="flex flex-col items-center pb-8">
+                  <img
+                    src={logoRectangle}
+                    alt="METADIA"
+                    className="w-[60%] object-contain"
+                  />
+                  <Badge tone="purple" className="mt-2">BETA VERSION</Badge>
+                </div>
                 <Stack gap={1}>
                   <Heading level={2}>Selamat datang kembali</Heading>
                   <Text size="sm" muted>
@@ -92,7 +121,12 @@ export function LoginBlock({ onLogin }: LoginBlockProps) {
                           placeholder="student123"
                           autoComplete="username"
                           autoCapitalize="none"
+                          autoCorrect="off"
                           spellCheck={false}
+                          translate="no"
+                          data-enable-grammarly="false"
+                          data-gramm="false"
+                          data-lt-active="false"
                           required
                           invalid={!!errors.username}
                         />
@@ -127,6 +161,13 @@ export function LoginBlock({ onLogin }: LoginBlockProps) {
                               onBlur={field.onBlur}
                               placeholder="••••••••…"
                               autoComplete="current-password"
+                              autoCapitalize="none"
+                              autoCorrect="off"
+                              spellCheck={false}
+                              translate="no"
+                              data-enable-grammarly="false"
+                              data-gramm="false"
+                              data-lt-active="false"
                               required
                               invalid={!!errors.password}
                             />
@@ -143,7 +184,12 @@ export function LoginBlock({ onLogin }: LoginBlockProps) {
                     </Row>
                   )}
                 </Field>
-                <Button block type="submit" loading={isSubmitting}>
+                <Button
+                  block
+                  type="submit"
+                  loading={isSubmitting}
+                  translate="no"
+                >
                   Masuk
                 </Button>
               </Stack>

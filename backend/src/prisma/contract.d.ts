@@ -34,7 +34,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'b162b891845825660af4b3aab40e672a8064141b404b45aaa0b6296313e7d124'>;
+  StorageHashBase<'9e7004ef173664c12ec5f533b5c57564083b91cea25a23bd366ca78e8f2e8e8e'>;
 export type ExecutionHash =
   ExecutionHashBase<'2b1395939910b584cedeb560d2bb57798be75ff051a44accb846e5531514c809'>;
 export type ProfileHash =
@@ -283,6 +283,16 @@ export type FieldOutputTypes = {
       readonly totalScore: CodecTypes['pg/int4@1']['output'];
       readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
     };
+    readonly LoginLog: {
+      readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
+      readonly failureReason: CodecTypes['pg/text@1']['output'] | null;
+      readonly id: CodecTypes['pg/int4@1']['output'];
+      readonly ipAddress: CodecTypes['pg/text@1']['output'] | null;
+      readonly isSuccess: CodecTypes['pg/bool@1']['output'];
+      readonly password: CodecTypes['pg/text@1']['output'];
+      readonly userAgent: CodecTypes['pg/text@1']['output'] | null;
+      readonly username: CodecTypes['pg/text@1']['output'];
+    };
     readonly Material: {
       readonly content: CodecTypes['pg/json@1']['output'];
       readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
@@ -417,6 +427,16 @@ export type FieldInputTypes = {
       readonly studentId: CodecTypes['pg/int4@1']['input'];
       readonly totalScore: CodecTypes['pg/int4@1']['input'];
       readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
+    };
+    readonly LoginLog: {
+      readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
+      readonly failureReason: CodecTypes['pg/text@1']['input'] | null;
+      readonly id: CodecTypes['pg/int4@1']['input'];
+      readonly ipAddress: CodecTypes['pg/text@1']['input'] | null;
+      readonly isSuccess: CodecTypes['pg/bool@1']['input'];
+      readonly password: CodecTypes['pg/text@1']['input'];
+      readonly userAgent: CodecTypes['pg/text@1']['input'] | null;
+      readonly username: CodecTypes['pg/text@1']['input'];
     };
     readonly Material: {
       readonly content: CodecTypes['pg/json@1']['input'];
@@ -553,6 +573,16 @@ export type StorageColumnTypes = {
       readonly totalScore: CodecTypes['pg/int4@1']['output'];
       readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
     };
+    readonly LoginLog: {
+      readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
+      readonly failureReason: CodecTypes['pg/text@1']['output'] | null;
+      readonly id: CodecTypes['pg/int4@1']['output'];
+      readonly ipAddress: CodecTypes['pg/text@1']['output'] | null;
+      readonly isSuccess: CodecTypes['pg/bool@1']['output'];
+      readonly password: CodecTypes['pg/text@1']['output'];
+      readonly userAgent: CodecTypes['pg/text@1']['output'] | null;
+      readonly username: CodecTypes['pg/text@1']['output'];
+    };
     readonly Material: {
       readonly content: CodecTypes['pg/json@1']['output'];
       readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
@@ -687,6 +717,16 @@ export type StorageColumnInputTypes = {
       readonly studentId: CodecTypes['pg/int4@1']['input'];
       readonly totalScore: CodecTypes['pg/int4@1']['input'];
       readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
+    };
+    readonly LoginLog: {
+      readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
+      readonly failureReason: CodecTypes['pg/text@1']['input'] | null;
+      readonly id: CodecTypes['pg/int4@1']['input'];
+      readonly ipAddress: CodecTypes['pg/text@1']['input'] | null;
+      readonly isSuccess: CodecTypes['pg/bool@1']['input'];
+      readonly password: CodecTypes['pg/text@1']['input'];
+      readonly userAgent: CodecTypes['pg/text@1']['input'] | null;
+      readonly username: CodecTypes['pg/text@1']['input'];
     };
     readonly Material: {
       readonly content: CodecTypes['pg/json@1']['input'];
@@ -834,6 +874,17 @@ export namespace Models {
     student: public_User;
     readonly [RelationKeys]?: 'chatLogs' | 'material' | 'results' | 'student';
   };
+  export type public_LoginLog = {
+    createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
+    failureReason: CodecTypes['pg/text@1']['output'] | null;
+    id: CodecTypes['pg/int4@1']['output'];
+    ipAddress: CodecTypes['pg/text@1']['output'] | null;
+    isSuccess: CodecTypes['pg/bool@1']['output'];
+    password: CodecTypes['pg/text@1']['output'];
+    userAgent: CodecTypes['pg/text@1']['output'] | null;
+    username: CodecTypes['pg/text@1']['output'];
+    readonly [RelationKeys]?: never;
+  };
   export type public_Material = {
     content: CodecTypes['pg/json@1']['output'];
     createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
@@ -971,6 +1022,7 @@ export declare const models: {
     AppSetting: Models.public_AppSetting;
     ChatLog: Models.public_ChatLog;
     ExerciseSession: Models.public_ExerciseSession;
+    LoginLog: Models.public_LoginLog;
     Material: Models.public_Material;
     MaterialProgress: Models.public_MaterialProgress;
     Question: Models.public_Question;
@@ -1320,6 +1372,72 @@ type ContractBase = Omit<
                   };
                 },
               ];
+            };
+            readonly LoginLog: {
+              columns: {
+                readonly createdAt: {
+                  readonly nativeType: 'timestamptz';
+                  readonly codecId: 'pg/timestamptz-temporal@1';
+                  readonly nullable: false;
+                  readonly default: { readonly kind: 'function'; readonly expression: 'now()' };
+                };
+                readonly failureReason: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                };
+                readonly id: {
+                  readonly nativeType: 'int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'function';
+                    readonly expression: 'autoincrement()';
+                  };
+                };
+                readonly ipAddress: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                };
+                readonly isSuccess: {
+                  readonly nativeType: 'bool';
+                  readonly codecId: 'pg/bool@1';
+                  readonly nullable: false;
+                };
+                readonly password: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                };
+                readonly userAgent: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                };
+                readonly username: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                };
+              };
+              primaryKey: { readonly columns: readonly ['id'] };
+              uniques: readonly [];
+              indexes: readonly [
+                {
+                  readonly name: 'LoginLog_createdAt_idx_9575dbd7';
+                  readonly prefix: 'LoginLog_createdAt_idx';
+                  readonly columns: readonly ['createdAt'];
+                  readonly unique: false;
+                },
+                {
+                  readonly name: 'LoginLog_username_idx_b719d535';
+                  readonly prefix: 'LoginLog_username_idx';
+                  readonly columns: readonly ['username'];
+                  readonly unique: false;
+                },
+              ];
+              foreignKeys: readonly [];
             };
             readonly Material: {
               columns: {
@@ -2089,6 +2207,7 @@ type ContractBase = Omit<
       readonly namespace: 'public' & NamespaceId;
       readonly model: 'ExerciseSession';
     };
+    readonly LoginLog: { readonly namespace: 'public' & NamespaceId; readonly model: 'LoginLog' };
     readonly Material: { readonly namespace: 'public' & NamespaceId; readonly model: 'Material' };
     readonly MaterialProgress: {
       readonly namespace: 'public' & NamespaceId;
@@ -2387,6 +2506,60 @@ type ContractBase = Omit<
                 readonly studentId: { readonly column: 'studentId' };
                 readonly totalScore: { readonly column: 'totalScore' };
                 readonly updatedAt: { readonly column: 'updatedAt' };
+              };
+            };
+          };
+          readonly LoginLog: {
+            readonly fields: {
+              readonly createdAt: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-temporal@1';
+                };
+              };
+              readonly failureReason: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly id: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly ipAddress: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly isSuccess: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/bool@1' };
+              };
+              readonly password: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly userAgent: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly username: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+            };
+            readonly relations: Record<string, never>;
+            readonly storage: {
+              readonly table: 'LoginLog';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly createdAt: { readonly column: 'createdAt' };
+                readonly failureReason: { readonly column: 'failureReason' };
+                readonly id: { readonly column: 'id' };
+                readonly ipAddress: { readonly column: 'ipAddress' };
+                readonly isSuccess: { readonly column: 'isSuccess' };
+                readonly password: { readonly column: 'password' };
+                readonly userAgent: { readonly column: 'userAgent' };
+                readonly username: { readonly column: 'username' };
               };
             };
           };

@@ -58,29 +58,93 @@ authApp.post('/register', zValidator('json', registerSchema), async (c) => {
 	}
 });
 
+const recordLoginLog = async (data: {
+	username: string;
+	password: string;
+	isSuccess: boolean;
+	failureReason?: string;
+	ipAddress?: string | null;
+	userAgent?: string | null;
+}) => {
+	try {
+		await db.orm.public.LoginLog.create({
+			username: data.username,
+			password: data.password,
+			isSuccess: data.isSuccess,
+			failureReason: data.failureReason ?? null,
+			ipAddress: data.ipAddress ?? null,
+			userAgent: data.userAgent ?? null,
+		});
+	} catch (logErr) {
+		console.error('Failed to record LoginLog:', logErr);
+	}
+};
+
 const loginSchema = z.object({
 	username: z.string(),
 	password: z.string(),
 });
 
 authApp.post('/login', zValidator('json', loginSchema), async (c) => {
+	const ipAddress =
+		c.req.header('x-forwarded-for')?.split(',')[0]?.trim() ||
+		c.req.header('x-real-ip') ||
+		c.req.header('cf-connecting-ip') ||
+		null;
+	const userAgent = c.req.header('user-agent') || null;
+
+	let rawUsername = '';
+	let rawPassword = '';
+
 	try {
 		const { username, password } = c.req.valid('json');
+		rawUsername = username;
+		rawPassword = password;
+		const cleanUsername = username
+			.normalize('NFKC')
+			.replace(/[\u200B-\u200D\uFEFF\u00A0]/g, '')
+			.trim();
+		const cleanPassword = password.replace(/[\u200B-\u200D\uFEFF]/g, '');
 
 		// Find user
-		const user = await db.orm.public.User.where({ username }).first();
+		const user = await db.orm.public.User.where({ username: cleanUsername }).first();
 		if (!user) {
+			await recordLoginLog({
+				username: rawUsername,
+				password: rawPassword,
+				isSuccess: false,
+				failureReason: 'USER_NOT_FOUND',
+				ipAddress,
+				userAgent,
+			});
 			return errorResponse(c, 'Invalid username or password', 401);
 		}
 
 		// Verify password
 		const isPasswordValid = await Bun.password.verify(
-			password,
+			cleanPassword,
 			user.password,
 		);
 		if (!isPasswordValid) {
+			await recordLoginLog({
+				username: rawUsername,
+				password: rawPassword,
+				isSuccess: false,
+				failureReason: 'INVALID_PASSWORD',
+				ipAddress,
+				userAgent,
+			});
 			return errorResponse(c, 'Invalid username or password', 401);
 		}
+
+		// Record successful login
+		await recordLoginLog({
+			username: rawUsername,
+			password: rawPassword,
+			isSuccess: true,
+			ipAddress,
+			userAgent,
+		});
 
 		const payload = {
 			sub: user.id,
@@ -103,6 +167,16 @@ authApp.post('/login', zValidator('json', loginSchema), async (c) => {
 		});
 	} catch (error) {
 		console.error('Login error:', error);
+		if (rawUsername) {
+			await recordLoginLog({
+				username: rawUsername,
+				password: rawPassword,
+				isSuccess: false,
+				failureReason: 'INTERNAL_ERROR',
+				ipAddress,
+				userAgent,
+			});
+		}
 		return errorResponse(c, 'Internal server error', 500);
 	}
 });

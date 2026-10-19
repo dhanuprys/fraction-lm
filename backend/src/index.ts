@@ -30,7 +30,10 @@ app.use(
 // Basic in-memory rate limiter
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
 app.use(async (c, next) => {
-	const ip = c.req.header('x-forwarded-for') || 'unknown';
+	const ip =
+		c.req.header('x-forwarded-for')?.split(',')[0]?.trim() ||
+		c.req.header('x-real-ip') ||
+		'unknown';
 	const now = Date.now();
 
 	let record = rateLimitMap.get(ip);
